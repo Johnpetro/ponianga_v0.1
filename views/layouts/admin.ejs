@@ -6,18 +6,192 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title><%= locals.title %></title>
   <meta name="description" content="<%= locals.description %>">
-  <link rel="stylesheet" href="/css/style.css">
-  <script type="text/javascript" defer src="/js/script.js"></script>
-</head>
-<body>
   
-  <div class="container">
-    <%- include('../partials/header_admin.ejs')  %>
-    <main class="main">
-      <%- body %>
-    </main>
-    <%- include('../partials/footer.ejs')  %>
-  </div>  
+  <!-- Favicon -->
+  <link rel="icon" href="/images/favicon.svg" type="image/x-icon" />
+  
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  
+  <!-- Font & Icon Libraries -->
+  <link rel="stylesheet" href="/fonts/phosphor/duotone/style.css" />
+  <link rel="stylesheet" href="/fonts/tabler-icons.min.css" />
+  <link rel="stylesheet" href="/fonts/feather.css" />
+  <link rel="stylesheet" href="/fonts/fontawesome.css" />
+  <link rel="stylesheet" href="/fonts/material.css" />
+  <link rel="stylesheet" href="/fonts/inter/inter.css" />
+  
+  <!-- Bootstrap (if needed for admin components) -->
+  <link rel="stylesheet" href="/css/bootstrap.min.css" />
+  
+  <!-- Template CSS (shadows, components, spacing) -->
+  <link rel="stylesheet" href="/css/style.css" />
+  
+  <!-- Tailwind CSS utilities -->
+  <link rel="stylesheet" href="/css/tailwind.build.css" />
+
+</head>
+<body class="min-h-screen bg-slate-50 dark:bg-gray-900">
+  
+  <!-- Loader -->
+  <div class="loader-bg fixed inset-0 bg-white dark:bg-gray-900 z-[1034]">
+    <div class="loader-track h-[5px] w-full absolute overflow-hidden top-0">
+      <div class="loader-fill w-[300px] h-[5px] bg-blue-500 absolute top-0 left-0 animate-[hitZak_0.6s_ease-in-out_infinite_alternate]"></div>
+    </div>
+  </div>
+
+  <!-- Main wrapper with sidebar + content -->
+  <div class="flex min-h-screen">
+    
+    <!-- Sidebar -->
+    <% if (locals.title !== 'Login') { %>
+      <%- include('../partials/sidebar.ejs') %>
+        
+    <% } %>
+
+    <!-- Main content area with header -->
+    <div class="flex-1 flex flex-col">
+      
+      <!-- Fixed Header (only above main content, not sidebar) -->
+    
+
+      <!-- Main content -->
+      <main class="flex-1 overflow-y-auto">
+        <%- body %>
+      </main>
+
+    </div>
+
+  </div>
+
+  <!-- Scripts -->
+  <script src="/js/vendor/jquery-1.12.4.min.js"></script>
+  <script src="/js/vendor/modernizr-3.5.0.min.js"></script>
+  <script src="/js/bootstrap.min.js"></script>
+  <script src="/js/popper.min.js"></script>
+  
+  <!-- Plugin JS -->
+  <script src="/js/plugins/simplebar.min.js"></script>
+  <script src="/js/plugins/popper.min.js"></script>
+  <script src="/js/icon/custom-icon.js"></script>
+  <script src="/js/plugins/feather.min.js"></script>
+  <script src="/js/component.js"></script>
+  <script src="/js/theme.js"></script>
+  <script src="/js/script.js"></script>
+  
+  <!-- Main JS -->
+  <script src="/js/main.js"></script>
+  <script src="/js/plugins.js"></script>
+
+  <!-- Loader & Animations -->
+  <script>
+    // Define all keyframes
+    if (!document.querySelector('style[data-animations]')) {
+      const style = document.createElement('style');
+      style.setAttribute('data-animations', 'true');
+      style.innerHTML = `
+        @keyframes floating {
+          0%, 100% {
+            transform: translateY(0px);
+          }
+          50% {
+            transform: translateY(-20px);
+          }
+        }
+
+        @keyframes floating-alt {
+          0%, 100% {
+            transform: translateX(0px) translateY(0px);
+          }
+          50% {
+            transform: translateX(10px) translateY(-15px);
+          }
+        }
+
+        @keyframes hitZak {
+          0% {
+            left: 0;
+            width: 0;
+          }
+          50% {
+            width: 80%;
+          }
+          100% {
+            width: 100%;
+            left: 0;
+          }
+        }
+
+        @keyframes fadeOutLoader {
+          0% {
+            opacity: 1;
+            visibility: visible;
+          }
+          100% {
+            opacity: 0;
+            visibility: hidden;
+          }
+        }
+
+        .animate-floating {
+          animation: floating 7s infinite ease-in-out;
+        }
+
+        .animate-floating-alt {
+          animation: floating-alt 9s infinite ease-in-out;
+        }
+
+        .animate-\\[hitZak_0\\.6s_ease-in-out_infinite_alternate\\] {
+          animation: hitZak 0.6s ease-in-out infinite alternate;
+        }
+
+        .loader-fade-out {
+          animation: fadeOutLoader 0.8s ease-in-out forwards;
+        }
+      `;
+      document.head.appendChild(style);
+    }
+
+    // Hide loader when page is fully loaded
+    function hideLoader() {
+      const loaderBg = document.querySelector('.loader-bg');
+      if (loaderBg) {
+        loaderBg.classList.add('loader-fade-out');
+        setTimeout(() => {
+          loaderBg.style.display = 'none';
+        }, 800);
+      }
+    }
+
+    // Animate floating bubbles
+    function initBubbleAnimation() {
+      const bubbles = document.querySelectorAll('[class*="animate-floating"], [class*="bg-theme"], span[class*="rounded-full"]');
+      
+      bubbles.forEach((bubble) => {
+        if (bubble.classList.contains('animate-[floating_7s_infinite]') || 
+            bubble.classList.contains('animate-[floating_9s_infinite]')) {
+          return;
+        }
+        
+        if (bubble.classList.contains('rounded-full')) {
+          const duration = (7 + Math.random() * 2) + 's';
+          const delay = (Math.random() * 2) + 's';
+          
+          bubble.style.animation = `floating ${duration} infinite`;
+          bubble.style.animationDelay = delay;
+        }
+      });
+    }
+
+    // Initialize on page load
+    window.addEventListener('load', function() {
+      hideLoader();
+      initBubbleAnimation();
+    });
+
+    // Fallback: hide loader after 3 seconds
+    setTimeout(hideLoader, 3000);
+  </script>
 
 </body>
 </html>

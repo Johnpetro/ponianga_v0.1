@@ -1,60 +1,40 @@
-<!-- Preloader Start -->
-<div id="preloader-active">
-  <div class="preloader d-flex align-items-center justify-content-center">
-    <div class="preloader-inner position-relative">
-      <div class="preloader-circle"></div>
-      <div class="preloader-img pere-text">
-        <img src="assets/img/logo/logo.png" alt="">
-      </div>
-    </div>
-  </div>
-</div>
-<!-- Preloader Start -->
-<header>
-  <!-- Header Start -->
-  <div class="header-area header-transparrent">
-    <div class="headder-top header-sticky">
-      <div class="container">
-        <div class="row align-items-center">
-          <div class="col-lg-3 col-md-2">
-            <!-- Logo -->
-            <div class="logo">
-              <a href="/"><img src="assets/img/logo/logo.png" alt="" style="max-height: 60px; width: auto;"></a>
-            </div>
-          </div>
-          <div class="col-lg-9 col-md-9">
-            <div class="menu-wrapper">
-              <!-- Main-menu -->
-              <div class="main-menu">
-                <nav class="d-none d-lg-block">
-                  <ul id="navigation">
-                    <li><a href="/">Home</a></li>
-                    <li><a href="/blog">Blog</a></li>
-                    <li><a href="/job-listing">Find Jobs</a></li>
-                    <li><a href="#">More</a>
-                      <ul class="submenu">
-                        <li><a href="/study-abbroad-list">Study Abroad</a></li>
-                        <li><a href="/about">About</a></li>
-                        <li><a href="/contact">Contact</a></li>
-                      </ul>
-                    </li>
-                  </ul>
-                </nav>
-              </div>
-              <!-- Header-btn -->
-              <div class="header-btn d-none f-right d-lg-block">
-                <a href="#" class="btn head-btn1">Register</a>
-                <a href="#" class="btn head-btn2">Login</a>
-              </div>
-            </div>
-          </div>
-          <!-- Mobile Menu -->
-          <div class="col-12">
-            <div class="mobile_menu d-block d-lg-none"></div>
-          </div>
+
+<nav class="bg-white shadow-md fixed w-full top-0 left-0 z-10">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex justify-between h-16 items-center">
+        <!-- Logo -->
+        <a href="#" class="text-2xl font-bold text-blue-600">MyBrand</a>
+
+        <!-- Menu (Desktop) -->
+        <div class="hidden md:flex space-x-6">
+          <a href="#" class="text-gray-700 hover:text-blue-600">Home</a>
+          <a href="#" class="text-gray-700 hover:text-blue-600">About</a>
+          <a href="#" class="text-gray-700 hover:text-blue-600">Services</a>
+          <a href="#" class="text-gray-700 hover:text-blue-600">Contact</a>
         </div>
+
+        <!-- Button (Desktop) -->
+        <div class="hidden md:flex">
+          <a href="#" class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700">Login</a>
+        </div>
+
+        <!-- Mobile Menu Button -->
+        <button id="menu-btn" class="md:hidden focus:outline-none">
+          <svg class="w-6 h-6 text-gray-700" fill="none" stroke="currentColor" stroke-width="2"
+               viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path stroke-linecap="round" stroke-linejoin="round"
+                  d="M4 6h16M4 12h16M4 18h16"></path>
+          </svg>
+        </button>
       </div>
     </div>
-  </div>
-  <!-- Header End -->
-</header>
+
+    <!-- Mobile Menu -->
+    <div id="mobile-menu" class="hidden md:hidden bg-white border-t border-gray-200">
+      <a href="#" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">Home</a>
+      <a href="#" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">About</a>
+      <a href="#" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">Services</a>
+      <a href="#" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">Contact</a>
+      <a href="#" class="block px-4 py-2 text-blue-600 font-semibold hover:bg-blue-50">Login</a>
+    </div>
+  </nav>

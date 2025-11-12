@@ -1,0 +1,168 @@
+<nav class="pc-sidebar w-64 bg-slate-700 text-slate-100 border-r border-slate-600 h-screen overflow-y-auto flex-shrink-0 hidden md:flex flex-col fixed md:sticky top-16 md:top-0 z-30 md:z-0 left-0">
+  <div class="navbar-wrapper h-full flex flex-col">
+    <!-- Logo Header -->
+    <div class="m-header flex items-center gap-2 py-5 px-4 border-b border-slate-600">
+      <div class="flex items-center justify-center w-10 h-10 bg-cyan-400 rounded-lg">
+        <i data-feather="trending-up" class="w-6 h-6 text-slate-900"></i>
+      </div>
+      <a href="/admin/dashboard" class="b-brand flex items-center gap-2 flex-1">
+        <span class="text-sm font-semibold">Datta Able</span>
+      </a>
+    </div>
+    
+    <!-- Navigation Content -->
+    <div class="navbar-content flex-1 py-2 px-0">
+      <ul class="pc-navbar space-y-0">
+        <!-- NAVIGATION Section -->
+        <li class="pc-caption px-4 py-2 text-xs font-bold text-slate-300 uppercase tracking-wider flex items-center gap-2">
+          <i class="fas fa-compass w-4 h-4"></i>
+          Navigation
+        </li>
+        
+        <!-- Dashboard -->
+        <li class="pc-item">
+          <a href="/admin/dashboard" class="pc-link flex items-center gap-3 px-5 py-2 hover:bg-slate-600 transition-colors text-slate-200">
+            <i class="fas fa-home w-5 h-5 flex-shrink-0"></i>
+            <span class="pc-mtext text-sm">Dashboard</span>
+          </a>
+        </li>
+        
+        <!-- UI COMPONENTS Section -->
+        <li class="pc-caption px-4 py-2 mt-1 text-xs font-bold text-slate-300 uppercase tracking-wider flex items-center gap-2">
+          <i class="fas fa-box w-4 h-4"></i>
+          UI Components
+        </li>
+        
+        <li class="pc-item">
+          <a href="#!" class="pc-link flex items-center gap-3 px-5 py-2 hover:bg-slate-600 transition-colors text-slate-200">
+            <i class="fas fa-palette w-5 h-5 flex-shrink-0"></i>
+            <span class="pc-mtext text-sm">Color</span>
+          </a>
+        </li>
+        
+        <li class="pc-item">
+          <a href="#!" class="pc-link flex items-center gap-3 px-5 py-2 hover:bg-slate-600 transition-colors text-slate-200">
+            <i class="fas fa-font w-5 h-5 flex-shrink-0"></i>
+            <span class="pc-mtext text-sm">Typography</span>
+          </a>
+        </li>
+        
+        <li class="pc-item">
+          <a href="#!" class="pc-link flex items-center gap-3 px-5 py-2 hover:bg-slate-600 transition-colors text-slate-200">
+            <i class="fas fa-icons w-5 h-5 flex-shrink-0"></i>
+            <span class="pc-mtext text-sm">Icons</span>
+          </a>
+        </li>
+        
+        <!-- PAGES Section -->
+        <li class="pc-caption px-4 py-2 mt-1 text-xs font-bold text-slate-300 uppercase tracking-wider flex items-center gap-2">
+          <i class="fas fa-file-alt w-4 h-4"></i>
+          Pages
+        </li>
+        
+        <li class="pc-item">
+          <a href="#!" class="pc-link flex items-center gap-3 px-5 py-2 hover:bg-slate-600 transition-colors text-slate-200">
+            <i class="fas fa-lock w-5 h-5 flex-shrink-0"></i>
+            <span class="pc-mtext text-sm">Login</span>
+          </a>
+        </li>
+        
+        <li class="pc-item">
+          <a href="#!" class="pc-link flex items-center gap-3 px-5 py-2 hover:bg-slate-600 transition-colors text-slate-200">
+            <i class="fas fa-user-plus w-5 h-5 flex-shrink-0"></i>
+            <span class="pc-mtext text-sm">Register</span>
+          </a>
+        </li>
+        
+        <!-- OTHER Section -->
+        <li class="pc-caption px-4 py-2 mt-1 text-xs font-bold text-slate-300 uppercase tracking-wider flex items-center gap-2">
+          <i class="fas fa-ellipsis-v w-4 h-4"></i>
+          Other
+        </li>
+        
+        <!-- Menu levels (collapsible) -->
+        <li class="pc-item pc-hasmenu">
+          <a href="javascript:void(0);" class="pc-link toggle-menu flex items-center gap-3 justify-between px-5 py-2 hover:bg-slate-600 transition-colors text-slate-200">
+            <div class="flex items-center gap-3">
+              <i class="fas fa-bars w-5 h-5 flex-shrink-0"></i>
+              <span class="pc-mtext text-sm">Menu levels</span>
+            </div>
+            <i class="fas fa-chevron-right text-slate-400 text-xs transition-transform duration-300 chevron-icon"></i>
+          </a>
+          <ul class="pc-submenu hidden space-y-0 transition-all duration-300 ease-in-out max-h-0 overflow-hidden">
+            <li class="pc-item">
+              <a href="#!" class="pc-link flex items-center gap-3 px-5 py-2 hover:bg-slate-600 transition-colors text-slate-200 ml-4 border-l border-slate-500">
+                <i class="fas fa-circle w-4 h-4 flex-shrink-0"></i>
+                <span class="pc-mtext text-sm">Level 2.1</span>
+              </a>
+            </li>
+            <li class="pc-item">
+              <a href="#!" class="pc-link flex items-center gap-3 px-5 py-2 hover:bg-slate-600 transition-colors text-slate-200 ml-4 border-l border-slate-500">
+                <i class="fas fa-circle w-4 h-4 flex-shrink-0"></i>
+                <span class="pc-mtext text-sm">Level 2.2</span>
+              </a>
+            </li>
+            <li class="pc-item">
+              <a href="#!" class="pc-link flex items-center gap-3 px-5 py-2 hover:bg-slate-600 transition-colors text-slate-200 ml-4 border-l border-slate-500">
+                <i class="fas fa-circle w-4 h-4 flex-shrink-0"></i>
+                <span class="pc-mtext text-sm">Level 2.3</span>
+              </a>
+            </li>
+          </ul>
+        </li>
+        
+        <!-- Sample page -->
+        <li class="pc-item">
+          <a href="#!" class="pc-link flex items-center gap-3 px-5 py-2 hover:bg-slate-600 transition-colors text-slate-200 border-l-4 border-cyan-400 bg-slate-600">
+            <i class="fas fa-book w-5 h-5 flex-shrink-0"></i>
+            <span class="pc-mtext text-sm">Sample page</span>
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+
+<script>
+  // Handle sidebar menu dropdown toggle with smooth transitions
+  document.querySelectorAll('.toggle-menu').forEach(toggle => {
+    toggle.addEventListener('click', function(e) {
+      e.preventDefault();
+      const submenu = this.nextElementSibling;
+      const chevron = this.querySelector('.chevron-icon');
+      
+      if (submenu && submenu.classList.contains('pc-submenu')) {
+        const isHidden = submenu.classList.contains('hidden');
+        
+        // Toggle visibility
+        submenu.classList.toggle('hidden');
+        
+        // Set max-height for smooth animation
+        if (!isHidden) {
+          // Closing: shrink to 0
+          submenu.style.maxHeight = '0px';
+          submenu.style.opacity = '0';
+        } else {
+          // Opening: expand to content height
+          submenu.style.maxHeight = submenu.scrollHeight + 'px';
+          submenu.style.opacity = '1';
+        }
+        
+        // Rotate chevron
+        chevron.style.transform = isHidden ? 'rotate(90deg)' : 'rotate(0deg)';
+      }
+    });
+  });
+  
+  // Set initial max-height for hidden submenus
+  document.querySelectorAll('.pc-submenu').forEach(submenu => {
+    if (submenu.classList.contains('hidden')) {
+      submenu.style.maxHeight = '0px';
+      submenu.style.opacity = '0';
+    } else {
+      submenu.style.maxHeight = submenu.scrollHeight + 'px';
+      submenu.style.opacity = '1';
+    }
+  });
+</script>
