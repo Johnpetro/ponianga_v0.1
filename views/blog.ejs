@@ -1,0 +1,20 @@
+<section class="page page--blog">
+  <h1 class="page__title"><%= locals.title %></h1>
+  <p class="page__description"><%= locals.description %></p>
+
+  <% if (typeof data !== 'undefined' && data.length) { %>
+    <ul class="posts-list">
+      <% data.forEach(post => { %>
+        <li class="post-item">
+          <h2 class="post-item__title"><a href="/post/<%= post._id %>"><%= post.title %></a></h2>
+          <% if (post.content) { %>
+            <p class="post-item__excerpt"><%= post.content.substring(0, 200) %>...</p>
+          <% } %>
+        </li>
+      <% }) %>
+    </ul>
+  <% } else { %>
+    <p>No posts found.</p>
+  <% } %>
+
+</section>
