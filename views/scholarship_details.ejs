@@ -7,7 +7,7 @@
                     <div class="row">
                         <div class="col-xl-12">
                             <div class="hero-cap text-center">
-                                <h2>Job Details</h2>
+                                <h2>Scholarship Details</h2>
                             </div>
                         </div>
                     </div>
@@ -26,16 +26,16 @@
                         <div class="single-job-items mb-50">
                             <div class="job-items">
                                 <div class="company-img company-img-details">
-                                    <a href="#"><img src="assets/img/icon/job-list1.png" alt=""></a>
+                                    <a href="#"><img src="/assets/img/icon/job-list1.png" alt=""></a>
                                 </div>
                                 <div class="job-tittle">
                                     <a href="#">
-                                        <h4><%= job ? job.jobTitle : 'Job Title' %></h4>
+                                        <h4><%= scholarship ? scholarship.programName : 'Program Name' %></h4>
                                     </a>
                                     <ul>
-                                        <li><%= job ? job.employer : 'Company Name' %></li>
-                                        <li><i class="fas fa-map-marker-alt"></i><%= job ? job.location : 'Location' %></li>
-                                        <li><%= job ? job.salary : 'Salary Range' %></li>
+                                        <li><%= scholarship ? scholarship.collegeName : 'College Name' %></li>
+                                        <li><i class="fas fa-map-marker-alt"></i><%= scholarship ? scholarship.sponsorship : 'Sponsorship' %></li>
+                                        <li><%= scholarship ? scholarship.vacancy : 'Vacancy' %></li>
                                     </ul>
                                 </div>
                             </div>
@@ -46,18 +46,18 @@
                             <div class="post-details1 mb-50">
                                 <!-- Small Section Tittle -->
                                 <div class="small-section-tittle">
-                                    <h4>Job Description</h4>
+                                    <h4>Program Description</h4>
                                 </div>
-                                <p><%= job ? job.description : 'No description available' %></p>
+                                <p><%= scholarship ? scholarship.description : 'No description available' %></p>
                             </div>
                             
                             <div class="post-details2  mb-50">
                                  <!-- Small Section Tittle -->
                                 <div class="small-section-tittle">
-                                    <h4>Required Knowledge, Skills, and Abilities</h4>
+                                    <h4>Requirements</h4>
                                 </div>
                                <ul>
-                                   <li><%= job ? job.skills : 'Skills information not available' %></li>
+                                   <li><%= scholarship ? scholarship.requirements : 'Requirements information not available' %></li>
                                </ul>
                             </div>
                         </div>
@@ -68,18 +68,18 @@
                         <div class="post-details3  mb-50">
                             <!-- Small Section Tittle -->
                            <div class="small-section-tittle">
-                               <h4>Job Overview</h4>
+                               <h4>Scholarship Overview</h4>
                            </div>
                           <ul>
-                              <li>Posted date : <span><%= job ? new Date(job.createdAt).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' }) : 'N/A' %></span></li>
-                              <li>Location : <span><%= job ? job.location : 'N/A' %></span></li>
-                              <li>Job Type : <span><%= job ? job.jobType : 'N/A' %></span></li>
-                              <li>Salary :  <span><%= job ? job.salary : 'N/A' %></span></li>
-                              <li>Deadline : <span><%= job ? new Date(job.deadline).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' }) : 'N/A' %></span></li>
-                              <li>Status : <span><%= job && job.status === 'Active' ? 'Open' : job ? job.status : 'N/A' %></span></li>
+                              <li>Posted date : <span><%= scholarship ? new Date(scholarship.createdAt).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' }) : 'N/A' %></span></li>
+                              <li>College : <span><%= scholarship ? scholarship.collegeName : 'N/A' %></span></li>
+                              <li>Sponsorship : <span><%= scholarship ? scholarship.sponsorship : 'N/A' %></span></li>
+                              <li>Vacancy :  <span><%= scholarship ? scholarship.vacancy : 'N/A' %></span></li>
+                              <li>Deadline : <span><%= scholarship ? new Date(scholarship.deadline).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' }) : 'N/A' %></span></li>
+                              <li>Status : <span><%= scholarship && scholarship.status === 'Active' ? 'Open' : scholarship ? scholarship.status : 'N/A' %></span></li>
                           </ul>
                          <div class="apply-btn2">
-                            <% if (job && job.status === 'Closed') { %>
+                            <% if (scholarship && scholarship.status === 'Closed') { %>
                                 <a href="#" class="btn" style="opacity: 0.6; cursor: not-allowed; pointer-events: none;">Apply Now (Closed)</a>
                             <% } else { %>
                                 <a href="#" class="btn" data-toggle="modal" data-target="#applicationModal">Apply Now</a>
@@ -89,14 +89,14 @@
                        <div class="post-details4  mb-50">
                             <!-- Small Section Tittle -->
                            <div class="small-section-tittle">
-                               <h4>Company Information</h4>
+                               <h4>Organization Information</h4>
                            </div>
-                              <span>Colorlib</span>
+                              <span><%= scholarship ? scholarship.collegeName : 'Organization' %></span>
                               <p>It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.</p>
                             <ul>
-                                <li>Name: <span>Colorlib </span></li>
-                                <li>Web : <span> colorlib.com</span></li>
-                                <li>Email: <span>carrier.colorlib@gmail.com</span></li>
+                                <li>Name: <span><%= scholarship ? scholarship.collegeName : 'N/A' %></span></li>
+                                <li>Program : <span><%= scholarship ? scholarship.programName : 'N/A' %></span></li>
+                                <li>Sponsorship: <span><%= scholarship ? scholarship.sponsorship : 'N/A' %></span></li>
                             </ul>
                        </div>
                     </div>
@@ -105,70 +105,36 @@
         </div>
         <!-- Job Details End -->
 
-        <!-- Related Jobs Start -->
+        <!-- Related Scholarships Start -->
         <section class="featured-job-area feature-padding">
             <div class="container">
                 <!-- Section Tittle -->
                 <div class="row">
                     <div class="col-lg-12">
                         <div class="section-tittle text-center">
-                            <span>Recent Job</span>
-                            <h2>Related Jobs</h2>
+                            <span>Recent Scholarships</span>
+                            <h2>Related Scholarships</h2>
                         </div>
                     </div>
                 </div>
                 <div class="row justify-content-center">
                     <div class="col-xl-10">
-                        <!-- Loop through related jobs -->
-                        <% if (relatedJobs && relatedJobs.length > 0) { %>
-                            <% relatedJobs.forEach((relatedJob) => { %>
-                                <!-- single-job-content -->
-                                <form method="POST" action="/job-details" style="display: contents;">
-                                    <input type="hidden" name="jobId" value="<%= relatedJob.id %>">
-                                    <div class="single-job-items mb-30">
-                                        <div class="job-items">
-                                            <div class="company-img">
-                                                <button type="submit" style="background: none; border: none; padding: 0; cursor: pointer;">
-                                                    <img src="assets/img/icon/job-list2.png" alt="">
-                                                </button>
-                                            </div>
-                                            <div class="job-tittle">
-                                                <button type="submit" style="background: none; border: none; padding: 0; cursor: pointer; text-align: left; width: 100%;">
-                                                    <h4 style="color: #0F3460;"><%= relatedJob.jobTitle %></h4>
-                                                </button>
-                                                <ul>
-                                                    <li><%= relatedJob.employer %></li>
-                                                    <li><i class="fas fa-map-marker-alt"></i><%= relatedJob.location %></li>
-                                                    <li><%= relatedJob.salary %></li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                        <div class="items-link f-right">
-                                            <button type="submit" style="background: none; border: none; padding: 0; cursor: pointer; color: #0F3460; text-decoration: none;">
-                                                <%= relatedJob.jobType %>
-                                            </button>
-                                            <span><%= new Date(relatedJob.createdAt).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' }) %></span>
-                                        </div>
-                                    </div>
-                                </form>
-                            <% }); %>
-                        <% } else { %>
-                            <div class="single-job-items mb-30">
-                                <p class="text-center">No related jobs available.</p>
-                            </div>
-                        <% } %>
+                        <!-- Loop through related scholarships -->
+                        <div class="single-job-items mb-30">
+                            <p class="text-center">More scholarship opportunities coming soon!</p>
+                        </div>
                     </div>
                 </div>
             </div>
         </section>
-        <!-- Related Jobs End -->
+        <!-- Related Scholarships End -->
 
         <!-- Application Modal Start -->
         <div class="modal fade" id="applicationModal" tabindex="-1" role="dialog" aria-labelledby="applicationModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-xl" role="document" style="max-width: 90%; width: 90%;">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="applicationModalLabel">Apply for Position</h5>
+                        <h5 class="modal-title" id="applicationModalLabel">Apply for Scholarship</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>

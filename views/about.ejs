@@ -59,120 +59,72 @@
                     </div>
                 </div>
                 <!-- Team Members -->
-                <div class="row">
-                    <div class="col-lg-4 col-md-6">
-                        <div class="single-process text-center mb-30">
+                <% if (teamMembers && teamMembers.length > 0) { %>
+                  <% 
+                    // Split team members into rows of 3
+                    let rows = [];
+                    for (let i = 0; i < teamMembers.length; i += 3) {
+                      rows.push(teamMembers.slice(i, i + 3));
+                    }
+                  %>
+                  <% rows.forEach((row) => { %>
+                    <div class="row">
+                      <% row.forEach((member) => { %>
+                        <div class="col-lg-4 col-md-6">
+                          <div class="single-process text-center mb-30">
                             <div class="team-member-card" style="background: rgba(255,255,255,0.95); padding: 30px; border-radius: 10px; box-shadow: 0 5px 15px rgba(0,0,0,0.1);">
-                                <div class="team-img mb-20">
-                                    <img src="assets/img/testmonial/testimonial-founder.png" alt="Sarah Johnson" style="width: 80px; height: 80px; border-radius: 50%; object-fit: cover;">
+                              <div class="team-img mb-20">
+                                <img src="<%= member.profile || 'assets/img/testmonial/testimonial-founder.png' %>" alt="<%= member.full_name %>" style="width: 80px; height: 80px; border-radius: 50%; object-fit: cover;">
+                              </div>
+                              <div class="team-info">
+                                <h4 style="color: #333; margin-bottom: 5px;"><%= member.full_name %></h4>
+                                <p style="color: #666; font-size: 14px; margin-bottom: 15px;"><%= member.position %></p>
+                                <p style="color: #555; font-size: 13px; line-height: 1.5;"><%= member.bio.substring(0, 100) %><%= member.bio.length > 100 ? '...' : '' %></p>
+                                <div class="social-links mt-15">
+                                  <a href="#" style="color: #0077B5; margin: 0 5px;"><i class="fab fa-linkedin"></i></a>
+                                  <a href="#" style="color: #1DA1F2; margin: 0 5px;"><i class="fab fa-twitter"></i></a>
                                 </div>
-                                <div class="team-info">
-                                    <h4 style="color: #333; margin-bottom: 5px;">Sarah Johnson</h4>
-                                    <p style="color: #666; font-size: 14px; margin-bottom: 15px;">CEO & Founder</p>
-                                    <p style="color: #555; font-size: 13px; line-height: 1.5;">With 15+ years in talent acquisition, Sarah founded our platform to democratize access to career opportunities worldwide.</p>
-                                    <div class="social-links mt-15">
-                                        <a href="#" style="color: #0077B5; margin: 0 5px;"><i class="fab fa-linkedin"></i></a>
-                                        <a href="#" style="color: #1DA1F2; margin: 0 5px;"><i class="fab fa-twitter"></i></a>
-                                    </div>
-                                </div>
+                              </div>
                             </div>
+                          </div>
                         </div>
+                      <% }); %>
                     </div>
-                    <div class="col-lg-4 col-md-6">
-                        <div class="single-process text-center mb-30">
-                            <div class="team-member-card" style="background: rgba(255,255,255,0.95); padding: 30px; border-radius: 10px; box-shadow: 0 5px 15px rgba(0,0,0,0.1);">
-                                <div class="team-img mb-20">
-                                    <img src="assets/img/testmonial/testimonial-founder.png" alt="Michael Chen" style="width: 80px; height: 80px; border-radius: 50%; object-fit: cover;">
-                                </div>
-                                <div class="team-info">
-                                    <h4 style="color: #333; margin-bottom: 5px;">Michael Chen</h4>
-                                    <p style="color: #666; font-size: 14px; margin-bottom: 15px;">Head of Technology</p>
-                                    <p style="color: #555; font-size: 13px; line-height: 1.5;">Michael leads our tech team in building innovative solutions that make job searching and applications seamless for everyone.</p>
-                                    <div class="social-links mt-15">
-                                        <a href="#" style="color: #0077B5; margin: 0 5px;"><i class="fab fa-linkedin"></i></a>
-                                        <a href="#" style="color: #333; margin: 0 5px;"><i class="fab fa-github"></i></a>
-                                    </div>
-                                </div>
-                            </div>
+                  <% }); %>
+                  
+                  <!-- Pagination -->
+                  <% if (totalPages > 1) { %>
+                    <div class="row mt-40">
+                      <div class="col-lg-12 text-center">
+                        <div class="pagination" style="margin-top: 30px;">
+                          <% if (currentPage > 1) { %>
+                            <a href="?page=<%= currentPage - 1 %>" style="padding: 10px 15px; margin: 0 5px; background: #0077B5; color: white; border-radius: 5px; text-decoration: none; display: inline-block;">Previous</a>
+                          <% } %>
+                          
+                          <% for (let i = 1; i <= totalPages; i++) { %>
+                            <% if (i === currentPage) { %>
+                              <span style="padding: 10px 15px; margin: 0 5px; background: #0077B5; color: white; border-radius: 5px; display: inline-block;"><%= i %></span>
+                            <% } else { %>
+                              <a href="?page=<%= i %>" style="padding: 10px 15px; margin: 0 5px; background: #f1f1f1; color: #333; border-radius: 5px; text-decoration: none; display: inline-block;">
+                                <%= i %>
+                              </a>
+                            <% } %>
+                          <% } %>
+                          
+                          <% if (currentPage < totalPages) { %>
+                            <a href="?page=<%= currentPage + 1 %>" style="padding: 10px 15px; margin: 0 5px; background: #0077B5; color: white; border-radius: 5px; text-decoration: none; display: inline-block;">Next</a>
+                          <% } %>
                         </div>
+                      </div>
                     </div>
-                    <div class="col-lg-4 col-md-6">
-                        <div class="single-process text-center mb-30">
-                            <div class="team-member-card" style="background: rgba(255,255,255,0.95); padding: 30px; border-radius: 10px; box-shadow: 0 5px 15px rgba(0,0,0,0.1);">
-                                <div class="team-img mb-20">
-                                    <img src="assets/img/testmonial/testimonial-founder.png" alt="Emily Rodriguez" style="width: 80px; height: 80px; border-radius: 50%; object-fit: cover;">
-                                </div>
-                                <div class="team-info">
-                                    <h4 style="color: #333; margin-bottom: 5px;">Emily Rodriguez</h4>
-                                    <p style="color: #666; font-size: 14px; margin-bottom: 15px;">Director of Partnerships</p>
-                                    <p style="color: #555; font-size: 13px; line-height: 1.5;">Emily manages relationships with top employers and educational institutions to bring you the best opportunities available.</p>
-                                    <div class="social-links mt-15">
-                                        <a href="#" style="color: #0077B5; margin: 0 5px;"><i class="fab fa-linkedin"></i></a>
-                                        <a href="#" style="color: #E4405F; margin: 0 5px;"><i class="fab fa-instagram"></i></a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                  <% } %>
+                <% } else { %>
+                  <div class="row">
+                    <div class="col-lg-12 text-center">
+                      <p style="color: white; font-size: 16px; padding: 40px 0;">No team members available yet.</p>
                     </div>
-                </div>
-                
-                <!-- Second Row of Team Members -->
-                <div class="row">
-                    <div class="col-lg-4 col-md-6">
-                        <div class="single-process text-center mb-30">
-                            <div class="team-member-card" style="background: rgba(255,255,255,0.95); padding: 30px; border-radius: 10px; box-shadow: 0 5px 15px rgba(0,0,0,0.1);">
-                                <div class="team-img mb-20">
-                                    <img src="assets/img/testmonial/testimonial-founder.png" alt="David Thompson" style="width: 80px; height: 80px; border-radius: 50%; object-fit: cover;">
-                                </div>
-                                <div class="team-info">
-                                    <h4 style="color: #333; margin-bottom: 5px;">David Thompson</h4>
-                                    <p style="color: #666; font-size: 14px; margin-bottom: 15px;">Head of Customer Success</p>
-                                    <p style="color: #555; font-size: 13px; line-height: 1.5;">David ensures every user has an exceptional experience from application to job placement, providing support every step of the way.</p>
-                                    <div class="social-links mt-15">
-                                        <a href="#" style="color: #0077B5; margin: 0 5px;"><i class="fab fa-linkedin"></i></a>
-                                        <a href="#" style="color: #1DA1F2; margin: 0 5px;"><i class="fab fa-twitter"></i></a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-4 col-md-6">
-                        <div class="single-process text-center mb-30">
-                            <div class="team-member-card" style="background: rgba(255,255,255,0.95); padding: 30px; border-radius: 10px; box-shadow: 0 5px 15px rgba(0,0,0,0.1);">
-                                <div class="team-img mb-20">
-                                    <img src="assets/img/testmonial/testimonial-founder.png" alt="Lisa Wang" style="width: 80px; height: 80px; border-radius: 50%; object-fit: cover;">
-                                </div>
-                                <div class="team-info">
-                                    <h4 style="color: #333; margin-bottom: 5px;">Lisa Wang</h4>
-                                    <p style="color: #666; font-size: 14px; margin-bottom: 15px;">Scholarship Coordinator</p>
-                                    <p style="color: #555; font-size: 13px; line-height: 1.5;">Lisa specializes in connecting students with scholarship opportunities, helping them achieve their educational dreams without financial barriers.</p>
-                                    <div class="social-links mt-15">
-                                        <a href="#" style="color: #0077B5; margin: 0 5px;"><i class="fab fa-linkedin"></i></a>
-                                        <a href="#" style="color: #FF0000; margin: 0 5px;"><i class="fab fa-youtube"></i></a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-4 col-md-6">
-                        <div class="single-process text-center mb-30">
-                            <div class="team-member-card" style="background: rgba(255,255,255,0.95); padding: 30px; border-radius: 10px; box-shadow: 0 5px 15px rgba(0,0,0,0.1);">
-                                <div class="team-img mb-20">
-                                    <img src="assets/img/testmonial/testimonial-founder.png" alt="James Mitchell" style="width: 80px; height: 80px; border-radius: 50%; object-fit: cover;">
-                                </div>
-                                <div class="team-info">
-                                    <h4 style="color: #333; margin-bottom: 5px;">James Mitchell</h4>
-                                    <p style="color: #666; font-size: 14px; margin-bottom: 15px;">Career Advisor</p>
-                                    <p style="color: #555; font-size: 13px; line-height: 1.5;">James provides personalized career guidance and resume optimization to help job seekers stand out in competitive markets.</p>
-                                    <div class="social-links mt-15">
-                                        <a href="#" style="color: #0077B5; margin: 0 5px;"><i class="fab fa-linkedin"></i></a>
-                                        <a href="#" style="color: #1DA1F2; margin: 0 5px;"><i class="fab fa-twitter"></i></a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                  </div>
+                <% } %>
             </div>
         </div>
         <!-- Our Team End-->

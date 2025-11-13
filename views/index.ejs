@@ -186,88 +186,45 @@
                 </div>
                 <div class="row justify-content-center">
                     <div class="col-xl-10">
-                        <!-- single-job-content -->
-                        <div class="single-job-items mb-30">
-                            <div class="job-items">
-                                <div class="company-img">
-                                    <a href="/job-details/1"><img src="assets/img/icon/job-list1.png" alt=""></a>
-                                </div>
-                                <div class="job-tittle">
-                                    <a href="/job-details/1"><h4>Digital Marketer</h4></a>
-                                    <ul>
-                                        <li>Creative Agency</li>
-                                        <li><i class="fas fa-map-marker-alt"></i>Athens, Greece</li>
-                                        <li>$3500 - $4000</li>
-                                    </ul>
-                                </div>
+                        <!-- Loop through featured jobs (show only 3) -->
+                        <% if (jobs && jobs.length > 0) { %>
+                            <% const featuredJobs = jobs.slice(0, 3); %>
+                            <% featuredJobs.forEach((job) => { %>
+                                <!-- single-job-content -->
+                                <form method="POST" action="/job-details" style="display: contents;">
+                                    <input type="hidden" name="jobId" value="<%= job.id %>">
+                                    <div class="single-job-items mb-30">
+                                        <div class="job-items">
+                                            <div class="company-img">
+                                                <button type="submit" style="background: none; border: none; padding: 0; cursor: pointer;">
+                                                    <img src="assets/img/icon/job-list1.png" alt="">
+                                                </button>
+                                            </div>
+                                            <div class="job-tittle">
+                                                <button type="submit" style="background: none; border: none; padding: 0; cursor: pointer; text-align: left; width: 100%;">
+                                                    <h4 style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: #0F3460;"><%= job.jobTitle %></h4>
+                                                </button>
+                                                <ul>
+                                                    <li><%= job.employer %></li>
+                                                    <li><i class="fas fa-map-marker-alt"></i><%= job.location %></li>
+                                                    <li><%= job.salary %></li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                        <div class="items-link f-right">
+                                            <button type="submit" style="background: none; border: none; padding: 0; cursor: pointer; color: #0F3460; text-decoration: none;">
+                                                <%= job.jobType %>
+                                            </button>
+                                            <span>Applay</span>
+                                        </div>
+                                    </div>
+                                </form>
+                            <% }); %>
+                        <% } else { %>
+                            <div class="single-job-items mb-30">
+                                <p class="text-center">No featured jobs available at the moment.</p>
                             </div>
-                            <div class="items-link f-right">
-                                <a href="/job-details/1">Full Time</a>
-                                <span>7 hours ago</span>
-                            </div>
-                        </div>
-                        <!-- single-job-content -->
-                        <div class="single-job-items mb-30">
-                            <div class="job-items">
-                                <div class="company-img">
-                                    <a href="/job-details/2"><img src="assets/img/icon/job-list2.png" alt=""></a>
-                                </div>
-                                <div class="job-tittle">
-                                    <a href="/job-details/2"><h4>Software Engineer</h4></a>
-                                    <ul>
-                                        <li>Tech Company</li>
-                                        <li><i class="fas fa-map-marker-alt"></i>San Francisco, USA</li>
-                                        <li>$5000 - $7000</li>
-                                    </ul>
-                                </div>
-                            </div>
-                            <div class="items-link f-right">
-                                <a href="/job-details/2">Full Time</a>
-                                <span>1 day ago</span>
-                            </div>
-                        </div>
-                         <!-- single-job-content -->
-                        <div class="single-job-items mb-30">
-                            <div class="job-items">
-                                <div class="company-img">
-                                    <a href="/job-details/3"><img src="assets/img/icon/job-list3.png" alt=""></a>
-                                </div>
-                                <div class="job-tittle">
-                                    <a href="/job-details/3"><h4>Project Manager</h4></a>
-                                    <ul>
-                                        <li>Business Corp</li>
-                                        <li><i class="fas fa-map-marker-alt"></i>London, UK</li>
-                                        <li>$4000 - $5500</li>
-                                    </ul>
-                                </div>
-                            </div>
-                            <div class="items-link f-right">
-                                <a href="/job-details/3">Full Time</a>
-                                <span>2 days ago</span>
-                            </div>
-                        </div>
-                         <!-- single-job-content -->
-                        <div class="single-job-items mb-30">
-                            <div class="job-items">
-                                <div class="company-img">
-                                    <a href="/job-details/4"><img src="assets/img/icon/job-list4.png" alt=""></a>
-                                </div>
-                                <div class="job-tittle">
-                                    <a href="/job-details/4"><h4>Data Scientist</h4></a>
-                                    <ul>
-                                        <li>Analytics Firm</li>
-                                        <li><i class="fas fa-map-marker-alt"></i>Toronto, Canada</li>
-                                        <li>$4500 - $6000</li>
-                                    </ul>
-                                </div>
-                            </div>
-                            <div class="items-link f-right">
-                                <a href="/job-details/4">Full Time</a>
-                                <span>3 days ago</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                        <% } %>
             </div>
         </section>
         <!-- Featured_job_end -->

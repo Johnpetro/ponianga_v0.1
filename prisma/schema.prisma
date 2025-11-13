@@ -21,3 +21,67 @@ model Admin {
   @@map("admins")
   @@index([email])
 }
+
+
+// Job Model
+model Job {
+  id          Int      @id @default(autoincrement())
+  jobTitle    String   @db.VarChar(255)
+  employer    String   @db.VarChar(255)
+  jobType     String   @db.VarChar(100)
+  location    String   @db.VarChar(255)
+  deadline    DateTime
+  applicants  Int      @default(0)
+  salary      String   @db.VarChar(100)
+  skills      String   @db.Text
+  description String   @db.Text
+  status      String   @default("Active") @db.VarChar(50)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@map("jobs")
+}
+
+// Scholarship Model
+model Scholarship {
+  id           Int      @id @default(autoincrement())
+  vacancy      String   @db.VarChar(255)
+  collegeName  String   @db.VarChar(255)
+  programName  String   @db.VarChar(255)
+  sponsorship  String   @db.VarChar(100)
+  deadline     DateTime
+  description  String   @db.Text
+  requirements String   @db.Text
+  status       String   @default("Active") @db.VarChar(50)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  @@map("scholarships")
+}
+
+// Contact Model
+model Contact {
+  id            Int      @id @default(autoincrement())
+  inquiry_type  String   @db.VarChar(100)
+  full_name     String   @db.VarChar(255)
+  email         String   @db.VarChar(255)
+  phone         String   @db.VarChar(20)
+  subject       String   @db.VarChar(255)
+  message       String   @db.Text
+  createdAt     DateTime @default(now())
+
+  @@map("contacts")
+}
+
+// Team Member Model
+model TeamMember {
+  id        Int      @id @default(autoincrement())
+  full_name String   @db.VarChar(255)
+  bio       String   @db.Text
+  position  String   @db.VarChar(255)
+  profile   String   @db.VarChar(500)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("team_members")
+}

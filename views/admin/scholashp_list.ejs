@@ -1,0 +1,766 @@
+
+
+<header class="sticky top-0 z-40 bg-white dark:bg-slate-800 border-b border-slate-200 dark:border-slate-700 h-16 flex items-center justify-between px-6">
+  <!-- Sidebar Toggle Button -->
+  <button id="sidebarToggle" class="flex items-center gap-2 focus:outline-none hover:opacity-80 transition-opacity md:hidden">
+    <i class="fas fa-bars text-2xl text-slate-900 dark:text-white"></i>
+  </button>
+  
+  <h1 class="text-lg font-semibold text-slate-900 dark:text-white"><%= locals.title %></h1>
+  
+  <!-- Profile Dropdown -->
+  <div class="relative">
+    <button id="profileBtn" class="flex items-center gap-2 focus:outline-none hover:opacity-80 transition-opacity">
+      <img src="https://ui-avatars.com/api/?name=User&background=0D8ABC&color=fff&rounded=true" alt="User Avatar" class="w-10 h-10 rounded-full cursor-pointer border-2 border-blue-500" />
+    </button>
+    
+    <!-- Dropdown Menu -->
+    <div id="profileMenu" class="absolute right-0 mt-2 w-56 bg-white dark:bg-slate-700 rounded-lg shadow-xl opacity-0 invisible transition-all duration-300 z-50 transform origin-top-right scale-95">
+      <div class="p-4 border-b border-slate-200 dark:border-slate-600">
+        <p class="text-sm font-semibold text-slate-900 dark:text-white">Carson Darrin</p>
+        <p class="text-xs text-slate-500 dark:text-slate-400 flex items-center gap-1 mt-1">
+          <i class="fas fa-star text-yellow-400 text-[10px]"></i>
+          carson.darrin@company.io
+        </p>
+      </div>
+      
+      <ul class="py-2">
+        <li><a href="#" class="flex items-center gap-3 px-4 py-3 text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-600 transition-colors">
+          <i class="fas fa-cog w-4 h-4"></i>
+          <span>Settings</span>
+        </a></li>
+        <li><a href="#" class="flex items-center gap-3 px-4 py-3 text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-600 transition-colors">
+          <i class="fas fa-share-alt w-4 h-4"></i>
+          <span>Share</span>
+        </a></li>
+        <li><a href="#" class="flex items-center gap-3 px-4 py-3 text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-600 transition-colors">
+          <i class="fas fa-lock w-4 h-4"></i>
+          <span>Change Password</span>
+        </a></li>
+      </ul>
+      
+      <div class="border-t border-slate-200 dark:border-slate-600 p-2">
+        <a href="/logout" class="flex items-center justify-center gap-3 px-4 py-3 text-white bg-blue-500 hover:bg-blue-600 rounded transition-colors font-medium">
+          <i class="fas fa-sign-out-alt w-4 h-4"></i>
+          <span>Logout</span>
+        </a>
+      </div>
+    </div>
+  </div>
+</header>
+
+<div class="overflow-y-auto h-[calc(100vh-64px)]">
+  <div class="p-6">
+    <div class="card table-card gap-y-6">
+      <div class="card-header flex items-center justify-between">
+        <h5>Scholarships</h5>
+        <button id="addScholarshipBtn" class="btn btn-primary flex items-center gap-2">
+          <i class="fas fa-plus"></i>
+          Add Scholarship
+        </button>
+      </div>
+      <div class="card-body">
+        <div class="table-responsive">
+          <table class="w-full text-sm">
+            <thead>
+              <tr class="border-b border-slate-200 dark:border-slate-600">
+                <th class="text-left px-4 py-3 font-semibold text-slate-900 dark:text-white">Scholarship ID</th>
+                <th class="text-left px-4 py-3 font-semibold text-slate-900 dark:text-white">Program Name</th>
+                <th class="text-left px-4 py-3 font-semibold text-slate-900 dark:text-white">College Name</th>
+                <th class="text-left px-4 py-3 font-semibold text-slate-900 dark:text-white">Sponsorship</th>
+                <th class="text-center px-4 py-3 font-semibold text-slate-900 dark:text-white">Vacancy</th>
+                <th class="text-left px-4 py-3 font-semibold text-slate-900 dark:text-white">Deadline</th>
+                <th class="text-left px-4 py-3 font-semibold text-slate-900 dark:text-white">Status</th>
+                <th class="text-center px-4 py-3 font-semibold text-slate-900 dark:text-white">Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% if (scholarships && scholarships.length > 0) { %>
+                <% scholarships.forEach((scholarship) => { %>
+                  <tr class="border-b border-slate-200 dark:border-slate-600 hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors">
+                    <td class="px-4 py-3 text-slate-700 dark:text-slate-300">
+                      <span class="font-semibold">#<%= String(scholarship.id).padStart(3, '0') %></span>
+                    </td>
+                    <td class="px-4 py-3 text-slate-700 dark:text-slate-300">
+                      <h6 class="font-semibold mb-1"><%= scholarship.programName %></h6>
+                    </td>
+                    <td class="px-4 py-3 text-slate-700 dark:text-slate-300">
+                      <span><%= scholarship.collegeName %></span>
+                    </td>
+                    <td class="px-4 py-3 text-slate-700 dark:text-slate-300">
+                      <span class="badge bg-purple-100 text-purple-800 text-xs"><%= scholarship.sponsorship %></span>
+                    </td>
+                    <td class="px-4 py-3 text-center">
+                      <span class="font-semibold text-blue-600 dark:text-blue-400"><%= scholarship.vacancy %></span>
+                    </td>
+                    <td class="px-4 py-3 text-slate-700 dark:text-slate-300">
+                      <span class="text-xs"><%= new Date(scholarship.deadline).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' }) %></span>
+                    </td>
+                    <td class="px-4 py-3">
+                      <% 
+                        let statusColor = 'green';
+                        if (scholarship.status === 'Pending') statusColor = 'yellow';
+                        if (scholarship.status === 'Closed') statusColor = 'red';
+                      %>
+                      <span class="badge bg-<%= statusColor %>-100 text-<%= statusColor %>-800 text-xs flex items-center justify-center gap-1 w-fit">
+                        <i class="fas fa-circle text-[8px]"></i>
+                        <%= scholarship.status %>
+                      </span>
+                    </td>
+                    <td class="px-4 py-3 text-center">
+                      <div class="flex items-center justify-center gap-2">
+                        <button class="view-scholarship-btn text-green-500 hover:text-green-700 transition" title="View" data-scholarship-id="<%= scholarship.id %>" data-program-name="<%= scholarship.programName %>" data-college-name="<%= scholarship.collegeName %>" data-sponsorship="<%= scholarship.sponsorship %>" data-vacancy="<%= scholarship.vacancy %>" data-deadline="<%= scholarship.deadline %>" data-requirements="<%= scholarship.requirements %>" data-description="<%= scholarship.description %>">
+                          <i class="fas fa-eye text-sm"></i>
+                        </button>
+                        <button class="text-blue-500 hover:text-blue-700 transition edit-scholarship-btn" title="Edit" data-scholarship-id="<%= scholarship.id %>" data-program-name="<%= scholarship.programName %>" data-college-name="<%= scholarship.collegeName %>" data-sponsorship="<%= scholarship.sponsorship %>" data-vacancy="<%= scholarship.vacancy %>" data-deadline="<%= scholarship.deadline %>" data-requirements="<%= scholarship.requirements %>" data-description="<%= scholarship.description %>" data-status="<%= scholarship.status %>">
+                          <i class="fas fa-edit text-sm"></i>
+                        </button>
+                        <button class="text-red-500 hover:text-red-700 transition delete-scholarship-btn" title="Delete" data-scholarship-id="<%= scholarship.id %>">
+                          <i class="fas fa-trash text-sm"></i>
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                <% }); %>
+              <% } else { %>
+                <tr>
+                  <td colspan="8" class="px-4 py-8 text-center text-slate-500 dark:text-slate-400">
+                    <i class="fas fa-inbox text-2xl mb-2"></i>
+                    <p>No scholarships posted yet. Click "Add Scholarship" to create one.</p>
+                  </td>
+                </tr>
+              <% } %>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Pagination Controls -->
+        <div class="flex items-center justify-between mt-6 px-4 py-4 border-t border-slate-200 dark:border-slate-600">
+          <div class="text-sm text-slate-600 dark:text-slate-400">
+            Showing <span class="font-semibold"><%= scholarships && scholarships.length > 0 ? (currentPage - 1) * scholarshipsPerPage + 1 : 0 %></span> 
+            to <span class="font-semibold"><%= Math.min(currentPage * scholarshipsPerPage, totalScholarships) %></span> 
+            of <span class="font-semibold"><%= totalScholarships %></span> scholarships
+          </div>
+
+          <div class="flex items-center gap-2">
+            <% if (currentPage > 1) { %>
+              <a href="/scholarships?page=<%= currentPage - 1 %>" class="px-3 py-2 bg-slate-100 dark:bg-slate-700 text-slate-700 dark:text-slate-300 rounded hover:bg-slate-200 dark:hover:bg-slate-600 transition flex items-center gap-2">
+                <i class="fas fa-chevron-left text-sm"></i>
+                Previous
+              </a>
+            <% } else { %>
+              <button disabled class="px-3 py-2 bg-slate-100 dark:bg-slate-700 text-slate-400 dark:text-slate-600 rounded cursor-not-allowed opacity-50 flex items-center gap-2">
+                <i class="fas fa-chevron-left text-sm"></i>
+                Previous
+              </button>
+            <% } %>
+
+            <div class="flex items-center gap-1">
+              <% for (let i = 1; i <= totalPages; i++) { %>
+                <% if (i === currentPage) { %>
+                  <button disabled class="w-8 h-8 flex items-center justify-center bg-blue-500 text-white rounded font-semibold">
+                    <%= i %>
+                  </button>
+                <% } else { %>
+                  <a href="/scholarships?page=<%= i %>" class="w-8 h-8 flex items-center justify-center bg-slate-100 dark:bg-slate-700 text-slate-700 dark:text-slate-300 rounded hover:bg-slate-200 dark:hover:bg-slate-600 transition font-semibold">
+                    <%= i %>
+                  </a>
+                <% } %>
+              <% } %>
+            </div>
+
+            <% if (currentPage < totalPages) { %>
+              <a href="/scholarships?page=<%= currentPage + 1 %>" class="px-3 py-2 bg-slate-100 dark:bg-slate-700 text-slate-700 dark:text-slate-300 rounded hover:bg-slate-200 dark:hover:bg-slate-600 transition flex items-center gap-2">
+                Next
+                <i class="fas fa-chevron-right text-sm"></i>
+              </a>
+            <% } else { %>
+              <button disabled class="px-3 py-2 bg-slate-100 dark:bg-slate-700 text-slate-400 dark:text-slate-600 rounded cursor-not-allowed opacity-50 flex items-center gap-2">
+                Next
+                <i class="fas fa-chevron-right text-sm"></i>
+              </button>
+            <% } %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- Scholarship Details Modal -->
+<div id="scholarshipModal" class="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4" style="display: none;">
+  <div class="bg-white dark:bg-slate-800 rounded-lg shadow-lg max-w-2xl w-full max-h-[90vh] flex flex-col">
+    <!-- Modal Header -->
+    <div class="flex items-center justify-between p-6 border-b border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800">
+      <h3 class="text-xl font-semibold text-slate-900 dark:text-white">Scholarship Details</h3>
+      <button class="close-scholarship-modal text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-300 transition">
+        <i class="fas fa-times text-xl"></i>
+      </button>
+    </div>
+
+    <!-- Modal Body (Scrollable) -->
+    <div class="flex-1 overflow-y-auto p-6 space-y-4">
+      <div>
+        <label class="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">Program Name</label>
+        <p id="modalProgramName" class="text-slate-900 dark:text-white font-medium"></p>
+      </div>
+
+      <div>
+        <label class="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">College Name</label>
+        <p id="modalCollegeName" class="text-slate-900 dark:text-white font-medium"></p>
+      </div>
+
+      <div class="grid grid-cols-3 gap-4">
+        <div>
+          <label class="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">Sponsorship</label>
+          <p id="modalSponsorship" class="text-slate-900 dark:text-white font-medium"></p>
+        </div>
+        <div>
+          <label class="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">Vacancy</label>
+          <p id="modalVacancy" class="text-slate-900 dark:text-white font-medium"></p>
+        </div>
+        <div>
+          <label class="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">Deadline</label>
+          <p id="modalDeadline" class="text-slate-900 dark:text-white font-medium"></p>
+        </div>
+      </div>
+
+      <div>
+        <label class="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">Description</label>
+        <p id="modalDescription" class="text-slate-700 dark:text-slate-300 leading-relaxed"></p>
+      </div>
+
+      <div>
+        <label class="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">Requirements</label>
+        <p id="modalRequirements" class="text-slate-700 dark:text-slate-300 leading-relaxed whitespace-pre-wrap"></p>
+      </div>
+    </div>
+
+    <!-- Modal Footer -->
+    <div class="flex items-center justify-end gap-3 p-6 border-t border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800">
+      <button class="close-scholarship-modal px-4 py-2 text-slate-700 dark:text-slate-300 bg-slate-100 dark:bg-slate-700 hover:bg-slate-200 dark:hover:bg-slate-600 rounded transition">
+        Close
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- Add Scholarship Modal -->
+<div id="addScholarshipModal" style="display: none;" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+  <div class="bg-white dark:bg-slate-800 rounded-lg shadow-2xl w-full max-w-md max-h-[90vh] flex flex-col">
+    <!-- Modal Header -->
+    <div class="flex items-center justify-between p-6 border-b border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800">
+      <h2 class="text-xl font-bold text-slate-900 dark:text-white">Add New Scholarship</h2>
+      <button id="closeAddScholarshipBtn" class="text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-300">
+        <i class="fas fa-times text-xl"></i>
+      </button>
+    </div>
+
+    <!-- Modal Content (Scrollable) -->
+    <form id="addScholarshipForm" class="flex-1 overflow-y-auto p-6 space-y-3">
+      <!-- Program Name & College Name (Flex Row) -->
+      <div class="flex gap-4">
+        <div class="flex-1">
+          <label class="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">
+            <i class="fas fa-book text-blue-500 mr-2"></i>Program Name
+          </label>
+          <input type="text" name="programName" placeholder="e.g., Engineering Scholarship" required class="w-full px-3 py-2 border border-slate-300 dark:border-slate-600 rounded-lg bg-white dark:bg-slate-700 text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500" />
+        </div>
+
+        <div class="flex-1">
+          <label class="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">
+            <i class="fas fa-graduation-cap text-blue-500 mr-2"></i>College Name
+          </label>
+          <input type="text" name="collegeName" placeholder="e.g., Oxford University" required class="w-full px-3 py-2 border border-slate-300 dark:border-slate-600 rounded-lg bg-white dark:bg-slate-700 text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500" />
+        </div>
+      </div>
+
+      <!-- Sponsorship & Vacancy (Flex Row) -->
+      <div class="flex gap-4">
+        <div class="flex-1">
+          <label class="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">
+            <i class="fas fa-handshake text-blue-500 mr-2"></i>Sponsorship
+          </label>
+          <input type="text" name="sponsorship" placeholder="e.g., Full/Partial" required class="w-full px-3 py-2 border border-slate-300 dark:border-slate-600 rounded-lg bg-white dark:bg-slate-700 text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500" />
+        </div>
+
+        <div class="flex-1">
+          <label class="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">
+            <i class="fas fa-door-open text-blue-500 mr-2"></i>Vacancy
+          </label>
+          <input type="text" name="vacancy"  min="0" required class="w-full px-3 py-2 border border-slate-300 dark:border-slate-600 rounded-lg bg-white dark:bg-slate-700 text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500" />
+        </div>
+      </div>
+
+      <!-- Deadline (Full Width) -->
+      <div>
+        <label class="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">
+          <i class="fas fa-calendar text-blue-500 mr-2"></i>Deadline
+        </label>
+        <input type="date" name="deadline" required class="w-full px-3 py-2 border border-slate-300 dark:border-slate-600 rounded-lg bg-white dark:bg-slate-700 text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500" />
+      </div>
+
+      <!-- Description (Full Width) -->
+      <div>
+        <label class="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">
+          <i class="fas fa-align-left text-blue-500 mr-2"></i>Description
+        </label>
+        <textarea name="description" rows="3" placeholder="Enter scholarship description..." required class="w-full px-3 py-2 border border-slate-300 dark:border-slate-600 rounded-lg bg-white dark:bg-slate-700 text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500"></textarea>
+      </div>
+
+      <!-- Requirements (Full Width) -->
+      <div>
+        <label class="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">
+          <i class="fas fa-list text-blue-500 mr-2"></i>Requirements
+        </label>
+        <textarea name="requirements" rows="3" placeholder="Enter scholarship requirements..." required class="w-full px-3 py-2 border border-slate-300 dark:border-slate-600 rounded-lg bg-white dark:bg-slate-700 text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500"></textarea>
+      </div>
+    </form>
+
+    <!-- Modal Footer -->
+    <div class="flex items-center justify-end gap-3 p-6 border-t border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800">
+      <button type="button" id="closeAddScholarshipBtn2" class="px-4 py-2 text-slate-700 dark:text-slate-300 bg-slate-100 dark:bg-slate-700 hover:bg-slate-200 dark:hover:bg-slate-600 rounded transition">
+        Cancel
+      </button>
+      <button type="submit" form="addScholarshipForm" class="px-4 py-2 text-white bg-blue-500 hover:bg-blue-600 rounded transition flex items-center gap-2">
+        <i class="fas fa-plus"></i>
+        Add Scholarship
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- Edit Scholarship Modal -->
+<div id="editScholarshipModal" style="display: none;" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+  <div class="bg-white dark:bg-slate-800 rounded-lg shadow-2xl w-full max-w-md max-h-[90vh] flex flex-col">
+    <!-- Modal Header -->
+    <div class="flex items-center justify-between p-6 border-b border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800">
+      <h2 class="text-xl font-bold text-slate-900 dark:text-white">Edit Scholarship</h2>
+      <button id="closeEditScholarshipBtn" class="text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-300">
+        <i class="fas fa-times text-xl"></i>
+      </button>
+    </div>
+
+    <!-- Modal Content (Scrollable) -->
+    <form id="editScholarshipForm" class="flex-1 overflow-y-auto p-6 space-y-3">
+      <input type="hidden" id="editScholarshipId" name="scholarshipId" />
+      
+      <!-- Program Name & College Name (Flex Row) -->
+      <div class="flex gap-4">
+        <div class="flex-1">
+          <label class="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">
+            <i class="fas fa-book text-blue-500 mr-2"></i>Program Name
+          </label>
+          <input type="text" id="editProgramName" name="programName" placeholder="e.g., Engineering Scholarship" required class="w-full px-3 py-2 border border-slate-300 dark:border-slate-600 rounded-lg bg-white dark:bg-slate-700 text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500" />
+        </div>
+
+        <div class="flex-1">
+          <label class="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">
+            <i class="fas fa-graduation-cap text-blue-500 mr-2"></i>College Name
+          </label>
+          <input type="text" id="editCollegeName" name="collegeName" placeholder="e.g., Oxford University" required class="w-full px-3 py-2 border border-slate-300 dark:border-slate-600 rounded-lg bg-white dark:bg-slate-700 text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500" />
+        </div>
+      </div>
+
+      <!-- Sponsorship & Vacancy (Flex Row) -->
+      <div class="flex gap-4">
+        <div class="flex-1">
+          <label class="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">
+            <i class="fas fa-handshake text-blue-500 mr-2"></i>Sponsorship
+          </label>
+          <input type="text" id="editSponsorship" name="sponsorship" placeholder="e.g., Full/Partial" required class="w-full px-3 py-2 border border-slate-300 dark:border-slate-600 rounded-lg bg-white dark:bg-slate-700 text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500" />
+        </div>
+
+        <div class="flex-1">
+          <label class="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">
+            <i class="fas fa-door-open text-blue-500 mr-2"></i>Vacancy
+          </label>
+          <input type="number" id="editVacancy" name="vacancy" placeholder="0" min="0" required class="w-full px-3 py-2 border border-slate-300 dark:border-slate-600 rounded-lg bg-white dark:bg-slate-700 text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500" />
+        </div>
+      </div>
+
+      <!-- Deadline (Full Width) -->
+      <div>
+        <label class="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">
+          <i class="fas fa-calendar text-blue-500 mr-2"></i>Deadline
+        </label>
+        <input type="date" id="editDeadline" name="deadline" required class="w-full px-3 py-2 border border-slate-300 dark:border-slate-600 rounded-lg bg-white dark:bg-slate-700 text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500" />
+      </div>
+
+      <!-- Description (Full Width) -->
+      <div>
+        <label class="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">
+          <i class="fas fa-align-left text-blue-500 mr-2"></i>Description
+        </label>
+        <textarea id="editDescription" name="description" rows="3" placeholder="Enter scholarship description..." required class="w-full px-3 py-2 border border-slate-300 dark:border-slate-600 rounded-lg bg-white dark:bg-slate-700 text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500"></textarea>
+      </div>
+
+      <!-- Requirements (Full Width) -->
+      <div>
+        <label class="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">
+          <i class="fas fa-list text-blue-500 mr-2"></i>Requirements
+        </label>
+        <textarea id="editRequirements" name="requirements" rows="3" placeholder="Enter scholarship requirements..." required class="w-full px-3 py-2 border border-slate-300 dark:border-slate-600 rounded-lg bg-white dark:bg-slate-700 text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500"></textarea>
+      </div>
+
+      <!-- Status (Full Width) -->
+      <div>
+        <label class="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">
+          <i class="fas fa-flag text-blue-500 mr-2"></i>Status
+        </label>
+        <select id="editStatus" name="status" required class="w-full px-3 py-2 border border-slate-300 dark:border-slate-600 rounded-lg bg-white dark:bg-slate-700 text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500">
+          <option value="Active">Active</option>
+          <option value="Pending">Pending</option>
+          <option value="Closed">Closed</option>
+        </select>
+      </div>
+    </form>
+
+    <!-- Modal Footer -->
+    <div class="flex items-center justify-end gap-3 p-6 border-t border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800">
+      <button type="button" id="closeEditScholarshipBtn2" class="px-4 py-2 text-slate-700 dark:text-slate-300 bg-slate-100 dark:bg-slate-700 hover:bg-slate-200 dark:hover:bg-slate-600 rounded transition">
+        Cancel
+      </button>
+      <button type="submit" form="editScholarshipForm" class="px-4 py-2 text-white bg-green-500 hover:bg-green-600 rounded transition flex items-center gap-2">
+        <i class="fas fa-save"></i>
+        Save Changes
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- Delete Confirmation Modal -->
+<div id="deleteScholarshipModal" style="display: none;" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+  <div class="bg-white dark:bg-slate-800 rounded-lg shadow-2xl w-full max-w-sm">
+    <!-- Modal Header -->
+    <div class="flex items-center justify-between p-6 border-b border-slate-200 dark:border-slate-700">
+      <h2 class="text-xl font-bold text-slate-900 dark:text-white flex items-center gap-2">
+        <i class="fas fa-exclamation-triangle text-red-500"></i>
+        Delete Scholarship
+      </h2>
+    </div>
+
+    <!-- Modal Body -->
+    <div class="p-6">
+      <p class="text-slate-700 dark:text-slate-300 mb-2">
+        Are you sure you want to delete this scholarship?
+      </p>
+      <p id="deleteScholarshipName" class="text-sm font-semibold text-slate-600 dark:text-slate-400 bg-slate-100 dark:bg-slate-700 p-3 rounded">
+        <!-- Scholarship name will be inserted here -->
+      </p>
+      <p class="text-xs text-slate-500 dark:text-slate-400 mt-3">
+        <i class="fas fa-info-circle mr-1"></i>
+        This action cannot be undone.
+      </p>
+    </div>
+
+    <!-- Modal Footer -->
+    <div class="flex items-center justify-end gap-3 p-6 border-t border-slate-200 dark:border-slate-700">
+      <button id="cancelDeleteScholarshipBtn" class="px-4 py-2 text-slate-700 dark:text-slate-300 bg-slate-100 dark:bg-slate-700 hover:bg-slate-200 dark:hover:bg-slate-600 rounded transition">
+        Cancel
+      </button>
+      <button id="confirmDeleteScholarshipBtn" class="px-4 py-2 text-white bg-red-500 hover:bg-red-600 rounded transition flex items-center gap-2">
+        <i class="fas fa-trash"></i>
+        Delete Scholarship
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- Sidebar Toggle Script -->
+<script src="/js/sidebar-toggle.js"></script>
+
+<!-- Scholarship Modal Script -->
+<script>
+  // Scholarship Details Modal
+  const scholarshipModal = document.getElementById('scholarshipModal');
+  const viewScholarshipButtons = document.querySelectorAll('.view-scholarship-btn');
+  const closeScholarshipModalButtons = document.querySelectorAll('.close-scholarship-modal');
+
+  function openScholarshipModal(data) {
+    document.getElementById('modalProgramName').textContent = data.programName;
+    document.getElementById('modalCollegeName').textContent = data.collegeName;
+    document.getElementById('modalSponsorship').textContent = data.sponsorship;
+    document.getElementById('modalVacancy').textContent = data.vacancy;
+    document.getElementById('modalDeadline').textContent = new Date(data.deadline).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
+    document.getElementById('modalDescription').textContent = data.description;
+    document.getElementById('modalRequirements').textContent = data.requirements;
+    scholarshipModal.style.display = 'flex';
+  }
+
+  function closeScholarshipModalFunc() {
+    scholarshipModal.style.display = 'none';
+  }
+
+  viewScholarshipButtons.forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      e.preventDefault();
+      const data = {
+        programName: btn.dataset.programName,
+        collegeName: btn.dataset.collegeName,
+        sponsorship: btn.dataset.sponsorship,
+        vacancy: btn.dataset.vacancy,
+        deadline: btn.dataset.deadline,
+        description: btn.dataset.description,
+        requirements: btn.dataset.requirements
+      };
+      openScholarshipModal(data);
+    });
+  });
+
+  closeScholarshipModalButtons.forEach(btn => {
+    btn.addEventListener('click', closeScholarshipModalFunc);
+  });
+
+  scholarshipModal.addEventListener('click', (e) => {
+    if (e.target === scholarshipModal) {
+      closeScholarshipModalFunc();
+    }
+  });
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && scholarshipModal.style.display === 'flex') {
+      closeScholarshipModalFunc();
+    }
+  });
+
+  // Add Scholarship Modal
+  const addScholarshipBtn = document.getElementById('addScholarshipBtn');
+  const addScholarshipModal = document.getElementById('addScholarshipModal');
+  const closeAddScholarshipBtn = document.getElementById('closeAddScholarshipBtn');
+  const closeAddScholarshipBtn2 = document.getElementById('closeAddScholarshipBtn2');
+  const addScholarshipForm = document.getElementById('addScholarshipForm');
+
+  addScholarshipBtn.addEventListener('click', () => {
+    addScholarshipModal.style.display = 'flex';
+  });
+
+  closeAddScholarshipBtn.addEventListener('click', () => {
+    addScholarshipModal.style.display = 'none';
+  });
+
+  closeAddScholarshipBtn2.addEventListener('click', () => {
+    addScholarshipModal.style.display = 'none';
+  });
+
+  addScholarshipModal.addEventListener('click', (e) => {
+    if (e.target === addScholarshipModal) {
+      addScholarshipModal.style.display = 'none';
+    }
+  });
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && addScholarshipModal.style.display === 'flex') {
+      addScholarshipModal.style.display = 'none';
+    }
+  });
+
+  addScholarshipForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    
+    const formData = new FormData(addScholarshipForm);
+    const data = Object.fromEntries(formData);
+
+    try {
+      const response = await fetch('/scholarships', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+      });
+
+      const result = await response.json();
+
+      if (result.success) {
+        alert('Scholarship added successfully!');
+        addScholarshipForm.reset();
+        addScholarshipModal.style.display = 'none';
+        
+        setTimeout(() => {
+          location.reload();
+        }, 500);
+      } else {
+        alert('Error: ' + result.message);
+      }
+    } catch (error) {
+      console.error('Error adding scholarship:', error);
+      alert('Error adding scholarship. Please try again.');
+    }
+  });
+
+  // Edit Scholarship Modal
+  const editScholarshipModal = document.getElementById('editScholarshipModal');
+  const editScholarshipButtons = document.querySelectorAll('.edit-scholarship-btn');
+  const closeEditScholarshipBtn = document.getElementById('closeEditScholarshipBtn');
+  const closeEditScholarshipBtn2 = document.getElementById('closeEditScholarshipBtn2');
+  const editScholarshipForm = document.getElementById('editScholarshipForm');
+  let currentEditingScholarshipId = null;
+
+  editScholarshipButtons.forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      e.preventDefault();
+      const scholarshipId = btn.dataset.scholarshipId;
+      
+      const programName = btn.dataset.programName;
+      const collegeName = btn.dataset.collegeName;
+      const sponsorship = btn.dataset.sponsorship;
+      const vacancy = btn.dataset.vacancy;
+      const deadlineString = btn.dataset.deadline;
+      const description = btn.dataset.description;
+      const requirements = btn.dataset.requirements;
+      const status = btn.dataset.status;
+
+      const dateObj = new Date(deadlineString);
+      const deadline = dateObj.toISOString().split('T')[0];
+
+      document.getElementById('editScholarshipId').value = scholarshipId;
+      document.getElementById('editProgramName').value = programName;
+      document.getElementById('editCollegeName').value = collegeName;
+      document.getElementById('editSponsorship').value = sponsorship;
+      document.getElementById('editVacancy').value = vacancy;
+      document.getElementById('editDeadline').value = deadline;
+      document.getElementById('editDescription').value = description;
+      document.getElementById('editRequirements').value = requirements;
+      document.getElementById('editStatus').value = status;
+
+      currentEditingScholarshipId = scholarshipId;
+      editScholarshipModal.style.display = 'flex';
+    });
+  });
+
+  closeEditScholarshipBtn.addEventListener('click', () => {
+    editScholarshipModal.style.display = 'none';
+    currentEditingScholarshipId = null;
+  });
+
+  closeEditScholarshipBtn2.addEventListener('click', () => {
+    editScholarshipModal.style.display = 'none';
+    currentEditingScholarshipId = null;
+  });
+
+  editScholarshipModal.addEventListener('click', (e) => {
+    if (e.target === editScholarshipModal) {
+      editScholarshipModal.style.display = 'none';
+      currentEditingScholarshipId = null;
+    }
+  });
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && editScholarshipModal.style.display === 'flex') {
+      editScholarshipModal.style.display = 'none';
+      currentEditingScholarshipId = null;
+    }
+  });
+
+  editScholarshipForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    
+    if (!currentEditingScholarshipId) return;
+
+    const formData = new FormData(editScholarshipForm);
+    const data = Object.fromEntries(formData);
+    
+    delete data.scholarshipId;
+
+    try {
+      const response = await fetch(`/scholarships/${currentEditingScholarshipId}`, {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+      });
+
+      const result = await response.json();
+
+      if (result.success) {
+        alert('Scholarship updated successfully!');
+        editScholarshipForm.reset();
+        editScholarshipModal.style.display = 'none';
+        currentEditingScholarshipId = null;
+        
+        setTimeout(() => {
+          location.reload();
+        }, 500);
+      } else {
+        alert('Error: ' + result.message);
+      }
+    } catch (error) {
+      console.error('Error updating scholarship:', error);
+      alert('Error updating scholarship. Please try again.');
+    }
+  });
+
+  // Delete Scholarship Modal
+  const deleteScholarshipModal = document.getElementById('deleteScholarshipModal');
+  const deleteScholarshipButtons = document.querySelectorAll('.delete-scholarship-btn');
+  const cancelDeleteScholarshipBtn = document.getElementById('cancelDeleteScholarshipBtn');
+  const confirmDeleteScholarshipBtn = document.getElementById('confirmDeleteScholarshipBtn');
+  const deleteScholarshipName = document.getElementById('deleteScholarshipName');
+  let scholarshipToDeleteId = null;
+
+  if (deleteScholarshipModal) {
+    deleteScholarshipButtons.forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        e.preventDefault();
+        const scholarshipId = btn.dataset.scholarshipId;
+        const scholarshipName = btn.closest('tr').querySelector('h6').textContent;
+        
+        scholarshipToDeleteId = scholarshipId;
+        deleteScholarshipName.textContent = scholarshipName;
+        deleteScholarshipModal.style.display = 'flex';
+      });
+    });
+
+    cancelDeleteScholarshipBtn.addEventListener('click', () => {
+      deleteScholarshipModal.style.display = 'none';
+      scholarshipToDeleteId = null;
+    });
+
+    deleteScholarshipModal.addEventListener('click', (e) => {
+      if (e.target === deleteScholarshipModal) {
+        deleteScholarshipModal.style.display = 'none';
+        scholarshipToDeleteId = null;
+      }
+    });
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && deleteScholarshipModal.style.display === 'flex') {
+        deleteScholarshipModal.style.display = 'none';
+        scholarshipToDeleteId = null;
+      }
+    });
+
+    confirmDeleteScholarshipBtn.addEventListener('click', async () => {
+      if (!scholarshipToDeleteId) return;
+
+      try {
+        const response = await fetch(`/scholarships/${scholarshipToDeleteId}`, {
+          method: 'DELETE',
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        });
+
+        const result = await response.json();
+
+        if (result.success) {
+          alert('Scholarship deleted successfully!');
+          deleteScholarshipModal.style.display = 'none';
+          scholarshipToDeleteId = null;
+          
+          setTimeout(() => {
+            location.reload();
+          }, 500);
+        } else {
+          alert('Error: ' + result.message);
+        }
+      } catch (error) {
+        console.error('Error deleting scholarship:', error);
+        alert('Error deleting scholarship. Please try again.');
+      }
+    });
+  }
+</script>

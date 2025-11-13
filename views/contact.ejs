@@ -80,7 +80,7 @@
                                 </div>
                                 <div class="col-sm-6">
                                     <div class="form-group">
-                                        <input class="form-control valid" name="name" id="name" type="text" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Enter your full name'" placeholder="Enter your full name" required>
+                                        <input class="form-control valid" name="full_name" id="full_name" type="text" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Enter your full name'" placeholder="Enter your full name" required>
                                     </div>
                                 </div>
                                 <div class="col-sm-6">
@@ -108,6 +108,12 @@
                                 <button type="submit" class="button button-contactForm boxed-btn">Send Message</button>
                             </div>
                         </form>
+                        <div id="successMessage" class="alert alert-success mt-3" style="display: none;">
+                            <strong>Success!</strong> Your message has been sent. We'll get back to you soon!
+                        </div>
+                        <div id="errorMessage" class="alert alert-danger mt-3" style="display: none;">
+                            <strong>Error!</strong> <span id="errorText"></span>
+                        </div>
                     </div>
                     <div class="col-lg-3 offset-lg-1">
                         <div class="media contact-info">
@@ -142,3 +148,70 @@
                 </div>
             </div>
         </section>
+
+    <script>
+        // Handle contact form submission
+        const contactForm = document.getElementById('contactForm');
+        const successMessage = document.getElementById('successMessage');
+        const errorMessage = document.getElementById('errorMessage');
+        const errorText = document.getElementById('errorText');
+
+        if (contactForm) {
+            contactForm.addEventListener('submit', async (e) => {
+                e.preventDefault();
+
+                // Get form data
+                const formData = new FormData(contactForm);
+                const data = {
+                    inquiry_type: formData.get('inquiry_type'),
+                    full_name: formData.get('full_name'),
+                    email: formData.get('email'),
+                    phone: formData.get('phone'),
+                    subject: formData.get('subject'),
+                    message: formData.get('message')
+                };
+
+                try {
+                    // Send request to backend
+                    const response = await fetch('/contact', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(data)
+                    });
+
+                    const result = await response.json();
+
+                    if (response.ok && result.success) {
+                        // Show success message
+                        successMessage.style.display = 'block';
+                        errorMessage.style.display = 'none';
+
+                        // Reset form
+                        contactForm.reset();
+
+                        // Hide success message after 5 seconds
+                        setTimeout(() => {
+                            successMessage.style.display = 'none';
+                        }, 5000);
+
+                        console.log('✓ Contact inquiry submitted successfully');
+                    } else {
+                        // Show error message
+                        errorText.textContent = result.message || 'Failed to submit contact inquiry';
+                        errorMessage.style.display = 'block';
+                        successMessage.style.display = 'none';
+                        console.error('✗ Error:', result.message);
+                    }
+                } catch (error) {
+                    // Show error message
+                    errorText.textContent = 'Error submitting contact inquiry. Please try again.';
+                    errorMessage.style.display = 'block';
+                    successMessage.style.display = 'none';
+                    console.error('✗ Error:', error);
+                }
+            });
+        }
+    </script>
+    
