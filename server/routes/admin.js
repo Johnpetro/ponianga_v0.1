@@ -1314,7 +1314,7 @@ router.get('/logout', (req, res) => {
   // Clear JWT cookie
   res.clearCookie('authToken');
   console.log('✓ Admin logged out successfully');
-  res.redirect('/admin/login');
+  res.redirect('/login');
 });
 
 
