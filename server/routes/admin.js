@@ -3,13 +3,15 @@ const router = express.Router();
 const multer = require('multer');
 const path = require('path');
 const fs = require('fs');
-// const Post = require('../models/Post');
-// const User = require('../models/User');
 const { connectDB, prisma } = require('../config/db');
 const adminService = require('../services/adminService');
 const { verifyAuth } = require('../middleware/authMiddleware');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+
+// JWT Configuration
+const JWT_SECRET = process.env.JWT_SECRET || 'your-secret-key-change-in-env';
+const TOKEN_EXPIRY = '7d'; // 7 days until browser closes or manually logs out
 
 // Configure multer for file uploads
 const uploadDir = path.join(__dirname, '../..', 'public', 'uploads', 'team-members');
@@ -41,7 +43,6 @@ const upload = multer({
 });
 
 const adminLayout = '../views/layouts/admin';
-const jwtSecret = process.env.JWT_SECRET;
 
 
 /**
@@ -49,7 +50,7 @@ const jwtSecret = process.env.JWT_SECRET;
  * Admin - Login Page
 */
 router.get('/login', async (req, res) => {
-  console.log('Accessed /admin/login route');
+
   try {
     const locals = {
       title: "Login",
@@ -66,7 +67,7 @@ router.get('/login', async (req, res) => {
 
 /**
  * POST /admin/login
- * Admin - Check Login
+ * Admin - Check Login with JWT Cookie
 */
 router.post('/login', async (req, res) => {
   try {
@@ -113,14 +114,22 @@ router.post('/login', async (req, res) => {
     }
 
     // Create JWT token
-    const token = jwt.sign({ id: admin.id, email: admin.email }, jwtSecret, { expiresIn: '7d' });
+    const token = jwt.sign(
+      { id: admin.id, email: admin.email },
+      JWT_SECRET,
+      { expiresIn: TOKEN_EXPIRY }
+    );
 
-    // Store token in session
-    req.session.token = token;
-    req.session.adminId = admin.id;
-    req.session.adminEmail = admin.email;
+    // Store JWT in httpOnly cookie (valid until browser closes or expires)
+    res.cookie('authToken', token, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production', // HTTPS only in production
+      sameSite: 'strict',
+      maxAge: 7 * 24 * 60 * 60 * 1000 // 7 days in milliseconds
+    });
 
     console.log('✓ Admin logged in successfully:', email);
+    console.log('✓ JWT Token stored in cookie (expires in 7 days or on browser close)');
 
     // Redirect to dashboard
     res.redirect('/dashboard');
@@ -1063,16 +1072,249 @@ router.delete('/scholarships/:id', verifyAuth, async (req, res) => {
 });
 
 
-router.get('/logout', (req, res) => {
-  req.session.destroy((err) => {
-    if (err) {
-      console.error('Error destroying session:', err);
-      return res.status(500).send('Error logging out');
+/**
+ * GET /admin/applications
+ * Admin - View All Applications
+ */
+router.get('/applications', verifyAuth, async (req, res) => {
+  try {
+    const locals = {
+      title: "Applications",
+      description: "View all job applications"
     }
-    res.clearCookie('connect.sid');
-    console.log('✓ Admin logged out successfully');
-    res.redirect('/admin/login');
-  });
+
+    // Pagination setup
+    const page = parseInt(req.query.page) || 1;
+    const applicationsPerPage = 10;
+    const skip = (page - 1) * applicationsPerPage;
+
+    // Fetch total applications count
+    const totalApplications = await prisma.application.count();
+    const totalPages = Math.ceil(totalApplications / applicationsPerPage);
+
+    // Fetch applications for current page with job details
+    const applications = await prisma.application.findMany({
+      include: {
+        job: {
+          select: {
+            id: true,
+            jobTitle: true,
+            employer: true
+          }
+        }
+      },
+      orderBy: { createdAt: 'desc' },
+      skip,
+      take: applicationsPerPage
+    });
+
+    res.render('admin/applications', {
+      locals,
+      layout: adminLayout,
+      applications,
+      currentPage: page,
+      totalPages,
+      totalApplications,
+      applicationsPerPage
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).send('Error loading applications page');
+  }
+});
+
+/**
+ * GET /admin/applications/:jobId
+ * Admin - View Applications for Specific Job
+ */
+router.get('/applications/job/:jobId', verifyAuth, async (req, res) => {
+  try {
+    const jobId = parseInt(req.params.jobId);
+    
+    // Verify job exists
+    const job = await prisma.job.findUnique({
+      where: { id: jobId }
+    });
+
+    if (!job) {
+      return res.status(404).send('Job not found');
+    }
+
+    const locals = {
+      title: `Applications for ${job.jobTitle}`,
+      description: `View applications for ${job.jobTitle} at ${job.employer}`
+    }
+
+    // Pagination setup
+    const page = parseInt(req.query.page) || 1;
+    const applicationsPerPage = 10;
+    const skip = (page - 1) * applicationsPerPage;
+
+    // Fetch applications for this specific job
+    const totalApplications = await prisma.application.count({
+      where: { jobId: jobId }
+    });
+    const totalPages = Math.ceil(totalApplications / applicationsPerPage);
+
+    const applications = await prisma.application.findMany({
+      where: { jobId: jobId },
+      orderBy: { createdAt: 'desc' },
+      skip,
+      take: applicationsPerPage
+    });
+
+    res.render('admin/job-applications', {
+      locals,
+      layout: adminLayout,
+      applications,
+      job,
+      jobId,
+      currentPage: page,
+      totalPages,
+      totalApplications,
+      applicationsPerPage
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).send('Error loading applications');
+  }
+});
+
+/**
+ * GET /admin/applications/:id/details
+ * Admin - View Specific Application Details
+ */
+router.get('/applications/:id/details', verifyAuth, async (req, res) => {
+  try {
+    const applicationId = parseInt(req.params.id);
+
+    const application = await prisma.application.findUnique({
+      where: { id: applicationId },
+      include: {
+        job: true
+      }
+    });
+
+    if (!application) {
+      return res.status(404).send('Application not found');
+    }
+
+    const locals = {
+      title: "Application Details",
+      description: "View detailed application information"
+    }
+
+    res.render('admin/application-details', {
+      locals,
+      layout: adminLayout,
+      application
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).send('Error loading application details');
+  }
+});
+
+/**
+ * PATCH /admin/applications/:id/status
+ * Admin - Update Application Status
+ */
+router.patch('/applications/:id/status', verifyAuth, async (req, res) => {
+  try {
+    const applicationId = parseInt(req.params.id);
+    const { status } = req.body;
+
+    if (!status) {
+      return res.status(400).json({
+        success: false,
+        message: 'Status is required'
+      });
+    }
+
+    const validStatuses = ['Pending', 'Reviewed', 'Shortlisted', 'Rejected', 'Accepted'];
+    if (!validStatuses.includes(status)) {
+      return res.status(400).json({
+        success: false,
+        message: 'Invalid status'
+      });
+    }
+
+    const application = await prisma.application.update({
+      where: { id: applicationId },
+      data: { status }
+    });
+
+    console.log('✓ Application status updated:', status);
+
+    res.status(200).json({
+      success: true,
+      message: 'Application status updated successfully',
+      application
+    });
+  } catch (error) {
+    console.error('Error updating application status:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Error updating application status'
+    });
+  }
+});
+
+/**
+ * DELETE /admin/applications/:id
+ * Admin - Delete Application
+ */
+router.delete('/applications/:id', verifyAuth, async (req, res) => {
+  try {
+    const applicationId = parseInt(req.params.id);
+
+    const application = await prisma.application.findUnique({
+      where: { id: applicationId }
+    });
+
+    if (!application) {
+      return res.status(404).json({
+        success: false,
+        message: 'Application not found'
+      });
+    }
+
+    // Delete application
+    await prisma.application.delete({
+      where: { id: applicationId }
+    });
+
+    // Decrement applicants count
+    await prisma.job.update({
+      where: { id: application.jobId },
+      data: {
+        applicants: {
+          decrement: 1
+        }
+      }
+    });
+
+    console.log('✓ Application deleted successfully');
+
+    res.status(200).json({
+      success: true,
+      message: 'Application deleted successfully'
+    });
+  } catch (error) {
+    console.error('Error deleting application:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Error deleting application'
+    });
+  }
+});
+
+
+router.get('/logout', (req, res) => {
+  // Clear JWT cookie
+  res.clearCookie('authToken');
+  console.log('✓ Admin logged out successfully');
+  res.redirect('/admin/login');
 });
 
 

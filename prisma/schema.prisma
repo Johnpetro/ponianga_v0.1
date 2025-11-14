@@ -39,6 +39,9 @@ model Job {
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 
+  // Relationship with Applications
+  applications Application[]
+
   @@map("jobs")
 }
 
@@ -84,4 +87,37 @@ model TeamMember {
   updatedAt DateTime @updatedAt
 
   @@map("team_members")
+}
+
+// Job Application Model
+model Application {
+  id               Int      @id @default(autoincrement())
+  jobId            Int
+  firstName        String   @db.VarChar(100)
+  lastName         String   @db.VarChar(100)
+  email            String   @db.VarChar(255)
+  phone            String   @db.VarChar(20)
+  address          String   @db.VarChar(500)
+  currentPosition  String   @db.VarChar(255)
+  experience       String   @db.VarChar(50)
+  expectedSalary   String   @db.VarChar(100)
+  availableFrom    DateTime
+  degree           String   @db.VarChar(255)
+  university       String   @db.VarChar(255)
+  graduationYear   String   @db.VarChar(4)
+  gpa              String   @db.VarChar(10)
+  skills           String   @db.Text
+  coverLetter      String   @db.Text
+  resume           String   @db.VarChar(500)
+  portfolio        String   @db.VarChar(500)
+  agreement        Boolean  @default(false)
+  status           String   @default("Pending") @db.VarChar(50)
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+
+  // Foreign Key Relationship
+  job Job @relation(fields: [jobId], references: [id], onDelete: Cascade)
+
+  @@map("applications")
+  @@index([jobId])
 }

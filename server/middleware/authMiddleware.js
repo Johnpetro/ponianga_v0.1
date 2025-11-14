@@ -1,18 +1,33 @@
 /**
  * Authentication Middleware
- * Checks if user is authenticated via JWT token in session
+ * Verifies JWT token from cookies (simple implementation)
  */
+const jwt = require('jsonwebtoken');
+
+const JWT_SECRET = process.env.JWT_SECRET || '0621892913';
+
 const verifyAuth = (req, res, next) => {
   try {
-    const token = req.session.token;
-    const adminId = req.session.adminId;
+    // Get JWT token from cookies
+    const token = req.cookies.authToken;
 
-    if (!token || !adminId) {
+    if (!token) {
       return res.redirect('/login');
     }
 
-    // Token is valid if it exists in session
-    next();
+    // Verify token
+    try {
+      const decoded = jwt.verify(token, JWT_SECRET);
+      req.admin = decoded; // Store decoded admin info in request
+      next();
+    } catch (error) {
+      if (error.name === 'TokenExpiredError') {
+        console.log('Token expired');
+        return res.redirect('/admin/login');
+      }
+      console.error('Token verification error:', error.message);
+      return res.redirect('/admin/login');
+    }
   } catch (error) {
     console.error('Auth middleware error:', error);
     res.redirect('/login');

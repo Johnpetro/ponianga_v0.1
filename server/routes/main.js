@@ -1,9 +1,47 @@
 const express = require('express');
 const router = express.Router();
+const multer = require('multer');
+const path = require('path');
+const fs = require('fs');
 const Post = require('../models/Post');
 // const User = require('../models/User');
 const { connectDB, prisma } = require('../config/db');
 // const adminService = require('../services/adminService');
+
+// Configure multer for file uploads
+const uploadDir = path.join(__dirname, '../..', 'public', 'uploads', 'applications');
+if (!fs.existsSync(uploadDir)) {
+  fs.mkdirSync(uploadDir, { recursive: true });
+}
+
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, uploadDir);
+  },
+  filename: (req, file, cb) => {
+    const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
+    cb(null, 'app-' + uniqueSuffix + path.extname(file.originalname));
+  }
+});
+
+const upload = multer({
+  storage: storage,
+  limits: { fileSize: 5 * 1024 * 1024 }, // 5MB limit
+  fileFilter: (req, file, cb) => {
+    // Allow PDF, DOC, DOCX, ZIP
+    const allowedMimes = [
+      'application/pdf',
+      'application/msword',
+      'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+      'application/zip'
+    ];
+    if (allowedMimes.includes(file.mimetype)) {
+      cb(null, true);
+    } else {
+      cb(new Error('Invalid file type. Only PDF, DOC, DOCX, and ZIP are allowed.'));
+    }
+  }
+});
 
 /**
  * GET /
@@ -318,17 +356,190 @@ router.get('/application-form/:jobId', (req, res) => {
 
 /**
  * POST /application-form
- * Handle job application form submission
+ * Handle job application form submission with file uploads
  */
-router.post('/application-form', (req, res) => {
+router.post('/application-form', upload.fields([
+  { name: 'resume', maxCount: 1 },
+  { name: 'portfolio', maxCount: 5 }
+]), async (req, res) => {
   try {
-    // Handle form submission logic here
-    // For now, just redirect with success message
-    console.log('Application submitted:', req.body);
-    res.redirect('/application-form?success=true');
+    const {
+      jobId,
+      firstName,
+      lastName,
+      email,
+      phone,
+      address,
+      currentPosition,
+      experience,
+      expectedSalary,
+      availableFrom,
+      degree,
+      university,
+      graduationYear,
+      gpa,
+      skills,
+      coverLetter,
+      agreement
+    } = req.body;
+
+    // Validation
+    if (!jobId || !firstName || !lastName || !email || !agreement) {
+      // Delete uploaded files if validation fails
+      if (req.files) {
+        Object.keys(req.files).forEach(fieldName => {
+          req.files[fieldName].forEach(file => {
+            try {
+              fs.unlinkSync(file.path);
+            } catch (e) {
+              console.error('Error deleting file:', e);
+            }
+          });
+        });
+      }
+      return res.status(400).json({
+        success: false,
+        message: 'Please fill in all required fields'
+      });
+    }
+
+    // Check if resume was uploaded
+    if (!req.files || !req.files.resume || req.files.resume.length === 0) {
+      return res.status(400).json({
+        success: false,
+        message: 'Resume/CV is required'
+      });
+    }
+
+    // Verify job exists
+    const job = await prisma.job.findUnique({
+      where: { id: parseInt(jobId) }
+    });
+
+    if (!job) {
+      // Delete uploaded files if job not found
+      if (req.files) {
+        Object.keys(req.files).forEach(fieldName => {
+          req.files[fieldName].forEach(file => {
+            try {
+              fs.unlinkSync(file.path);
+            } catch (e) {
+              console.error('Error deleting file:', e);
+            }
+          });
+        });
+      }
+      return res.status(404).json({
+        success: false,
+        message: 'Job not found'
+      });
+    }
+
+    // Check if user already applied for this job
+    const existingApplication = await prisma.application.findFirst({
+      where: {
+        jobId: parseInt(jobId),
+        email: email
+      }
+    });
+
+    if (existingApplication) {
+      // Delete uploaded files if duplicate application
+      if (req.files) {
+        Object.keys(req.files).forEach(fieldName => {
+          req.files[fieldName].forEach(file => {
+            try {
+              fs.unlinkSync(file.path);
+            } catch (e) {
+              console.error('Error deleting file:', e);
+            }
+          });
+        });
+      }
+      return res.status(400).json({
+        success: false,
+        message: 'You have already applied for this job'
+      });
+    }
+
+    // Generate file URLs
+    let resumeUrl = '';
+    let portfolioUrl = '';
+
+    if (req.files.resume && req.files.resume[0]) {
+      resumeUrl = `/uploads/applications/${req.files.resume[0].filename}`;
+      console.log('Resume uploaded:', resumeUrl);
+    }
+
+    if (req.files.portfolio && req.files.portfolio.length > 0) {
+      // Store portfolio as comma-separated URLs
+      portfolioUrl = req.files.portfolio.map(file => `/uploads/applications/${file.filename}`).join(',');
+      console.log('Portfolio uploaded:', portfolioUrl);
+    }
+
+    // Create application
+    const application = await prisma.application.create({
+      data: {
+        jobId: parseInt(jobId),
+        firstName: firstName || '',
+        lastName: lastName || '',
+        email: email || '',
+        phone: phone || '',
+        address: address || '',
+        currentPosition: currentPosition || '',
+        experience: experience || '',
+        expectedSalary: expectedSalary || '',
+        availableFrom: availableFrom ? new Date(availableFrom) : new Date(),
+        degree: degree || '',
+        university: university || '',
+        graduationYear: graduationYear || '',
+        gpa: gpa || '',
+        skills: skills || '',
+        coverLetter: coverLetter || '',
+        resume: resumeUrl,
+        portfolio: portfolioUrl,
+        agreement: agreement === 'on' || agreement === true,
+        status: 'Pending'
+      }
+    });
+
+    // Increment applicants count
+    await prisma.job.update({
+      where: { id: parseInt(jobId) },
+      data: {
+        applicants: {
+          increment: 1
+        }
+      }
+    });
+
+    console.log('✓ Application submitted successfully:', email);
+    console.log('✓ Files uploaded:', { resume: resumeUrl, portfolio: portfolioUrl });
+
+    res.status(201).json({
+      success: true,
+      message: 'Application submitted successfully! We will review it shortly.',
+      application: application
+    });
+
   } catch (error) {
-    console.log(error);
-    res.redirect('/application-form?error=true');
+    // Delete uploaded files if error occurs
+    if (req.files) {
+      Object.keys(req.files).forEach(fieldName => {
+        req.files[fieldName].forEach(file => {
+          try {
+            fs.unlinkSync(file.path);
+          } catch (e) {
+            console.error('Error deleting file:', e);
+          }
+        });
+      });
+    }
+    console.error('Error submitting application:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Error submitting application. Please try again.'
+    });
   }
 });
 

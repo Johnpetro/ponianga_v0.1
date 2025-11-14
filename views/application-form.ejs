@@ -235,18 +235,32 @@
             }
         }
 
-        // Form validation
-        document.getElementById('applicationForm').addEventListener('submit', function(e) {
+        // Form submission with file upload
+        document.getElementById('applicationForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+
+            // Validation
             const requiredFields = ['firstName', 'lastName', 'email', 'resume'];
             let isValid = true;
 
             requiredFields.forEach(field => {
                 const input = document.getElementById(field);
-                if (!input.value.trim()) {
-                    input.style.borderColor = 'red';
-                    isValid = false;
+                if (field === 'resume') {
+                    // Check if file is selected
+                    if (!input.files || input.files.length === 0) {
+                        input.style.borderColor = 'red';
+                        isValid = false;
+                    } else {
+                        input.style.borderColor = '';
+                    }
                 } else {
-                    input.style.borderColor = '';
+                    // Check if text field has value
+                    if (!input.value.trim()) {
+                        input.style.borderColor = 'red';
+                        isValid = false;
+                    } else {
+                        input.style.borderColor = '';
+                    }
                 }
             });
 
@@ -257,9 +271,56 @@
                 isValid = false;
             }
 
+            // Validate file size (5MB)
+            const resumeFile = document.getElementById('resume').files[0];
+            if (resumeFile && resumeFile.size > 5 * 1024 * 1024) {
+                alert('Resume file is too large. Maximum size is 5MB.');
+                isValid = false;
+            }
+
             if (!isValid) {
-                e.preventDefault();
                 alert('Please fill in all required fields');
+                return;
+            }
+
+            // Create FormData for multipart upload
+            const formData = new FormData(this);
+
+            try {
+                const response = await fetch('/application-form', {
+                    method: 'POST',
+                    body: formData
+                });
+
+                const result = await response.json();
+
+                if (result.success) {
+                    // Show success message
+                    document.getElementById('successMessage').style.display = 'block';
+                    document.getElementById('errorMessage').style.display = 'none';
+                    
+                    // Reset form
+                    document.getElementById('applicationForm').reset();
+                    
+                    // Scroll to success message
+                    document.getElementById('successMessage').scrollIntoView({ behavior: 'smooth' });
+                    
+                    // Reset border colors
+                    requiredFields.forEach(field => {
+                        const input = document.getElementById(field);
+                        input.style.borderColor = '';
+                    });
+                } else {
+                    // Show error message
+                    document.getElementById('errorMessage').style.display = 'block';
+                    document.getElementById('errorMessage').innerHTML = '<strong>Error!</strong> ' + result.message;
+                    document.getElementById('successMessage').style.display = 'none';
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                document.getElementById('errorMessage').style.display = 'block';
+                document.getElementById('errorMessage').innerHTML = '<strong>Error!</strong> There was a problem submitting your application.';
+                document.getElementById('successMessage').style.display = 'none';
             }
         });
     </script>

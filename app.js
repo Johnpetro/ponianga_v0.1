@@ -48,6 +48,36 @@ connectDB();
 app.use('/', require('./server/routes/main'));
 app.use('/', require('./server/routes/admin'));
 
+/**
+ * Error Handling Middleware
+ * 404 - Page Not Found
+ */
+app.use((req, res) => {
+  res.status(404).render('404', {
+    url: req.originalUrl,
+    layout: false
+  });
+});
+
+/**
+ * Global Error Handler Middleware
+ * Catches all errors and displays error page
+ */
+app.use((err, req, res, next) => {
+  console.error('Error:', err);
+  
+  const statusCode = err.status || err.statusCode || 500;
+  const statusMessage = err.statusMessage || 'Internal Server Error';
+  const message = process.env.NODE_ENV === 'production' ? 'An error occurred' : err.message;
+
+  res.status(statusCode).render('error', {
+    statusCode: statusCode,
+    statusMessage: statusMessage,
+    message: message,
+    layout: false
+  });
+});
+
 app.listen(PORT, ()=> {
   console.log(`App listening on port ${PORT}`);
 });

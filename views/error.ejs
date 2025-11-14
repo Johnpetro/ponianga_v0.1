@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= statusCode %> - Server Error</title>
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/fontawesome-all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .error-container {
+            text-align: center;
+            background: white;
+            padding: 60px 40px;
+            border-radius: 15px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            max-width: 600px;
+            width: 90%;
+            animation: slideIn 0.5s ease-out;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .error-code {
+            font-size: 120px;
+            font-weight: 900;
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            line-height: 1;
+            margin-bottom: 20px;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                opacity: 1;
+            }
+            50% {
+                opacity: 0.7;
+            }
+        }
+
+        .error-title {
+            font-size: 32px;
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 15px;
+        }
+
+        .error-message {
+            font-size: 16px;
+            color: #666;
+            line-height: 1.6;
+            margin-bottom: 30px;
+        }
+
+        .error-icon {
+            font-size: 60px;
+            color: #f5576c;
+            margin-bottom: 20px;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn-home,
+        .btn-back {
+            padding: 12px 35px;
+            font-size: 16px;
+            font-weight: 600;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            display: inline-block;
+        }
+
+        .btn-home {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+        }
+
+        .btn-home:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(245, 87, 108, 0.4);
+            color: white;
+            text-decoration: none;
+        }
+
+        .btn-back {
+            background: #f0f0f0;
+            color: #333;
+            border: 2px solid #ddd;
+        }
+
+        .btn-back:hover {
+            background: #e8e8e8;
+            border-color: #f5576c;
+            transform: translateY(-3px);
+            color: #333;
+            text-decoration: none;
+        }
+
+        .error-details {
+            background: #fff3f5;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 30px 0;
+            text-align: left;
+            border-left: 4px solid #f5576c;
+        }
+
+        .error-details h4 {
+            color: #333;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        .error-details p {
+            color: #666;
+            font-size: 14px;
+            margin: 5px 0;
+            font-family: 'Courier New', monospace;
+            word-break: break-all;
+        }
+
+        .breadcrumb-nav {
+            margin-top: 30px;
+            font-size: 14px;
+        }
+
+        .breadcrumb-nav a {
+            color: #f5576c;
+            text-decoration: none;
+            transition: 0.3s;
+        }
+
+        .breadcrumb-nav a:hover {
+            text-decoration: underline;
+        }
+
+        @media (max-width: 600px) {
+            .error-container {
+                padding: 40px 20px;
+            }
+
+            .error-code {
+                font-size: 80px;
+            }
+
+            .error-title {
+                font-size: 24px;
+            }
+
+            .button-group {
+                flex-direction: column;
+            }
+
+            .btn-home,
+            .btn-back {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="error-container">
+        <div class="error-icon">
+            <i class="fas fa-server"></i>
+        </div>
+
+        <div class="error-code"><%= statusCode %></div>
+
+        <h1 class="error-title">Server Error</h1>
+
+        <p class="error-message">
+            <% if (statusCode === 500) { %>
+                Something went wrong on our server. Our team has been notified and is working to fix it.
+            <% } else if (statusCode === 503) { %>
+                The service is temporarily unavailable. Please try again later.
+            <% } else { %>
+                An unexpected error occurred. Please try again later.
+            <% } %>
+        </p>
+
+        <div class="error-details">
+            <h4><i class="fas fa-exclamation-triangle"></i> Error Information</h4>
+            <p><strong>Status Code:</strong> <%= statusCode %></p>
+            <p><strong>Status Message:</strong> <%= statusMessage %></p>
+            <p><strong>Timestamp:</strong> <%= new Date().toLocaleString() %></p>
+            <% if (message) { %>
+                <p><strong>Details:</strong> <%= message %></p>
+            <% } %>
+        </div>
+
+        <div class="button-group">
+            <a href="/" class="btn-home">
+                <i class="fas fa-home"></i> Go to Home
+            </a>
+            <button class="btn-back" onclick="history.back()">
+                <i class="fas fa-arrow-left"></i> Go Back
+            </button>
+        </div>
+
+        <div class="breadcrumb-nav">
+            <p>Having issues? <a href="/contact">Contact support</a> | <a href="/">Home</a></p>
+        </div>
+    </div>
+
+    <script src="/js/jquery.min.js"></script>
+</body>
+</html>
