@@ -46,6 +46,7 @@
     <!-- Sidebar -->
     <% if (locals.title !== 'Login') { %>
       <%- include('../partials/sidebar.ejs') %>
+    
         
     <% } %>
 
@@ -54,7 +55,7 @@
       
       <!-- Fixed Header (only above main content, not sidebar) -->
     
-
+    <%- include('../partials/header_admin.ejs') %>
       <!-- Main content -->
       <main class="flex-1 overflow-y-auto">
         <%- body %>

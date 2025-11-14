@@ -1,40 +1,135 @@
-
-<nav class="bg-white shadow-md fixed w-full top-0 left-0 z-10">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="flex justify-between h-16 items-center">
-        <!-- Logo -->
-        <a href="#" class="text-2xl font-bold text-blue-600">MyBrand</a>
-
-        <!-- Menu (Desktop) -->
-        <div class="hidden md:flex space-x-6">
-          <a href="#" class="text-gray-700 hover:text-blue-600">Home</a>
-          <a href="#" class="text-gray-700 hover:text-blue-600">About</a>
-          <a href="#" class="text-gray-700 hover:text-blue-600">Services</a>
-          <a href="#" class="text-gray-700 hover:text-blue-600">Contact</a>
-        </div>
-
-        <!-- Button (Desktop) -->
-        <div class="hidden md:flex">
-          <a href="#" class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700">Login</a>
-        </div>
-
-        <!-- Mobile Menu Button -->
-        <button id="menu-btn" class="md:hidden focus:outline-none">
-          <svg class="w-6 h-6 text-gray-700" fill="none" stroke="currentColor" stroke-width="2"
-               viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-            <path stroke-linecap="round" stroke-linejoin="round"
-                  d="M4 6h16M4 12h16M4 18h16"></path>
-          </svg>
+<header class="sticky top-0 z-40 bg-white dark:bg-slate-800 border-b border-slate-200 dark:border-slate-700 h-16 flex items-center justify-between px-6">
+        <!-- Sidebar Toggle Button -->
+        <button id="sidebarToggle" class="flex items-center gap-2 focus:outline-none hover:opacity-80 transition-opacity md:hidden">
+          <i class="fas fa-bars text-2xl text-slate-900 dark:text-white"></i>
         </button>
-      </div>
-    </div>
+        
+        <h1 class="text-lg font-semibold text-slate-900 dark:text-white"><%= locals.title %></h1>
+        
+        <!-- Profile Dropdown -->
+        <div class="relative">
+          <button id="profileBtn" class="flex items-center gap-2 focus:outline-none hover:opacity-80 transition-opacity">
+            <img src="https://ui-avatars.com/api/?name=User&background=0D8ABC&color=fff&rounded=true" alt="User Avatar" class="w-10 h-10 rounded-full cursor-pointer border-2 border-blue-500" />
+          </button>
+          
+          <!-- Dropdown Menu -->
+          <div id="profileMenu" class="absolute right-0 mt-2 w-56 bg-white dark:bg-slate-700 rounded-lg shadow-xl opacity-0 invisible transition-all duration-300 z-50 transform origin-top-right scale-95">
+            <div class="p-4 border-b border-slate-200 dark:border-slate-600">
+              <p class="text-sm font-semibold text-slate-900 dark:text-white">Carson Darrin</p>
+              <p class="text-xs text-slate-500 dark:text-slate-400 flex items-center gap-1 mt-1">
+                <i class="fas fa-star text-yellow-400 text-[10px]"></i>
+                carson.darrin@company.io
+              </p>
+            </div>
+            
+            <ul class="py-2">
+              <li><a href="#" class="flex items-center gap-3 px-4 py-3 text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-600 transition-colors">
+                <i class="fas fa-cog w-4 h-4"></i>
+                <span>Settings</span>
+              </a></li>
+              <li><a href="#" class="flex items-center gap-3 px-4 py-3 text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-600 transition-colors">
+                <i class="fas fa-share-alt w-4 h-4"></i>
+                <span>Share</span>
+              </a></li>
+              <li><a href="#" class="flex items-center gap-3 px-4 py-3 text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-600 transition-colors">
+                <i class="fas fa-lock w-4 h-4"></i>
+                <span>Change Password</span>
+              </a></li>
+            </ul>
+            
+            <div class="border-t border-slate-200 dark:border-slate-600 p-2">
+              <a href="/logout" class="flex items-center justify-center gap-3 px-4 py-3 text-white bg-blue-500 hover:bg-blue-600 rounded transition-colors font-medium">
+                <i class="fas fa-sign-out-alt w-4 h-4"></i>
+                <span>Logout</span>
+              </a>
+            </div>
+          </div>
+        </div>
+      </header>
+           <script>
+        // Profile dropdown functionality
+        const profileBtn = document.getElementById('profileBtn');
+        const profileMenu = document.getElementById('profileMenu');
 
-    <!-- Mobile Menu -->
-    <div id="mobile-menu" class="hidden md:hidden bg-white border-t border-gray-200">
-      <a href="#" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">Home</a>
-      <a href="#" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">About</a>
-      <a href="#" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">Services</a>
-      <a href="#" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">Contact</a>
-      <a href="#" class="block px-4 py-2 text-blue-600 font-semibold hover:bg-blue-50">Login</a>
-    </div>
-  </nav>
+        profileBtn.addEventListener('click', (e) => {
+          e.stopPropagation();
+          profileMenu.classList.toggle('opacity-0');
+          profileMenu.classList.toggle('invisible');
+          profileMenu.classList.toggle('scale-95');
+          profileMenu.classList.toggle('opacity-100');
+          profileMenu.classList.toggle('visible');
+          profileMenu.classList.toggle('scale-100');
+        });
+
+        // Close dropdown when clicking outside
+        document.addEventListener('click', (e) => {
+          if (!profileBtn.contains(e.target) && !profileMenu.contains(e.target)) {
+            profileMenu.classList.add('opacity-0', 'invisible', 'scale-95');
+            profileMenu.classList.remove('opacity-100', 'visible', 'scale-100');
+          }
+        });
+
+        // Close dropdown when clicking a menu item
+        profileMenu.querySelectorAll('a').forEach(link => {
+          link.addEventListener('click', () => {
+            profileMenu.classList.add('opacity-0', 'invisible', 'scale-95');
+            profileMenu.classList.remove('opacity-100', 'visible', 'scale-100');
+          });
+        });
+
+        // Sidebar toggle functionality
+        const sidebarToggle = document.getElementById('sidebarToggle');
+        const sidebar = document.querySelector('.pc-sidebar');
+        
+        if (sidebarToggle && sidebar) {
+          sidebarToggle.addEventListener('click', (e) => {
+            e.stopPropagation();
+            // Toggle sidebar visibility only on mobile
+            if (window.innerWidth < 768) {
+              sidebar.classList.toggle('hidden');
+              sidebar.classList.toggle('block');
+              
+              // For mobile: slide sidebar in/out
+              if (sidebar.classList.contains('hidden')) {
+                sidebar.style.display = 'none';
+              } else {
+                sidebar.style.display = 'flex';
+              }
+            }
+          });
+
+          // Close sidebar when clicking on a nav link (on mobile)
+          sidebar.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', () => {
+              if (window.innerWidth < 768) {
+                sidebar.classList.add('hidden');
+                sidebar.classList.remove('block');
+                sidebar.style.display = 'none';
+              }
+            });
+          });
+
+          // Ensure sidebar is visible on desktop on page load
+          window.addEventListener('load', () => {
+            if (window.innerWidth >= 768) {
+              sidebar.classList.remove('hidden');
+              sidebar.classList.add('md:flex');
+              sidebar.style.display = '';
+            }
+          });
+
+          // Handle window resize
+          window.addEventListener('resize', () => {
+            if (window.innerWidth >= 768) {
+              sidebar.classList.remove('hidden');
+              sidebar.classList.add('md:flex');
+              sidebar.style.display = '';
+            } else {
+              // On mobile, keep whatever state it was in
+              if (!sidebar.classList.contains('hidden')) {
+                sidebar.style.display = 'flex';
+              }
+            }
+          });
+        }
+      </script>
