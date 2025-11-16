@@ -128,7 +128,7 @@
                         <%= i %>
                       </button>
                     <% } else { %>
-                      <a href="/admin/jobs?page=<%= i %>" class="w-8 h-8 flex items-center justify-center bg-slate-100 dark:bg-slate-700 text-slate-700 dark:text-slate-300 rounded hover:bg-slate-200 dark:hover:bg-slate-600 transition font-semibold">
+                      <a href="/jobs?page=<%= i %>" class="w-8 h-8 flex items-center justify-center bg-slate-100 dark:bg-slate-700 text-slate-700 dark:text-slate-300 rounded hover:bg-slate-200 dark:hover:bg-slate-600 transition font-semibold">
                         <%= i %>
                       </a>
                     <% } %>
@@ -136,7 +136,7 @@
                 </div>
 
                 <% if (currentPage < totalPages) { %>
-                  <a href="/admin/jobs?page=<%= currentPage + 1 %>" class="px-3 py-2 bg-slate-100 dark:bg-slate-700 text-slate-700 dark:text-slate-300 rounded hover:bg-slate-200 dark:hover:bg-slate-600 transition flex items-center gap-2">
+                  <a href="/jobs?page=<%= currentPage + 1 %>" class="px-3 py-2 bg-slate-100 dark:bg-slate-700 text-slate-700 dark:text-slate-300 rounded hover:bg-slate-200 dark:hover:bg-slate-600 transition flex items-center gap-2">
                     Next
                     <i class="fas fa-chevron-right text-sm"></i>
                   </a>
