@@ -2,7 +2,8 @@
     <main>
         <!-- Hero Area Start-->
         <div class="slider-area ">
-            <div class="single-slider section-overly slider-height2 d-flex align-items-center" data-background="assets/img/hero/dg.png">
+            <div class="single-slider section-overly slider-height2 d-flex align-items-center"
+                data-background="assets/img/hero/dg.png">
                 <div class="container">
                     <div class="row">
                         <div class="col-xl-12">
@@ -30,35 +31,48 @@
                                 </div>
                                 <div class="job-tittle">
                                     <a href="#">
-                                        <h4><%= scholarship ? scholarship.programName : 'Program Name' %></h4>
+                                        <h4>
+                                            <%= scholarship ? scholarship.programName : 'Program Name' %>
+                                        </h4>
                                     </a>
                                     <ul>
-                                        <li><%= scholarship ? scholarship.collegeName : 'College Name' %></li>
-                                        <li><i class="fas fa-map-marker-alt"></i><%= scholarship ? scholarship.sponsorship : 'Sponsorship' %></li>
-                                        <li><%= scholarship ? scholarship.vacancy : 'Vacancy' %></li>
+                                        <li>
+                                            <%= scholarship ? scholarship.collegeName : 'College Name' %>
+                                        </li>
+                                        <li><i class="fas fa-map-marker-alt"></i>
+                                            <%= scholarship ? scholarship.sponsorship : 'Sponsorship' %>
+                                        </li>
+                                        <li>
+                                            <%= scholarship ? scholarship.vacancy : 'Vacancy' %>
+                                        </li>
                                     </ul>
                                 </div>
                             </div>
                         </div>
-                          <!-- job single End -->
-                       
+                        <!-- job single End -->
+
                         <div class="job-post-details">
                             <div class="post-details1 mb-50">
                                 <!-- Small Section Tittle -->
                                 <div class="small-section-tittle">
                                     <h4>Program Description</h4>
                                 </div>
-                                <p><%= scholarship ? scholarship.description : 'No description available' %></p>
+                                <p>
+                                    <%= scholarship ? scholarship.description : 'No description available' %>
+                                </p>
                             </div>
-                            
+
                             <div class="post-details2  mb-50">
-                                 <!-- Small Section Tittle -->
+                                <!-- Small Section Tittle -->
                                 <div class="small-section-tittle">
                                     <h4>Requirements</h4>
                                 </div>
-                               <ul>
-                                   <li><%= scholarship ? scholarship.requirements : 'Requirements information not available' %></li>
-                               </ul>
+                                <ul>
+                                    <li>
+                                        <%= scholarship ? scholarship.requirements
+                                            : 'Requirements information not available' %>
+                                    </li>
+                                </ul>
                             </div>
                         </div>
 
@@ -67,38 +81,65 @@
                     <div class="col-xl-4 col-lg-4">
                         <div class="post-details3  mb-50">
                             <!-- Small Section Tittle -->
-                           <div class="small-section-tittle">
-                               <h4>Scholarship Overview</h4>
-                           </div>
-                          <ul>
-                              <li>Posted date : <span><%= scholarship ? new Date(scholarship.createdAt).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' }) : 'N/A' %></span></li>
-                              <li>College : <span><%= scholarship ? scholarship.collegeName : 'N/A' %></span></li>
-                              <li>Sponsorship : <span><%= scholarship ? scholarship.sponsorship : 'N/A' %></span></li>
-                              <li>Vacancy :  <span><%= scholarship ? scholarship.vacancy : 'N/A' %></span></li>
-                              <li>Deadline : <span><%= scholarship ? new Date(scholarship.deadline).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' }) : 'N/A' %></span></li>
-                              <li>Status : <span><%= scholarship && scholarship.status === 'Active' ? 'Open' : scholarship ? scholarship.status : 'N/A' %></span></li>
-                          </ul>
-                         <div class="apply-btn2">
-                            <% if (scholarship && scholarship.status === 'Closed') { %>
-                                <a href="#" class="btn" style="opacity: 0.6; cursor: not-allowed; pointer-events: none;">Apply Now (Closed)</a>
-                            <% } else { %>
-                                <a href="#" class="btn" data-toggle="modal" data-target="#applicationModal">Apply Now</a>
-                            <% } %>
-                         </div>
-                       </div>
-                       <div class="post-details4  mb-50">
-                            <!-- Small Section Tittle -->
-                           <div class="small-section-tittle">
-                               <h4>Organization Information</h4>
-                           </div>
-                              <span><%= scholarship ? scholarship.collegeName : 'Organization' %></span>
-                              <p>It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.</p>
+                            <div class="small-section-tittle">
+                                <h4>Scholarship Overview</h4>
+                            </div>
                             <ul>
-                                <li>Name: <span><%= scholarship ? scholarship.collegeName : 'N/A' %></span></li>
-                                <li>Program : <span><%= scholarship ? scholarship.programName : 'N/A' %></span></li>
-                                <li>Sponsorship: <span><%= scholarship ? scholarship.sponsorship : 'N/A' %></span></li>
+                                <li>Posted date : <span>
+                                        <%= scholarship ? new Date(scholarship.createdAt).toLocaleDateString('en-US', {
+                                            year: 'numeric' , month: 'short' , day: 'numeric' }) : 'N/A' %>
+                                    </span></li>
+                                <li>College : <span>
+                                        <%= scholarship ? scholarship.collegeName : 'N/A' %>
+                                    </span></li>
+                                <li>Sponsorship : <span>
+                                        <%= scholarship ? scholarship.sponsorship : 'N/A' %>
+                                    </span></li>
+                                <li>Vacancy : <span>
+                                        <%= scholarship ? scholarship.vacancy : 'N/A' %>
+                                    </span></li>
+                                <li>Deadline : <span>
+                                        <%= scholarship ? new Date(scholarship.deadline).toLocaleDateString('en-US', {
+                                            year: 'numeric' , month: 'short' , day: 'numeric' }) : 'N/A' %>
+                                    </span></li>
+                                <li>Status : <span>
+                                        <%= scholarship && scholarship.status==='Active' ? 'Open' : scholarship ?
+                                            scholarship.status : 'N/A' %>
+                                    </span></li>
                             </ul>
-                       </div>
+                            <div class="apply-btn2">
+                                <% if (scholarship && scholarship.status==='Closed' ) { %>
+                                    <a href="#" class="btn"
+                                        style="opacity: 0.6; cursor: not-allowed; pointer-events: none;">Apply Now
+                                        (Closed)</a>
+                                    <% } else { %>
+                                        <a href="#" class="btn" data-toggle="modal"
+                                            data-target="#applicationModal">Apply Now</a>
+                                        <% } %>
+                            </div>
+                        </div>
+                        <div class="post-details4  mb-50">
+                            <!-- Small Section Tittle -->
+                            <div class="small-section-tittle">
+                                <h4>Organization Information</h4>
+                            </div>
+                            <span>
+                                <%= scholarship ? scholarship.collegeName : 'Organization' %>
+                            </span>
+                            <p>It is a long established fact that a reader will be distracted by the readable content of
+                                a page when looking at its layout.</p>
+                            <ul>
+                                <li>Name: <span>
+                                        <%= scholarship ? scholarship.collegeName : 'N/A' %>
+                                    </span></li>
+                                <li>Program : <span>
+                                        <%= scholarship ? scholarship.programName : 'N/A' %>
+                                    </span></li>
+                                <li>Sponsorship: <span>
+                                        <%= scholarship ? scholarship.sponsorship : 'N/A' %>
+                                    </span></li>
+                            </ul>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -130,7 +171,8 @@
         <!-- Related Scholarships End -->
 
         <!-- Application Modal Start -->
-        <div class="modal fade" id="applicationModal" tabindex="-1" role="dialog" aria-labelledby="applicationModalLabel" aria-hidden="true">
+        <div class="modal fade" id="applicationModal" tabindex="-1" role="dialog"
+            aria-labelledby="applicationModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-xl" role="document" style="max-width: 90%; width: 90%;">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -140,168 +182,85 @@
                         </button>
                     </div>
                     <div class="modal-body" style="max-height: 70vh; overflow-y: auto; padding: 30px;">
-                        <form class="form-contact contact_form" action="/application-form" method="post" id="applicationForm" novalidate="novalidate" enctype="multipart/form-data">
+                        <form class="form-contact contact_form" action="/scholarship-application" method="post"
+                            id="applicationForm" novalidate="novalidate" enctype="multipart/form-data">
+
+                            <!-- Hidden Scholarship ID -->
+                            <input type="hidden" name="scholarshipId" id="scholarshipId" value="<%= scholarship ? scholarship.id : '' %>">
+
                             <div class="row">
-                                <!-- Personal Information Section -->
-                                <div class="col-12">
-                                    <h4 class="mb-3">Personal Information</h4>
-                                </div>
-                                
+
+                                <!-- First Name -->
                                 <div class="col-sm-6">
                                     <div class="form-group">
-                                        <input class="form-control valid" name="firstName" id="firstName" type="text" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Enter your first name'" placeholder="First Name" required>
-                                    </div>
-                                </div>
-                                
-                                <div class="col-sm-6">
-                                    <div class="form-group">
-                                        <input class="form-control valid" name="lastName" id="lastName" type="text" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Enter your last name'" placeholder="Last Name" required>
-                                    </div>
-                                </div>
-                                
-                                <div class="col-sm-6">
-                                    <div class="form-group">
-                                        <input class="form-control valid" name="email" id="email" type="email" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Enter email address'" placeholder="Email" required>
-                                    </div>
-                                </div>
-                                
-                                <div class="col-sm-6">
-                                    <div class="form-group">
-                                        <input class="form-control" name="phone" id="phone" type="text" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Enter your phone number'" placeholder="Phone Number">
-                                    </div>
-                                </div>
-                                
-                                <div class="col-12">
-                                    <div class="form-group">
-                                        <input class="form-control" name="address" id="address" type="text" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Enter your address'" placeholder="Address">
+                                        <input class="form-control" name="firstName" id="firstName" type="text"
+                                            placeholder="First Name" required>
                                     </div>
                                 </div>
 
-                                <!-- Professional Information Section -->
-                                <div class="col-12 mt-4">
-                                    <h4 class="mb-3">Professional Information</h4>
-                                </div>
-                                
+                                <!-- Last Name -->
                                 <div class="col-sm-6">
                                     <div class="form-group">
-                                        <input class="form-control" name="currentPosition" id="currentPosition" type="text" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Enter your current position'" placeholder="Current Position">
-                                    </div>
-                                </div>
-                                
-                                <div class="col-sm-6">
-                                    <div class="form-group">
-                                        <input class="form-control" name="experience" id="experience" type="text" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Years of experience'" placeholder="Years of Experience">
-                                    </div>
-                                </div>
-                                
-                                <div class="col-sm-6">
-                                    <div class="form-group">
-                                        <input class="form-control" name="expectedSalary" id="expectedSalary" type="text" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Expected salary'" placeholder="Expected Salary">
-                                    </div>
-                                </div>
-                                
-                                <div class="col-sm-6">
-                                    <div class="form-group">
-                                        <input class="form-control" name="availableFrom" id="availableFrom" type="date" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Available from date'" placeholder="Available From">
+                                        <input class="form-control" name="lastName" id="lastName" type="text"
+                                            placeholder="Last Name" required>
                                     </div>
                                 </div>
 
-                                <!-- Education Section -->
-                                <div class="col-12 mt-4">
-                                    <h4 class="mb-3">Education</h4>
-                                </div>
-                                
+                                <!-- Email -->
                                 <div class="col-sm-6">
                                     <div class="form-group">
-                                        <input class="form-control" name="degree" id="degree" type="text" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Enter your highest degree'" placeholder="Highest Degree">
-                                    </div>
-                                </div>
-                                
-                                <div class="col-sm-6">
-                                    <div class="form-group">
-                                        <input class="form-control" name="university" id="university" type="text" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Enter your university'" placeholder="University/College">
-                                    </div>
-                                </div>
-                                
-                                <div class="col-sm-6">
-                                    <div class="form-group">
-                                        <input class="form-control" name="graduationYear" id="graduationYear" type="text" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Graduation year'" placeholder="Graduation Year">
-                                    </div>
-                                </div>
-                                
-                                <div class="col-sm-6">
-                                    <div class="form-group">
-                                        <input class="form-control" name="gpa" id="gpa" type="text" onfocus="this.placeholder = ''" onblur="this.placeholder = 'GPA (optional)'" placeholder="GPA">
+                                        <input class="form-control" name="email" id="email" type="email"
+                                            placeholder="Email" required>
                                     </div>
                                 </div>
 
-                                <!-- Skills and Cover Letter -->
-                                <div class="col-12 mt-4">
-                                    <h4 class="mb-3">Skills & Cover Letter</h4>
+                                <!-- Phone Number -->
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <input class="form-control" name="phone" id="phone" type="text"
+                                            placeholder="Phone Number" required>
+                                    </div>
                                 </div>
-                                
+
+                                <!-- Physical Address -->
                                 <div class="col-12">
                                     <div class="form-group">
-                                        <input class="form-control" name="skills" id="skills" type="text" onfocus="this.placeholder = ''" onblur="this.placeholder = 'List your key skills (comma separated)'" placeholder="Key Skills (comma separated)">
+                                        <input class="form-control" name="address" id="address" type="text"
+                                            placeholder="Your Physical Address" required>
                                     </div>
                                 </div>
-                                
+
+                                <!-- Passport Upload -->
                                 <div class="col-12">
                                     <div class="form-group">
-                                        <textarea class="form-control w-100" name="coverLetter" id="coverLetter" cols="30" rows="5" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Write your cover letter here...'" placeholder="Cover Letter"></textarea>
+                                        <label for="passport" class="form-label">Upload Passport (PDF only)</label>
+                                        <input class="form-control" name="passport" id="passport" type="file"
+                                            accept=".pdf" required>
+                                        <small class="text-muted">Upload a clear PDF copy (Max 5MB)</small>
                                     </div>
                                 </div>
 
-                                <!-- File Upload Section -->
-                                <div class="col-12 mt-4">
-                                    <h4 class="mb-3">Documents</h4>
-                                </div>
-                                
-                                <div class="col-sm-6">
-                                    <div class="form-group">
-                                        <label for="resume" class="form-label">Upload Resume/CV (Required)</label>
-                                        <input class="form-control" name="resume" id="resume" type="file" accept=".pdf,.doc,.docx" required>
-                                        <small class="text-muted">Accepted formats: PDF, DOC, DOCX (Max 5MB)</small>
-                                    </div>
-                                </div>
-                                
-                                <div class="col-sm-6">
-                                    <div class="form-group">
-                                        <label for="portfolio" class="form-label">Portfolio/Additional Documents (Optional)</label>
-                                        <input class="form-control" name="portfolio" id="portfolio" type="file" accept=".pdf,.doc,.docx,.zip" multiple>
-                                        <small class="text-muted">Optional: Portfolio, certificates, etc.</small>
-                                    </div>
-                                </div>
-
-                                <!-- Hidden field for job ID if provided -->
-                                <% if (typeof jobId !== 'undefined') { %>
-                                <input type="hidden" name="jobId" value="<%= jobId %>">
-                                <% } %>
-
-                                <!-- Agreement and Submit -->
-                                <div class="col-12 mt-4">
-                                    <div class="form-group form-check">
-                                        <input type="checkbox" class="form-check-input" id="agreement" name="agreement" required>
-                                        <label class="form-check-label" for="agreement">
-                                            I agree to the <a href="#" target="_blank">Terms and Conditions</a> and <a href="#" target="_blank">Privacy Policy</a>
-                                        </label>
-                                    </div>
-                                </div>
                             </div>
-                            
+
                             <div class="form-group mt-3">
-                                <button type="submit" class="button button-contactForm boxed-btn">Submit Application</button>
-                                <button type="button" class="btn btn-secondary ml-2" data-dismiss="modal">Cancel</button>
+                                <button type="submit" class="button button-contactForm boxed-btn">Submit
+                                    Application</button>
+                                <button type="button" class="btn btn-secondary ml-2"
+                                    data-dismiss="modal">Cancel</button>
                             </div>
+
                         </form>
-                        
+
+
                         <!-- Success/Error Messages -->
                         <div class="mt-4">
                             <div id="successMessage" class="alert alert-success" style="display: none;">
-                                <strong>Success!</strong> Your application has been submitted successfully. We'll get back to you soon.
+                                <strong>Success!</strong> Your application has been submitted successfully. We'll get
+                                back to you soon.
                             </div>
                             <div id="errorMessage" class="alert alert-danger" style="display: none;">
-                                <strong>Error!</strong> There was a problem submitting your application. Please try again.
+                                <strong>Error!</strong> There was a problem submitting your application. Please try
+                                again.
                             </div>
                         </div>
                     </div>
@@ -312,7 +271,7 @@
 
         <!-- JavaScript for Modal and Form Handling -->
         <script>
-            $(document).ready(function() {
+            $(document).ready(function () {
                 // Show success/error messages based on URL parameters
                 const urlParams = new URLSearchParams(window.location.search);
                 if (urlParams.get('success') === 'true') {
@@ -322,35 +281,61 @@
                     $('#errorMessage').show();
                 }
 
-                // Form validation
-                $('#applicationForm').on('submit', function(e) {
-                    const requiredFields = ['firstName', 'lastName', 'email', 'resume'];
+                // Form validation and submission
+                $('#applicationForm').on('submit', function (e) {
+                    e.preventDefault();
+                    
+                    const requiredFields = ['firstName', 'lastName', 'email', 'phone', 'address', 'passport'];
                     let isValid = true;
 
                     requiredFields.forEach(field => {
                         const input = $('#' + field);
-                        if (!input.val().trim()) {
-                            input.css('border-color', 'red');
-                            isValid = false;
+                        if (field === 'passport') {
+                            if (!input.val()) {
+                                input.css('border-color', 'red');
+                                isValid = false;
+                            } else {
+                                input.css('border-color', '');
+                            }
                         } else {
-                            input.css('border-color', '');
+                            if (!input.val().trim()) {
+                                input.css('border-color', 'red');
+                                isValid = false;
+                            } else {
+                                input.css('border-color', '');
+                            }
                         }
                     });
 
-                    // Check agreement checkbox
-                    const agreement = $('#agreement');
-                    if (!agreement.is(':checked')) {
-                        alert('Please agree to the Terms and Conditions and Privacy Policy');
-                        isValid = false;
+                    if (!isValid) {
+                        alert('Please fill in all required fields');
+                        return;
                     }
 
-                    if (!isValid) {
-                        e.preventDefault();
-                        alert('Please fill in all required fields');
-                    } else {
-                        // Close modal on successful submission
-                        $('#applicationModal').modal('hide');
-                    }
+                    // Submit form via AJAX
+                    const formData = new FormData(this);
+                    
+                    $.ajax({
+                        url: '/scholarship-application',
+                        type: 'POST',
+                        data: formData,
+                        processData: false,
+                        contentType: false,
+                        success: function (response) {
+                            if (response.success) {
+                                $('#successMessage').show();
+                                $('#applicationForm')[0].reset();
+                                setTimeout(() => {
+                                    $('#applicationModal').modal('hide');
+                                    window.location.reload();
+                                }, 1500);
+                            }
+                        },
+                        error: function (xhr) {
+                            const response = xhr.responseJSON;
+                            $('#errorMessage').text('Error: ' + (response.message || 'Error submitting application')).show();
+                        }
+                    });
                 });
 
                 // Reset form when modal is closed

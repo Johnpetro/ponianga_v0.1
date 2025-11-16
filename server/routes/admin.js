@@ -42,6 +42,35 @@ const upload = multer({
   }
 });
 
+// Configure multer for admin profile uploads
+const profileUploadDir = path.join(__dirname, '../..', 'public', 'uploads', 'admin-profiles');
+if (!fs.existsSync(profileUploadDir)) {
+  fs.mkdirSync(profileUploadDir, { recursive: true });
+}
+
+const profileStorage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, profileUploadDir);
+  },
+  filename: (req, file, cb) => {
+    const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
+    cb(null, 'admin-' + uniqueSuffix + path.extname(file.originalname));
+  }
+});
+
+const profileUpload = multer({
+  storage: profileStorage,
+  limits: { fileSize: 5 * 1024 * 1024 }, // 5MB
+  fileFilter: (req, file, cb) => {
+    const allowedMimes = ['image/jpeg', 'image/png', 'image/gif'];
+    if (allowedMimes.includes(file.mimetype)) {
+      cb(null, true);
+    } else {
+      cb(new Error('Invalid file type. Only JPEG, PNG, and GIF are allowed.'));
+    }
+  }
+});
+
 const adminLayout = '../views/layouts/admin';
 
 
@@ -158,6 +187,11 @@ router.get('/admin_contact', verifyAuth, async (req, res) => {
       title: "Contact",
       description: "Contact page"
     }
+
+    // Fetch admin data from database
+    const admin = await prisma.admin.findUnique({
+      where: { id: req.admin.id }
+    });
     
     // Pagination setup
     const page = parseInt(req.query.page) || 1;
@@ -178,6 +212,7 @@ router.get('/admin_contact', verifyAuth, async (req, res) => {
     res.render('admin/contact', { 
       locals, 
       layout: adminLayout,
+      admin,
       contacts,
       currentPage: page,
       totalPages,
@@ -299,6 +334,11 @@ router.get('/our_team', verifyAuth, async (req, res) => {
       description: "Our Team page"
     }
 
+    // Fetch admin data from database
+    const admin = await prisma.admin.findUnique({
+      where: { id: req.admin.id }
+    });
+
     // Pagination setup
     const page = parseInt(req.query.page) || 1;
     const membersPerPage = 10;
@@ -318,6 +358,7 @@ router.get('/our_team', verifyAuth, async (req, res) => {
     res.render('admin/our_team', { 
       locals, 
       layout: adminLayout,
+      admin,
       teamMembers,
       currentPage: page,
       totalPages,
@@ -606,13 +647,30 @@ router.get('/dashboard', verifyAuth, async (req, res) => {
       description: 'Simple Blog created with NodeJs, Express & MongoDb.'
     }
 
-    // TODO: Fetch posts from database
-    // const data = await Post.find();
-    const data = [];
+    // Fetch admin data from database
+    const admin = await prisma.admin.findUnique({
+      where: { id: req.admin.id }
+    });
+
+    // Fetch dashboard statistics
+    const totalJobs = await prisma.job.count();
+    const totalScholarships = await prisma.scholarship.count();
+    const totalApplications = await prisma.application.count();
+    const totalScholarshipApplications = await prisma.scholarshipApplication.count();
+
+    // Prepare dashboard data
+    const dashboardStats = {
+      totalJobs,
+      totalScholarships,
+      totalApplications,
+      totalScholarshipApplications,
+      totalAllApplications: totalApplications + totalScholarshipApplications
+    };
 
     res.render('admin/dashboard', {
       locals,
-      data,
+      admin,
+      stats: dashboardStats,
       layout: adminLayout
     });
 
@@ -635,6 +693,11 @@ router.get('/jobs', verifyAuth, async (req, res) => {
       description: 'Manage job listings'
     }
 
+    // Fetch admin data from database
+    const admin = await prisma.admin.findUnique({
+      where: { id: req.admin.id }
+    });
+
     // Pagination setup
     const page = parseInt(req.query.page) || 1;
     const jobsPerPage = 5;
@@ -653,6 +716,7 @@ router.get('/jobs', verifyAuth, async (req, res) => {
 
     res.render('admin/job_list', {
       locals,
+      admin,
       jobs,
       currentPage: page,
       totalPages,
@@ -847,11 +911,17 @@ router.get('/applicants', verifyAuth, async (req, res) => {
       description: 'Manage job applicants'
     }
 
+    // Fetch admin data from database
+    const admin = await prisma.admin.findUnique({
+      where: { id: req.admin.id }
+    });
+
     // TODO: Fetch applicants from database
     const applicants = [];
 
     res.render('admin/applicant_list', {
       locals,
+      admin,
       applicants,
       layout: adminLayout
     });
@@ -874,6 +944,11 @@ router.get('/scholarships', verifyAuth, async (req, res) => {
       description: 'Manage scholarships'
     }
 
+    // Fetch admin data from database
+    const admin = await prisma.admin.findUnique({
+      where: { id: req.admin.id }
+    });
+
     // Pagination setup
     const page = parseInt(req.query.page) || 1;
     const scholarshipsPerPage = 8;
@@ -892,6 +967,7 @@ router.get('/scholarships', verifyAuth, async (req, res) => {
 
     res.render('admin/scholashp_list', {
       locals,
+      admin,
       scholarships,
       currentPage: page,
       totalPages,
@@ -1083,6 +1159,11 @@ router.get('/applications', verifyAuth, async (req, res) => {
       description: "View all job applications"
     }
 
+    // Fetch admin data from database
+    const admin = await prisma.admin.findUnique({
+      where: { id: req.admin.id }
+    });
+
     // Pagination setup
     const page = parseInt(req.query.page) || 1;
     const applicationsPerPage = 10;
@@ -1110,6 +1191,7 @@ router.get('/applications', verifyAuth, async (req, res) => {
 
     res.render('admin/applications', {
       locals,
+      admin,
       layout: adminLayout,
       applications,
       currentPage: page,
@@ -1131,6 +1213,11 @@ router.get('/applications/job/:jobId', verifyAuth, async (req, res) => {
   try {
     const jobId = parseInt(req.params.jobId);
     
+    // Fetch admin data from database
+    const admin = await prisma.admin.findUnique({
+      where: { id: req.admin.id }
+    });
+
     // Verify job exists
     const job = await prisma.job.findUnique({
       where: { id: jobId }
@@ -1165,6 +1252,7 @@ router.get('/applications/job/:jobId', verifyAuth, async (req, res) => {
 
     res.render('admin/job-applications', {
       locals,
+      admin,
       layout: adminLayout,
       applications,
       job,
@@ -1188,6 +1276,11 @@ router.get('/applications/:id/details', verifyAuth, async (req, res) => {
   try {
     const applicationId = parseInt(req.params.id);
 
+    // Fetch admin data from database
+    const admin = await prisma.admin.findUnique({
+      where: { id: req.admin.id }
+    });
+
     const application = await prisma.application.findUnique({
       where: { id: applicationId },
       include: {
@@ -1206,6 +1299,7 @@ router.get('/applications/:id/details', verifyAuth, async (req, res) => {
 
     res.render('admin/application-details', {
       locals,
+      admin,
       layout: adminLayout,
       application
     });
@@ -1309,6 +1403,382 @@ router.delete('/applications/:id', verifyAuth, async (req, res) => {
   }
 });
 
+
+/**
+ * GET /scholarship-applicants/:scholarshipId
+ * Admin - View Applicants for Specific Scholarship
+ */
+router.get('/scholarship-applicants/:scholarshipId', verifyAuth, async (req, res) => {
+  try {
+    const { scholarshipId } = req.params;
+
+    // Fetch admin data from database
+    const admin = await prisma.admin.findUnique({
+      where: { id: req.admin.id }
+    });
+
+    // Fetch scholarship details
+    const scholarship = await prisma.scholarship.findUnique({
+      where: { id: parseInt(scholarshipId) }
+    });
+
+    if (!scholarship) {
+      return res.status(404).render('404', {
+        locals: { title: 'Scholarship Not Found' }
+      });
+    }
+
+    const locals = {
+      title: `Applicants for ${scholarship.programName}`,
+      description: "View applicants for this scholarship"
+    }
+
+    // Pagination setup
+    const page = parseInt(req.query.page) || 1;
+    const applicantsPerPage = 10;
+    const skip = (page - 1) * applicantsPerPage;
+
+    // Fetch total applicants count for this scholarship
+    const totalApplicants = await prisma.scholarshipApplication.count({
+      where: { scholarshipId: parseInt(scholarshipId) }
+    });
+    const totalPages = Math.ceil(totalApplicants / applicantsPerPage);
+
+    // Fetch applicants for current page
+    const applicants = await prisma.scholarshipApplication.findMany({
+      where: { scholarshipId: parseInt(scholarshipId) },
+      orderBy: { createdAt: 'desc' },
+      skip,
+      take: applicantsPerPage
+    });
+
+    res.render('admin/scholarship_applicants', {
+      locals,
+      admin,
+      layout: adminLayout,
+      applicants,
+      scholarship,
+      currentPage: page,
+      totalPages,
+      totalApplicants,
+      applicantsPerPage
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).send('Error loading scholarship applicants page');
+  }
+});
+
+/**
+ * GET /scholarship-applicants
+ * Admin - View All Scholarship Applicants
+ */
+router.get('/scholarship-applicants', verifyAuth, async (req, res) => {
+  try {
+    const locals = {
+      title: "Scholarship Applicants",
+      description: "View all scholarship applicants"
+    }
+
+    // Fetch admin data from database
+    const admin = await prisma.admin.findUnique({
+      where: { id: req.admin.id }
+    });
+
+    // Pagination setup
+    const page = parseInt(req.query.page) || 1;
+    const applicantsPerPage = 10;
+    const skip = (page - 1) * applicantsPerPage;
+
+    // Fetch total applicants count
+    const totalApplicants = await prisma.scholarshipApplication.count();
+    const totalPages = Math.ceil(totalApplicants / applicantsPerPage);
+
+    // Fetch applicants for current page with scholarship details
+    const applicants = await prisma.scholarshipApplication.findMany({
+      include: {
+        scholarship: true
+      },
+      orderBy: { createdAt: 'desc' },
+      skip,
+      take: applicantsPerPage
+    });
+
+    res.render('admin/scholarship_applicants', {
+      locals,
+      admin,
+      layout: adminLayout,
+      applicants,
+      scholarship: null,
+      currentPage: page,
+      totalPages,
+      totalApplicants,
+      applicantsPerPage
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).send('Error loading scholarship applicants page');
+  }
+});
+
+/**
+ * PATCH /scholarship-applicants/:id/status
+ * Admin - Update Scholarship Application Status
+ */
+router.patch('/scholarship-applicants/:id/status', verifyAuth, async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { status } = req.body;
+
+    if (!id || isNaN(id)) {
+      return res.status(400).json({
+        success: false,
+        message: 'Invalid application ID'
+      });
+    }
+
+    if (!status) {
+      return res.status(400).json({
+        success: false,
+        message: 'Status is required'
+      });
+    }
+
+    // Update application status
+    const applicant = await prisma.scholarshipApplication.update({
+      where: { id: parseInt(id) },
+      data: { status }
+    });
+
+    console.log('✓ Scholarship application status updated:', applicant.id);
+
+    res.status(200).json({
+      success: true,
+      message: 'Status updated successfully',
+      applicant
+    });
+  } catch (error) {
+    console.error('Error updating application status:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Error updating application status'
+    });
+  }
+});
+
+/**
+ * DELETE /scholarship-applicants/:id
+ * Admin - Delete Scholarship Application
+ */
+router.delete('/scholarship-applicants/:id', verifyAuth, async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    if (!id || isNaN(id)) {
+      return res.status(400).json({
+        success: false,
+        message: 'Invalid application ID'
+      });
+    }
+
+    // Find application to get passport path
+    const applicant = await prisma.scholarshipApplication.findUnique({
+      where: { id: parseInt(id) }
+    });
+
+    if (!applicant) {
+      return res.status(404).json({
+        success: false,
+        message: 'Application not found'
+      });
+    }
+
+    // Delete uploaded passport file if exists
+    if (applicant.passport) {
+      const fs = require('fs');
+      const path = require('path');
+      const filePath = path.join(__dirname, '../../public', applicant.passport);
+      if (fs.existsSync(filePath)) {
+        fs.unlinkSync(filePath);
+        console.log('✓ Passport file deleted:', filePath);
+      }
+    }
+
+    // Delete application record
+    await prisma.scholarshipApplication.delete({
+      where: { id: parseInt(id) }
+    });
+
+    console.log('✓ Scholarship application deleted successfully:', applicant.id);
+
+    res.status(200).json({
+      success: true,
+      message: 'Application deleted successfully'
+    });
+  } catch (error) {
+    console.error('Error deleting application:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Error deleting application'
+    });
+  }
+});
+
+/**
+ * GET /admin/profile
+ * Admin - View Profile Page
+ */
+router.get('/profile', verifyAuth, async (req, res) => {
+  try {
+    const locals = {
+      title: "Admin Profile",
+      description: "Update your admin profile"
+    }
+
+    // Get admin info from JWT (stored in cookie)
+    const token = req.cookies.authToken;
+    if (!token) {
+      return res.redirect('/admin/login');
+    }
+
+    const decoded = jwt.verify(token, JWT_SECRET);
+    const admin = await prisma.admin.findUnique({
+      where: { id: decoded.id }
+    });
+
+    if (!admin) {
+      return res.redirect('/admin/login');
+    }
+
+    res.render('admin/profile', {
+      locals,
+      layout: adminLayout,
+      admin
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).send('Error loading profile page');
+  }
+});
+
+/**
+ * PATCH /profile
+ * Admin - Update Profile
+ */
+router.patch('/profile', verifyAuth, profileUpload.single('profile'), async (req, res) => {
+  try {
+    const token = req.cookies.authToken;
+    const decoded = jwt.verify(token, JWT_SECRET);
+    
+    const { full_name, email, phone, bio, currentPassword, newPassword } = req.body;
+
+    // Get current admin
+    const admin = await prisma.admin.findUnique({
+      where: { id: decoded.id }
+    });
+
+    if (!admin) {
+      return res.status(404).json({
+        success: false,
+        message: 'Admin not found'
+      });
+    }
+
+    // Validate required fields
+    if (!full_name || !email) {
+      return res.status(400).json({
+        success: false,
+        message: 'Full name and email are required'
+      });
+    }
+
+    // Check if email already exists (and is not the current admin)
+    const existingAdmin = await prisma.admin.findUnique({
+      where: { email }
+    });
+
+    if (existingAdmin && existingAdmin.id !== admin.id) {
+      return res.status(400).json({
+        success: false,
+        message: 'Email already in use'
+      });
+    }
+
+    const updateData = {
+      full_name,
+      email,
+      phone: phone || '',
+      bio: bio || ''
+    };
+
+    // Generate profile URL if new file was uploaded
+    if (req.file) {
+      updateData.profile = `/uploads/admin-profiles/${req.file.filename}`;
+      
+      // Delete old profile image if exists
+      if (admin.profile && admin.profile.startsWith('/uploads/admin-profiles/')) {
+        const oldFilePath = path.join(__dirname, '../..', 'public', admin.profile);
+        if (fs.existsSync(oldFilePath)) {
+          fs.unlinkSync(oldFilePath);
+        }
+      }
+    }
+
+    // Handle password change if provided
+    if (newPassword) {
+      if (!currentPassword) {
+        return res.status(400).json({
+          success: false,
+          message: 'Current password is required to change password'
+        });
+      }
+
+      // Verify current password
+      const isPasswordValid = await bcrypt.compare(currentPassword, admin.password);
+      if (!isPasswordValid) {
+        return res.status(400).json({
+          success: false,
+          message: 'Current password is incorrect'
+        });
+      }
+
+      // Hash new password
+      const hashedPassword = await bcrypt.hash(newPassword, 10);
+      updateData.password = hashedPassword;
+    }
+
+    // Update admin profile
+    const updatedAdmin = await prisma.admin.update({
+      where: { id: admin.id },
+      data: updateData
+    });
+
+    console.log('✓ Admin profile updated successfully:', updatedAdmin.email);
+
+    res.status(200).json({
+      success: true,
+      message: 'Profile updated successfully',
+      admin: {
+        id: updatedAdmin.id,
+        full_name: updatedAdmin.full_name,
+        email: updatedAdmin.email,
+        phone: updatedAdmin.phone,
+        bio: updatedAdmin.bio,
+        profile: updatedAdmin.profile
+      }
+    });
+  } catch (error) {
+    // Delete uploaded file if error occurs
+    if (req.file) {
+      fs.unlinkSync(req.file.path);
+    }
+    console.error('Error updating profile:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Error updating profile: ' + error.message
+    });
+  }
+});
 
 router.get('/logout', (req, res) => {
   // Clear JWT cookie

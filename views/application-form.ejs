@@ -222,7 +222,6 @@
 
     </main>
 
-    <!-- JavaScript for form handling -->
     <script>
         // Show success/error messages based on URL parameters
         window.onload = function() {
@@ -235,8 +234,8 @@
             }
         }
 
-        // Form submission with file upload
-        document.getElementById('applicationForm').addEventListener('submit', async function(e) {
+        // Form submission with traditional form submission (not AJAX)
+        document.getElementById('applicationForm').addEventListener('submit', function(e) {
             e.preventDefault();
 
             // Validation
@@ -283,45 +282,8 @@
                 return;
             }
 
-            // Create FormData for multipart upload
-            const formData = new FormData(this);
-
-            try {
-                const response = await fetch('/application-form', {
-                    method: 'POST',
-                    body: formData
-                });
-
-                const result = await response.json();
-
-                if (result.success) {
-                    // Show success message
-                    document.getElementById('successMessage').style.display = 'block';
-                    document.getElementById('errorMessage').style.display = 'none';
-                    
-                    // Reset form
-                    document.getElementById('applicationForm').reset();
-                    
-                    // Scroll to success message
-                    document.getElementById('successMessage').scrollIntoView({ behavior: 'smooth' });
-                    
-                    // Reset border colors
-                    requiredFields.forEach(field => {
-                        const input = document.getElementById(field);
-                        input.style.borderColor = '';
-                    });
-                } else {
-                    // Show error message
-                    document.getElementById('errorMessage').style.display = 'block';
-                    document.getElementById('errorMessage').innerHTML = '<strong>Error!</strong> ' + result.message;
-                    document.getElementById('successMessage').style.display = 'none';
-                }
-            } catch (error) {
-                console.error('Error:', error);
-                document.getElementById('errorMessage').style.display = 'block';
-                document.getElementById('errorMessage').innerHTML = '<strong>Error!</strong> There was a problem submitting your application.';
-                document.getElementById('successMessage').style.display = 'none';
-            }
+            // If validation passes, submit the form normally
+            this.submit();
         });
     </script>
 </body>

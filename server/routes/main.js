@@ -456,10 +456,7 @@ router.post('/application-form', upload.fields([
           });
         });
       }
-      return res.status(400).json({
-        success: false,
-        message: 'You have already applied for this job'
-      });
+      return res.redirect('/job-listing?error=true&message=You have already applied for this job');
     }
 
     // Generate file URLs
@@ -516,12 +513,8 @@ router.post('/application-form', upload.fields([
     console.log('✓ Application submitted successfully:', email);
     console.log('✓ Files uploaded:', { resume: resumeUrl, portfolio: portfolioUrl });
 
-    res.status(201).json({
-      success: true,
-      message: 'Application submitted successfully! We will review it shortly.',
-      application: application
-    });
-
+    // Redirect to job listing with success message
+    res.redirect('/job-listing');
   } catch (error) {
     // Delete uploaded files if error occurs
     if (req.files) {
@@ -539,6 +532,136 @@ router.post('/application-form', upload.fields([
     res.status(500).json({
       success: false,
       message: 'Error submitting application. Please try again.'
+    });
+  }
+});
+
+/**
+ * POST /scholarship-application
+ * Handle scholarship application form submission with file uploads
+ */
+router.post('/scholarship-application', upload.single('passport'), async (req, res) => {
+  try {
+    const {
+      scholarshipId,
+      firstName,
+      lastName,
+      email,
+      phone,
+      address
+    } = req.body;
+
+    // Validation
+    if (!scholarshipId || !firstName || !lastName || !email || !phone || !address) {
+      // Delete uploaded file if validation fails
+      if (req.file) {
+        try {
+          fs.unlinkSync(req.file.path);
+        } catch (e) {
+          console.error('Error deleting file:', e);
+        }
+      }
+      return res.status(400).json({
+        success: false,
+        message: 'Please fill in all required fields'
+      });
+    }
+
+    // Check if passport was uploaded
+    if (!req.file) {
+      return res.status(400).json({
+        success: false,
+        message: 'Passport document is required'
+      });
+    }
+
+    // Verify scholarship exists
+    const scholarship = await prisma.scholarship.findUnique({
+      where: { id: parseInt(scholarshipId) }
+    });
+
+    if (!scholarship) {
+      // Delete uploaded file if scholarship not found
+      if (req.file) {
+        try {
+          fs.unlinkSync(req.file.path);
+        } catch (e) {
+          console.error('Error deleting file:', e);
+        }
+      }
+      return res.status(404).json({
+        success: false,
+        message: 'Scholarship not found'
+      });
+    }
+
+    // Check if user already applied for this scholarship
+    const existingApplication = await prisma.scholarshipApplication.findFirst({
+      where: {
+        scholarshipId: parseInt(scholarshipId),
+        email: email
+      }
+    });
+
+    if (existingApplication) {
+      // Delete uploaded file if duplicate application
+      if (req.file) {
+        try {
+          fs.unlinkSync(req.file.path);
+        } catch (e) {
+          console.error('Error deleting file:', e);
+        }
+      }
+      return res.status(400).json({
+        success: false,
+        message: 'You have already applied for this scholarship'
+      });
+    }
+
+    // Generate file URL
+    let passportUrl = '';
+    if (req.file) {
+      passportUrl = `/uploads/applications/${req.file.filename}`;
+      console.log('Passport uploaded:', passportUrl);
+    }
+
+    // Create scholarship application
+    const application = await prisma.scholarshipApplication.create({
+      data: {
+        scholarshipId: parseInt(scholarshipId),
+        firstName: firstName || '',
+        lastName: lastName || '',
+        email: email || '',
+        phone: phone || '',
+        address: address || '',
+        passport: passportUrl,
+        status: 'Pending'
+      }
+    });
+
+    console.log('✓ Scholarship application submitted successfully:', email);
+    console.log('✓ Passport uploaded:', passportUrl);
+
+    // res.status(201).json({
+    //   success: true,
+    //   message: 'Scholarship application submitted successfully! We will review it shortly.',
+    //   application: application
+    // });
+    res.redirect('/study-abbroad-list');
+
+  } catch (error) {
+    // Delete uploaded file if error occurs
+    if (req.file) {
+      try {
+        fs.unlinkSync(req.file.path);
+      } catch (e) {
+        console.error('Error deleting file:', e);
+      }
+    }
+    console.error('Error submitting scholarship application:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Error submitting scholarship application. Please try again.'
     });
   }
 });

@@ -1,20 +1,49 @@
-<section class="page page--blog">
-  <h1 class="page__title"><%= locals.title %></h1>
-  <p class="page__description"><%= locals.description %></p>
+<div class="home-blog-area blog-h-padding">
+            <div class="container">
+                <!-- Section Tittle -->
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="section-tittle text-center">
+                            <span>Our Services</span>
+                            <h2>Company</h2>
+                        </div>
+                    </div>
+                </div>
+                <!-- Services Content with Image -->
+                <div class="row align-items-center">
+                    <div class="col-xl-6 col-lg-6">
+                        <div class="blog-cap" style="padding: 30px;">
+                            <h3 style="color: #0F3460; margin-bottom: 20px;">Our Service</h3>
+                            
+                            <div style="margin-bottom: 20px;">
+                                <h5 style="color: #0F3460; font-weight: 600;">• Talent Acquisition:</h5>
+                                <p>We help you find skilled professionals who fit your company culture and needs.</p>
+                            </div>
 
-  <% if (typeof data !== 'undefined' && data.length) { %>
-    <ul class="posts-list">
-      <% data.forEach(post => { %>
-        <li class="post-item">
-          <h2 class="post-item__title"><a href="/post/<%= post._id %>"><%= post.title %></a></h2>
-          <% if (post.content) { %>
-            <p class="post-item__excerpt"><%= post.content.substring(0, 200) %>...</p>
-          <% } %>
-        </li>
-      <% }) %>
-    </ul>
-  <% } else { %>
-    <p>No posts found.</p>
-  <% } %>
+                            <div style="margin-bottom: 20px;">
+                                <h5 style="color: #0F3460; font-weight: 600;">• Temporary & Permanent Staffing:</h5>
+                                <p>Flexible staffing solutions to meet your project or long-term requirements.</p>
+                            </div>
 
-</section>
+                            <div style="margin-bottom: 20px;">
+                                <h5 style="color: #0F3460; font-weight: 600;">• Business Networking:</h5>
+                                <p>We organize events and forums to connect your business with key industry players.</p>
+                            </div>
+
+                            <div style="margin-bottom: 20px;">
+                                <h5 style="color: #0F3460; font-weight: 600;">• HR Consultancy:</h5>
+                                <p>Expert advice on workforce planning, recruitment strategies, and employee retention.</p>
+                            </div>
+
+                            <a href="/about" class="btn post-btn" style="margin-top: 20px;">Learn More</a>
+                        </div>
+                    </div>
+
+                    <div class="col-xl-6 col-lg-6">
+                        <div class="blog-img" style="padding: 20px;">
+                            <img src="assets/img/blog/home-blog1.jpg" alt="Our Services" style="width: 100%; border-radius: 10px; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>

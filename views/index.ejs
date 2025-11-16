@@ -6,7 +6,8 @@
         <div class="slider-area ">
             <!-- Mobile Menu -->
             <div class="slider-active">
-                <div class="single-slider slider-height d-flex align-items-center" data-background="assets/img/hero/h1.png">
+                <div class="single-slider slider-height d-flex align-items-center"
+                    data-background="assets/img/hero/h1.png">
                     <div class="container">
                         <div class="row">
                             <div class="col-xl-6 col-lg-9 col-md-10">
@@ -35,8 +36,8 @@
                                     </div>
                                     <div class="search-form">
                                         <a href="#">Find job</a>
-                                    </div>	
-                                </form>	
+                                    </div>
+                                </form>
                             </div>
                         </div>
                     </div>
@@ -62,7 +63,7 @@
                                 <span class="flaticon-tour"></span>
                             </div>
                             <div class="services-cap">
-                               <h5><a href="/job-listing">Design & Creative</a></h5>
+                                <h5><a href="/job-listing">Design & Creative</a></h5>
                                 <span>(653)</span>
                             </div>
                         </div>
@@ -73,7 +74,7 @@
                                 <span class="flaticon-cms"></span>
                             </div>
                             <div class="services-cap">
-                               <h5><a href="/job-listing">Design & Development</a></h5>
+                                <h5><a href="/job-listing">Design & Development</a></h5>
                                 <span>(658)</span>
                             </div>
                         </div>
@@ -84,7 +85,7 @@
                                 <span class="flaticon-report"></span>
                             </div>
                             <div class="services-cap">
-                               <h5><a href="/job-listing">Sales & Marketing</a></h5>
+                                <h5><a href="/job-listing">Sales & Marketing</a></h5>
                                 <span>(658)</span>
                             </div>
                         </div>
@@ -95,7 +96,7 @@
                                 <span class="flaticon-app"></span>
                             </div>
                             <div class="services-cap">
-                               <h5><a href="/job-listing">Mobile Application</a></h5>
+                                <h5><a href="/job-listing">Mobile Application</a></h5>
                                 <span>(658)</span>
                             </div>
                         </div>
@@ -106,7 +107,7 @@
                                 <span class="flaticon-helmet"></span>
                             </div>
                             <div class="services-cap">
-                               <h5><a href="/job-listing">Construction</a></h5>
+                                <h5><a href="/job-listing">Construction</a></h5>
                                 <span>(658)</span>
                             </div>
                         </div>
@@ -117,7 +118,7 @@
                                 <span class="flaticon-high-tech"></span>
                             </div>
                             <div class="services-cap">
-                               <h5><a href="/job-listing">Information Technology</a></h5>
+                                <h5><a href="/job-listing">Information Technology</a></h5>
                                 <span>(658)</span>
                             </div>
                         </div>
@@ -128,7 +129,7 @@
                                 <span class="flaticon-real-estate"></span>
                             </div>
                             <div class="services-cap">
-                               <h5><a href="/job-listing">Real Estate</a></h5>
+                                <h5><a href="/job-listing">Real Estate</a></h5>
                                 <span>(658)</span>
                             </div>
                         </div>
@@ -139,7 +140,7 @@
                                 <span class="flaticon-content"></span>
                             </div>
                             <div class="services-cap">
-                               <h5><a href="/job-listing">Content Writer</a></h5>
+                                <h5><a href="/job-listing">Content Writer</a></h5>
                                 <span>(658)</span>
                             </div>
                         </div>
@@ -158,7 +159,7 @@
         </div>
         <!-- Our Services End -->
         <!-- Online CV Area Start -->
-         <div class="online-cv cv-bg section-overly pt-90 pb-120"  data-background="assets/img/gallery/cv_bg.jpg">
+        <div class="online-cv cv-bg section-overly pt-90 pb-120" data-background="assets/img/gallery/cv_bg.jpg">
             <div class="container">
                 <div class="row justify-content-center">
                     <div class="col-xl-10">
@@ -187,45 +188,57 @@
                 <div class="row justify-content-center">
                     <div class="col-xl-10">
                         <!-- Loop through featured jobs (show only 3) -->
-                        <% if (jobs && jobs.length > 0) { %>
-                            <% const featuredJobs = jobs.slice(0, 3); %>
-                            <% featuredJobs.forEach((job) => { %>
-                                <!-- single-job-content -->
-                                <form method="POST" action="/job-details" style="display: contents;">
-                                    <input type="hidden" name="jobId" value="<%= job.id %>">
-                                    <div class="single-job-items mb-30">
-                                        <div class="job-items">
-                                            <div class="company-img">
-                                                <button type="submit" style="background: none; border: none; padding: 0; cursor: pointer;">
-                                                    <img src="assets/img/icon/job-list1.png" alt="">
-                                                </button>
+                        <% if (jobs && jobs.length> 0) { %>
+                            <% const featuredJobs=jobs.slice(0, 3); %>
+                                <% featuredJobs.forEach((job)=> { %>
+                                    <!-- single-job-content -->
+                                    <form method="POST" action="/job-details" style="display: contents;">
+                                        <input type="hidden" name="jobId" value="<%= job.id %>">
+                                        <div class="single-job-items mb-30">
+                                            <div class="job-items">
+                                                <div class="company-img">
+                                                    <button type="submit"
+                                                        style="background: none; border: none; padding: 0; cursor: pointer;">
+                                                        <img src="assets/img/icon/job-list1.png" alt="">
+                                                    </button>
+                                                </div>
+                                                <div class="job-tittle">
+                                                    <button type="submit"
+                                                        style="background: none; border: none; padding: 0; cursor: pointer; text-align: left; width: 100%;">
+                                                        <h4
+                                                            style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: #0F3460;">
+                                                            <%= job.jobTitle %>
+                                                        </h4>
+                                                    </button>
+                                                    <ul>
+                                                        <li>
+                                                            <%= job.employer %>
+                                                        </li>
+                                                        <li><i class="fas fa-map-marker-alt"></i>
+                                                            <%= job.location %>
+                                                        </li>
+                                                        <li>
+                                                            <%= job.salary %>
+                                                        </li>
+                                                    </ul>
+                                                </div>
                                             </div>
-                                            <div class="job-tittle">
-                                                <button type="submit" style="background: none; border: none; padding: 0; cursor: pointer; text-align: left; width: 100%;">
-                                                    <h4 style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: #0F3460;"><%= job.jobTitle %></h4>
+                                            <div class="items-link f-right">
+                                                <button type="submit"
+                                                    style="background: none; border: none; padding: 0; cursor: pointer; color: #0F3460; text-decoration: none;">
+                                                    <%= job.jobType %>
                                                 </button>
-                                                <ul>
-                                                    <li><%= job.employer %></li>
-                                                    <li><i class="fas fa-map-marker-alt"></i><%= job.location %></li>
-                                                    <li><%= job.salary %></li>
-                                                </ul>
+                                                <span>Applay</span>
                                             </div>
                                         </div>
-                                        <div class="items-link f-right">
-                                            <button type="submit" style="background: none; border: none; padding: 0; cursor: pointer; color: #0F3460; text-decoration: none;">
-                                                <%= job.jobType %>
-                                            </button>
-                                            <span>Applay</span>
-                                        </div>
-                                    </div>
-                                </form>
-                            <% }); %>
-                        <% } else { %>
-                            <div class="single-job-items mb-30">
-                                <p class="text-center">No featured jobs available at the moment.</p>
-                            </div>
-                        <% } %>
-            </div>
+                                    </form>
+                                    <% }); %>
+                                        <% } else { %>
+                                            <div class="single-job-items mb-30">
+                                                <p class="text-center">No featured jobs available at the moment.</p>
+                                            </div>
+                                            <% } %>
+                    </div>
         </section>
         <!-- Featured_job_end -->
         <!-- How  Apply Process Start-->
@@ -235,7 +248,7 @@
                 <div class="row">
                     <div class="col-lg-12">
                         <div class="section-tittle white-text text-center">
-                            <span>Application Process</span>
+                            <!-- <span>Application Process</span> -->
                             <h2>How It Works</h2>
                         </div>
                     </div>
@@ -248,8 +261,10 @@
                                 <span class="flaticon-search"></span>
                             </div>
                             <div class="process-cap">
-                               <h5>1. Search Opportunities</h5>
-                               <p>Browse through thousands of job openings and scholarship opportunities that match your skills and interests.</p>
+                                <h5> Understanding Needs:</h5>
+                                <p>Understanding Needs: We start by listening closely to your business or career goals
+                                    to tailor our services to your unique requirements.</p>
+                                
                             </div>
                         </div>
                     </div>
@@ -259,8 +274,46 @@
                                 <span class="flaticon-curriculum-vitae"></span>
                             </div>
                             <div class="process-cap">
-                               <h5>2. Submit Application</h5>
-                               <p>Complete your application with our easy-to-use form. Upload your resume and provide all required information.</p>
+                                <div class="process-cap">
+                                    <h5> Screening & Evaluation:</h5>
+                                    <p>
+                                        We carefully assess candidates through interviews and skill tests to ensure the
+                                        right fit.
+                                    </p>
+                                   
+                                </div>
+                            </div>
+                        </div>
+                        
+                    </div>
+                    <div class="col-lg-4 col-md-6">
+                        <div class="single-process text-center mb-30">
+                            <div class="process-ion">
+                                <span class="flaticon-high-tech"></span>
+                            </div>
+                            <div class="process-cap">
+                                <div class="process-cap">
+                                    <h5> Matching & Placement:</h5>
+                                    <p>
+                                        We connect the best candidates with the right companies, ensuring mutual
+                                        satisfaction and success.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                    </div>
+                    <div class="col-lg-4 col-md-6">
+                        <div class="single-process text-center mb-30">
+                            <div class="process-ion">
+                                <span class="flaticon-report"></span>
+                            </div>
+                            <div class="process-cap">
+                                <h5> Follow-Up & Support:</h5>
+                                <p>
+                                    Our commitment doesn't end with placement. We maintain ongoing
+                                    communication to support smooth transitions and long-term relationships. </p>
+
                             </div>
                         </div>
                     </div>
@@ -270,13 +323,18 @@
                                 <span class="flaticon-tour"></span>
                             </div>
                             <div class="process-cap">
-                               <h5>3. Get Selected</h5>
-                               <p>Receive responses from employers and scholarship providers. Start your journey towards a successful career.</p>
+                                <h5> Sourcing Talent:
+                                </h5>
+                                <p>
+                                    Using our extensive network and recruitment tools, we identify and attract qualified
+                                    candidates.
+                                </p>
+
                             </div>
                         </div>
                     </div>
                 </div>
-             </div>
+            </div>
         </div>
         <!-- How  Apply Process End-->
         <!-- Testimonial Start -->
@@ -299,7 +357,9 @@
                                         </div>
                                     </div>
                                     <div class="testimonial-top-cap">
-                                        <p>“I am at an age where I just want to be fit and healthy our bodies are our responsibility! So start caring for your body and it will care for you. Eat clean it will care for you and workout hard.”</p>
+                                        <p>“I am at an age where I just want to be fit and healthy our bodies are our
+                                            responsibility! So start caring for your body and it will care for you. Eat
+                                            clean it will care for you and workout hard.”</p>
                                     </div>
                                 </div>
                             </div>
@@ -316,7 +376,9 @@
                                         </div>
                                     </div>
                                     <div class="testimonial-top-cap">
-                                        <p>“I am at an age where I just want to be fit and healthy our bodies are our responsibility! So start caring for your body and it will care for you. Eat clean it will care for you and workout hard.”</p>
+                                        <p>“I am at an age where I just want to be fit and healthy our bodies are our
+                                            responsibility! So start caring for your body and it will care for you. Eat
+                                            clean it will care for you and workout hard.”</p>
                                     </div>
                                 </div>
                             </div>
@@ -333,7 +395,9 @@
                                         </div>
                                     </div>
                                     <div class="testimonial-top-cap">
-                                        <p>“I am at an age where I just want to be fit and healthy our bodies are our responsibility! So start caring for your body and it will care for you. Eat clean it will care for you and workout hard.”</p>
+                                        <p>“I am at an age where I just want to be fit and healthy our bodies are our
+                                            responsibility! So start caring for your body and it will care for you. Eat
+                                            clean it will care for you and workout hard.”</p>
                                     </div>
                                 </div>
                             </div>
@@ -343,8 +407,8 @@
             </div>
         </div>
         <!-- Testimonial End -->
-         <!-- Support Company Start-->
-         <div class="support-company-area support-padding fix">
+        <!-- Support Company Start-->
+        <div class="support-company-area support-padding fix">
             <div class="container">
                 <div class="row align-items-center">
                     <div class="col-xl-6 col-lg-6">
@@ -352,21 +416,25 @@
                             <!-- Section Tittle -->
                             <div class="section-tittle section-tittle2">
                                 <span>Our Impact</span>
-                                <h2>50k+ People Found Their Dream Opportunities</h2>
+                                <h2>The Company Values</h2>
                             </div>
                             <div class="support-caption">
-                                <p class="pera-top">We are dedicated to connecting talented individuals with life-changing career and educational opportunities worldwide. Our platform serves as a bridge between ambition and achievement.</p>
-                                <p>From entry-level positions to executive roles, from undergraduate scholarships to PhD funding - we provide access to opportunities that transform lives. Join thousands of successful candidates who found their path through our platform.</p>
+                               <p>Integrity: We conduct our business with honesty, transparency, and ethical standards in all our interactions.</p>
+                               <p>Excellence: We strive for the highest quality in our services, continuously improving to exceed client expectations.</p>
+                               <p>Customer Focus: Our clients and candidates are at the heart of everything we do, and we tailor solutions to meet their unique needs.</p>
+                               <p>Collaboration: We believe in the power of teamwork, both within our company and in building strong partnerships with clients and candidates.</p>
+                               <p>Innovation: We embrace new ideas and technologies to provide creative and effective recruitment and networking solutions.</p>
+                               <p>Respect: We value diversity and treat everyone with dignity and fairness.</p>
                                 <a href="/about" class="btn post-btn">Learn More About Us</a>
                             </div>
                         </div>
                     </div>
                     <div class="col-xl-6 col-lg-6">
                         <div class="support-location-img">
-                            <img src="assets/img/service/support-img.png" alt="">
+                            <img src="assets/img/service/images.jpeg" alt="" style="box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15), 0 5px 15px rgba(0, 0, 0, 0.1); border-radius: 8px; opacity: 0.95;">
                             <div class="support-img-cap text-center">
                                 <p>Since</p>
-                                <span>2020</span>
+                                <span>2024</span>
                             </div>
                         </div>
                     </div>
@@ -399,9 +467,12 @@
                                     </div>
                                 </div>
                                 <div class="blog-cap">
-                                    <p>|   Our Mission</p>
+                                    <p>| Our Mission</p>
                                     <h3><a href="#">Connecting Talent with Opportunities Worldwide</a></h3>
-                                    <p>We are dedicated to bridging the gap between talented individuals and career opportunities. Our platform empowers job seekers to find their dream careers while helping employers discover exceptional talent. We believe everyone deserves access to meaningful work and educational advancement.</p>
+                                    <p>We are dedicated to bridging the gap between talented individuals and career
+                                        opportunities. Our platform empowers job seekers to find their dream careers
+                                        while helping employers discover exceptional talent. We believe everyone
+                                        deserves access to meaningful work and educational advancement.</p>
                                     <a href="/about" class="more-btn">Learn more »</a>
                                 </div>
                             </div>
@@ -419,16 +490,19 @@
                                     </div>
                                 </div>
                                 <div class="blog-cap">
-                                    <p>|   Our Vision</p>
+                                    <p>| Our Vision</p>
                                     <h3><a href="#">Empowering Futures Through Jobs & Scholarships</a></h3>
-                                    <p>To become the leading global platform where careers flourish and education thrives. We envision a world where geographical boundaries don't limit opportunities, and where both job seekers and scholarship applicants can access life-changing opportunities that shape their futures.</p>
+                                    <p>To become the leading global platform where careers flourish and education
+                                        thrives. We envision a world where geographical boundaries don't limit
+                                        opportunities, and where both job seekers and scholarship applicants can access
+                                        life-changing opportunities that shape their futures.</p>
                                     <a href="/job-listing" class="more-btn">Explore opportunities »</a>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-                
+
                 <!-- Additional Info Section -->
                 <div class="row mt-50">
                     <div class="col-lg-4 col-md-6">
@@ -437,8 +511,9 @@
                                 <span class="flaticon-search"></span>
                             </div>
                             <div class="services-cap">
-                               <h5>Job Opportunities</h5>
-                               <p>Discover thousands of job openings across various industries and career levels worldwide.</p>
+                                <h5>Job Opportunities</h5>
+                                <p>Discover thousands of job openings across various industries and career levels
+                                    worldwide.</p>
                             </div>
                         </div>
                     </div>
@@ -448,8 +523,9 @@
                                 <span class="flaticon-curriculum-vitae"></span>
                             </div>
                             <div class="services-cap">
-                               <h5>Easy Application</h5>
-                               <p>Streamlined application process with our user-friendly platform for both jobs and scholarships.</p>
+                                <h5>Easy Application</h5>
+                                <p>Streamlined application process with our user-friendly platform for both jobs and
+                                    scholarships.</p>
                             </div>
                         </div>
                     </div>
@@ -459,8 +535,9 @@
                                 <span class="flaticon-tour"></span>
                             </div>
                             <div class="services-cap">
-                               <h5>Scholarship Programs</h5>
-                               <p>Access exclusive scholarship opportunities to further your education and career development.</p>
+                                <h5>Scholarship Programs</h5>
+                                <p>Access exclusive scholarship opportunities to further your education and career
+                                    development.</p>
                             </div>
                         </div>
                     </div>
@@ -470,4 +547,3 @@
         <!-- Mission & Vision Area End -->
 
     </main>
-  
