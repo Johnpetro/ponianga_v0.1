@@ -1,4 +1,21 @@
 <body>
+    <style>
+        /* Smooth transition for buttons and specific hover for the 'postbtn' button */
+        .btn {
+            transition: background-color 0.25s ease, color 0.25s ease;
+        }
+
+        /* General button hover (keeps existing behavior) */
+        .btn:hover {
+            background: #14205a !important;
+        }
+
+        /* Ensure the Learn More About Us button (class .postbtn) also uses the same hover color
+           and is targeted specifically in case inline styles exist */
+        .btn.postbtn:hover {
+            background: #14205a !important;
+        }
+    </style>
 
     <main>
 
@@ -45,118 +62,7 @@
             </div>
         </div>
         <!-- Our Services Start -->
-        <div class="our-services section-pad-t30">
-            <div class="container">
-                <!-- Section Tittle -->
-                <div class="row">
-                    <div class="col-lg-12">
-                        <div class="section-tittle text-center">
-                            <span>Career Opportunities</span>
-                            <h2>Browse Job Categories</h2>
-                        </div>
-                    </div>
-                </div>
-                <div class="row d-flex justify-contnet-center">
-                    <div class="col-xl-3 col-lg-3 col-md-4 col-sm-6">
-                        <div class="single-services text-center mb-30">
-                            <div class="services-ion">
-                                <span class="flaticon-tour"></span>
-                            </div>
-                            <div class="services-cap">
-                                <h5><a href="/job-listing">Design & Creative</a></h5>
-                                <span>(653)</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-xl-3 col-lg-3 col-md-4 col-sm-6">
-                        <div class="single-services text-center mb-30">
-                            <div class="services-ion">
-                                <span class="flaticon-cms"></span>
-                            </div>
-                            <div class="services-cap">
-                                <h5><a href="/job-listing">Design & Development</a></h5>
-                                <span>(658)</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-xl-3 col-lg-3 col-md-4 col-sm-6">
-                        <div class="single-services text-center mb-30">
-                            <div class="services-ion">
-                                <span class="flaticon-report"></span>
-                            </div>
-                            <div class="services-cap">
-                                <h5><a href="/job-listing">Sales & Marketing</a></h5>
-                                <span>(658)</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-xl-3 col-lg-3 col-md-4 col-sm-6">
-                        <div class="single-services text-center mb-30">
-                            <div class="services-ion">
-                                <span class="flaticon-app"></span>
-                            </div>
-                            <div class="services-cap">
-                                <h5><a href="/job-listing">Mobile Application</a></h5>
-                                <span>(658)</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-xl-3 col-lg-3 col-md-4 col-sm-6">
-                        <div class="single-services text-center mb-30">
-                            <div class="services-ion">
-                                <span class="flaticon-helmet"></span>
-                            </div>
-                            <div class="services-cap">
-                                <h5><a href="/job-listing">Construction</a></h5>
-                                <span>(658)</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-xl-3 col-lg-3 col-md-4 col-sm-6">
-                        <div class="single-services text-center mb-30">
-                            <div class="services-ion">
-                                <span class="flaticon-high-tech"></span>
-                            </div>
-                            <div class="services-cap">
-                                <h5><a href="/job-listing">Information Technology</a></h5>
-                                <span>(658)</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-xl-3 col-lg-3 col-md-4 col-sm-6">
-                        <div class="single-services text-center mb-30">
-                            <div class="services-ion">
-                                <span class="flaticon-real-estate"></span>
-                            </div>
-                            <div class="services-cap">
-                                <h5><a href="/job-listing">Real Estate</a></h5>
-                                <span>(658)</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-xl-3 col-lg-3 col-md-4 col-sm-6">
-                        <div class="single-services text-center mb-30">
-                            <div class="services-ion">
-                                <span class="flaticon-content"></span>
-                            </div>
-                            <div class="services-cap">
-                                <h5><a href="/job-listing">Content Writer</a></h5>
-                                <span>(658)</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <!-- More Btn -->
-                <!-- Section Button -->
-                <div class="row">
-                    <div class="col-lg-12">
-                        <div class="browse-btn2 text-center mt-50">
-                            <a href="/job-listing" class="border-btn2">Browse All Categories</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+        ->
         <!-- Our Services End -->
         <!-- Online CV Area Start -->
         <div class="online-cv cv-bg section-overly pt-90 pb-120" data-background="assets/img/gallery/cv_bg.jpg">
@@ -180,7 +86,7 @@
                 <div class="row">
                     <div class="col-lg-12">
                         <div class="section-tittle text-center">
-                            <span>Latest Openings</span>
+                            <!-- <span>Latest Openings</span> -->
                             <h2>Featured Jobs</h2>
                         </div>
                     </div>
@@ -264,7 +170,7 @@
                                 <h5> Understanding Needs:</h5>
                                 <p>Understanding Needs: We start by listening closely to your business or career goals
                                     to tailor our services to your unique requirements.</p>
-                                
+
                             </div>
                         </div>
                     </div>
@@ -280,11 +186,11 @@
                                         We carefully assess candidates through interviews and skill tests to ensure the
                                         right fit.
                                     </p>
-                                   
+
                                 </div>
                             </div>
                         </div>
-                        
+
                     </div>
                     <div class="col-lg-4 col-md-6">
                         <div class="single-process text-center mb-30">
@@ -301,7 +207,7 @@
                                 </div>
                             </div>
                         </div>
-                        
+
                     </div>
                     <div class="col-lg-4 col-md-6">
                         <div class="single-process text-center mb-30">
@@ -415,23 +321,29 @@
                         <div class="right-caption">
                             <!-- Section Tittle -->
                             <div class="section-tittle section-tittle2">
-                                <span>Our Impact</span>
+
                                 <h2>The Company Values</h2>
                             </div>
                             <div class="support-caption">
-                               <p>Integrity: We conduct our business with honesty, transparency, and ethical standards in all our interactions.</p>
-                               <p>Excellence: We strive for the highest quality in our services, continuously improving to exceed client expectations.</p>
-                               <p>Customer Focus: Our clients and candidates are at the heart of everything we do, and we tailor solutions to meet their unique needs.</p>
-                               <p>Collaboration: We believe in the power of teamwork, both within our company and in building strong partnerships with clients and candidates.</p>
-                               <p>Innovation: We embrace new ideas and technologies to provide creative and effective recruitment and networking solutions.</p>
-                               <p>Respect: We value diversity and treat everyone with dignity and fairness.</p>
-                                <a href="/about" class="btn post-btn">Learn More About Us</a>
+                                <p>Integrity: We conduct our business with honesty, transparency, and ethical standards
+                                    in all our interactions.</p>
+                                <p>Excellence: We strive for the highest quality in our services, continuously improving
+                                    to exceed client expectations.</p>
+                                <p>Customer Focus: Our clients and candidates are at the heart of everything we do, and
+                                    we tailor solutions to meet their unique needs.</p>
+                                <p>Collaboration: We believe in the power of teamwork, both within our company and in
+                                    building strong partnerships with clients and candidates.</p>
+                                <p>Innovation: We embrace new ideas and technologies to provide creative and effective
+                                    recruitment and networking solutions.</p>
+                                <p>Respect: We value diversity and treat everyone with dignity and fairness.</p>
+                                <a href="/about" class="btn postbtn" style="background:#1f2b7b;">Learn More About Us</a>
                             </div>
                         </div>
                     </div>
                     <div class="col-xl-6 col-lg-6">
                         <div class="support-location-img">
-                            <img src="assets/img/service/images.jpeg" alt="" style="box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15), 0 5px 15px rgba(0, 0, 0, 0.1); border-radius: 8px; opacity: 0.95;">
+                            <img src="assets/img/service/images.jpeg" alt=""
+                                style="box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15), 0 5px 15px rgba(0, 0, 0, 0.1); border-radius: 8px; opacity: 0.95;">
                             <div class="support-img-cap text-center">
                                 <p>Since</p>
                                 <span>2024</span>
@@ -449,7 +361,7 @@
                 <div class="row">
                     <div class="col-lg-12">
                         <div class="section-tittle text-center">
-                            <span>Our Purpose</span>
+                            <!-- <span>Our Purpose</span> -->
                             <h2>Mission & Vision</h2>
                         </div>
                     </div>
@@ -461,7 +373,7 @@
                                 <div class="blog-img">
                                     <img src="assets/img/blog/home-blog1.jpg" alt="">
                                     <!-- Blog date -->
-                                    <div class="blog-date text-center">
+                                    <div class="blog-date text-center" style="background-color: #1f2b7b;">
                                         <span><i class="fas fa-bullseye"></i></span>
                                         <p>Mission</p>
                                     </div>
@@ -484,7 +396,7 @@
                                 <div class="blog-img">
                                     <img src="assets/img/blog/home-blog2.jpg" alt="">
                                     <!-- Blog date -->
-                                    <div class="blog-date text-center">
+                                    <div class="blog-date  text-center" style="background-color: #1f2b7b;">
                                         <span><i class="fas fa-eye"></i></span>
                                         <p>Vision</p>
                                     </div>

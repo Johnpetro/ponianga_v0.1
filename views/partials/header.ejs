@@ -10,6 +10,44 @@
   </div>
 </div>
 <!-- Preloader Start -->
+
+<!-- Header button styles: ensure login button uses brand color and same hover -->
+<style>
+  .btn.head-btn2 {
+    background: #1f2b7b !important;
+    color: #ffffff !important;
+    border: none !important;
+    transition: background-color 0.25s ease, color 0.25s ease, transform 0.2s ease;
+    /* ensure pseudo-element sits behind text */
+    position: relative;
+    z-index: 1;
+  }
+
+  .btn.head-btn2:hover,
+  .btn.head-btn2:focus {
+    background: #1f2b7b !important;
+    color: #ffffff !important;
+    transform: translateY(-2px);
+  }
+
+  /* Ensure the surrounding container doesn't add an unwanted border */
+  .header-btn[style] { border: none; }
+  
+  /* Override the global .btn::before pink overlay for this specific button */
+  .btn.head-btn2::before {
+    background: #1f2b7b !important;
+    /* put the overlay behind the button text */
+    z-index: -1 !important;
+  }
+
+  /* Ensure the hover pseudo doesn't change color to pink and remains behind text */
+  .btn.head-btn2:hover::before,
+  .btn.head-btn2:focus::before {
+    background: #1f2b7b !important;
+    transform: scaleX(1) !important;
+    z-index: -1 !important;
+  }
+</style>
 <header>
   <!-- Header Start -->
   <div class="header-area header-transparrent">
@@ -42,7 +80,7 @@
                 </nav>
               </div>
               <!-- Header-btn -->
-              <div class="header-btn d-none f-right d-lg-block">
+              <div class="header-btn d-none f-right d-lg-block" style="border:none;">
                 <!-- <a href="#" class="btn head-btn1">Register</a> -->
                 <a href="/login" class="btn head-btn2">Login</a>
               </div>
