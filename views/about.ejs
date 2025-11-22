@@ -1,22 +1,95 @@
  <main>
 
-        <!-- Hero Area Start-->
-        <div class="slider-area ">
-        <div class="single-slider section-overly slider-height2 d-flex align-items-center" data-background="assets/img/hero/dg.png">
-            <div class="container">
-                <div class="row">
-                    <div class="col-xl-12">
-                        <div class="hero-cap text-center">
-                            <h2>About us</h2>
-                        </div>
-                    </div>
+    <!-- Hero Area Start -->
+    <div class="slider-area">
+      <style>
+        /* Page-scoped hero tweaks: shadowed image, left text and stunning entrance animations */
+        .single-slider.hero-shadow { position: relative; overflow: hidden; }
+        .single-slider.hero-shadow .hero-image{
+            position: absolute;
+            inset: 0;
+            background-size: cover;
+            background-position: center center;
+            z-index: 0;
+            filter: brightness(0.55);
+            box-shadow: 0 30px 80px rgba(0,0,0,0.55);
+            transform-origin: center;
+            animation: heroZoom 1.5s ease-out both;
+        }
+        .single-slider.hero-shadow .hero-cap{ 
+            position: relative; 
+            z-index: 2; 
+            padding: 80px 0; 
+        }
+        .hero-cap.left-align{ text-align: left; }
+
+        /* Enhanced CSS keyframe animations */
+        @keyframes heroZoom { 
+            from{ transform: scale(1.1); opacity: 0; } 
+            to{ transform: scale(1); opacity: 1; } 
+        }
+        @keyframes fadeInLeft { 
+            from{ opacity: 0; transform: translateX(-50px) scale(0.95); } 
+            to{ opacity:1; transform: translateX(0) scale(1); } 
+        }
+        @keyframes fadeInUp { 
+            from{ opacity: 0; transform: translateY(30px) scale(0.98); } 
+            to{ opacity:1; transform: translateY(0) scale(1); } 
+        }
+        
+        .anim-left { 
+            animation: fadeInLeft 1.0s cubic-bezier(0.25, 0.46, 0.45, 0.94) both; 
+            animation-delay: 0.3s;
+        }
+        .anim-up { 
+            animation: fadeInUp 1.0s cubic-bezier(0.25, 0.46, 0.45, 0.94) both; 
+        }
+        
+        /* Hero button animations */
+        .hero-btn:hover {
+            background: var(--secondary, #5FAAE3) !important;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(31, 111, 192, 0.4) !important;
+        }
+        .hero-btn:active {
+            transform: translateY(0);
+        }
+        
+        /* Smooth scroll behavior */
+        html { scroll-behavior: smooth; }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px){
+            .single-slider.hero-shadow .hero-cap{ padding: 40px 0; }
+            .single-slider.hero-shadow .hero-image{ box-shadow: 0 18px 48px rgba(0,0,0,0.5); }
+            .anim-left, .anim-up { 
+                animation-duration: 0.8s; 
+            }
+        }
+      </style>
+
+      <div class="single-slider hero-shadow slider-height2 d-flex align-items-center">
+        <div class="hero-image" style="background-image: url('/assets/img/hero/dg.png');"></div>
+        <div class="container">
+          <div class="row">
+            <div class="col-xl-7 col-lg-8">
+              <div class="hero-cap left-align text-white">
+                <h1 class="anim-left text-white">About Us</h1>
+                <p class="anim-up text-white" style="margin-top:12px; opacity:.9;font-size: 23px; animation-delay: 0.5s;">Learn more about Poniaga Networking Enterprises — our mission, values, and team.</p>
+                <div class="hero-btn anim-up" style="margin-top: 25px; animation-delay: 0.7s;">
+                    <a href="#about-content" class="btn hero-btn" style="background: var(--primary, #1F6FC0); color: white; padding: 12px 30px; border-radius: 25px; text-decoration: none; display: inline-block; transition: all 0.3s ease; box-shadow: 0 5px 15px rgba(31, 111, 192, 0.3);">
+                        <i class="fas fa-info-circle" style="margin-right: 8px;"></i>Learn More
+                    </a>
                 </div>
+              </div>
             </div>
+          </div>
         </div>
-        </div>
+      </div>
+    </div>
         <!-- Hero Area End -->
         <!-- Support Company Start-->
-        <div class="support-company-area fix section-padding2">
+        <div id="about-content" class="support-company-area fix section-padding2">
          <div class="container">
                 <div class="row align-items-center">
                     <div class="col-xl-6 col-lg-6">
@@ -31,7 +104,7 @@
                                 <p>Our company is built on the principles of integrity, excellence, and innovation. We understand that every organization is unique, and we tailor our recruitment and networking solutions to meet the specific needs of our clients. By leveraging our extensive local and regional networks, we help businesses find the right talent to drive growth and success.</p>
                                 <p>At Poniaga Networking Enterprises, we also focus on empowering job seekers with opportunities to advance their careers through personalized support and career development resources.</p>
                                 <p>Our mission is to contribute to the growth of Tanzania's economy by strengthening human capital and fostering productive business relationships. With a passionate and experienced team, we are committed to delivering superior service and making meaningful connections that last.</p>
-                                <a href="/job-listing" class="btn post-btn"style="background:#1f2b7b;">Post A Job</a>
+                                <a href="/job-listing" class="btn head-btn2"style="background:#1f2b7b;">Post A Job</a>
                             </div>
                         </div>
                     </div>

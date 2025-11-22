@@ -6,6 +6,7 @@ const fs = require('fs');
 const Post = require('../models/Post');
 // const User = require('../models/User');
 const { connectDB, prisma } = require('../config/db');
+const { trackVisitor } = require('../middleware/visitorTracker');
 // const adminService = require('../services/adminService');
 
 // Configure multer for file uploads
@@ -47,7 +48,7 @@ const upload = multer({
  * GET /
  * HOME
 */
-router.get('/', async (req, res) => {
+router.get('/', trackVisitor, async (req, res) => {
   try {
     const page = parseInt(req.query.page) || 1;
     const jobsPerPage = 5;
@@ -87,7 +88,7 @@ router.get('/', async (req, res) => {
 
 
 
-router.get('/about', async(req, res) => {
+router.get('/about', trackVisitor, async(req, res) => {
   try {
     const page = parseInt(req.query.page) || 1;
     const membersPerPage = 6; // Show 6 members per page (2 rows of 3)
@@ -117,7 +118,7 @@ router.get('/about', async(req, res) => {
 /**
  * GET /contact
  */
-router.get('/contact', (req, res) => {
+router.get('/contact', trackVisitor, (req, res) => {
   try {
     const locals = {
       title: "Contact",
@@ -133,7 +134,7 @@ router.get('/contact', (req, res) => {
  * GET /blog
  * List posts
  */
-router.get('/blog', async (req, res) => {
+router.get('/blog', trackVisitor, async (req, res) => {
   try {
  
     res.render('blog');
@@ -145,7 +146,7 @@ router.get('/blog', async (req, res) => {
 /**
  * GET /blog/job
  */
-router.get('/job-listing', async(req, res) => {
+router.get('/job-listing', trackVisitor, async(req, res) => {
   try {
       // Pagination setup
     const page = parseInt(req.query.page) || 1;
@@ -177,7 +178,7 @@ router.get('/job-listing', async(req, res) => {
 /**
  * GET /blog/study-abbroad-list
  */
-router.get('/study-abbroad-list', async (req, res) => {
+router.get('/study-abbroad-list', trackVisitor, async (req, res) => {
   try {
     const locals = {
       title: "Study Abroad",

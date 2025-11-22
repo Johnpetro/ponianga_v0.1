@@ -1,14 +1,92 @@
 <body>
     <main>
-        <!-- Hero Area Start-->
-        <div class="slider-area ">
-            <div class="single-slider section-overly slider-height2 d-flex align-items-center"
-                data-background="assets/img/hero/dg.png">
+        <!-- Hero Area Start -->
+        <div class="slider-area">
+            <style>
+                /* Page-scoped hero tweaks: shadowed image, left text and stunning entrance animations */
+                .single-slider.hero-shadow { position: relative; overflow: hidden; }
+                .single-slider.hero-shadow .hero-image{
+                    position: absolute;
+                    inset: 0;
+                    background-size: cover;
+                    background-position: center center;
+                    z-index: 0;
+                    filter: brightness(0.55);
+                    box-shadow: 0 30px 80px rgba(0,0,0,0.55);
+                    transform-origin: center;
+                    animation: heroZoom 1.5s ease-out both;
+                }
+                .single-slider.hero-shadow .hero-cap{ 
+                    position: relative; 
+                    z-index: 2; 
+                    padding: 80px 0; 
+                }
+                .hero-cap.left-align{ text-align: left; }
+
+                /* Enhanced CSS keyframe animations */
+                @keyframes heroZoom { 
+                    from{ transform: scale(1.1); opacity: 0; } 
+                    to{ transform: scale(1); opacity: 1; } 
+                }
+                @keyframes fadeInLeft { 
+                    from{ opacity: 0; transform: translateX(-50px) scale(0.95); } 
+                    to{ opacity:1; transform: translateX(0) scale(1); } 
+                }
+                @keyframes fadeInUp { 
+                    from{ opacity: 0; transform: translateY(30px) scale(0.98); } 
+                    to{ opacity:1; transform: translateY(0) scale(1); } 
+                }
+                @keyframes pulse {
+                    0%, 100% { transform: scale(1); box-shadow: 0 5px 15px rgba(31, 111, 192, 0.3); }
+                    50% { transform: scale(1.02); box-shadow: 0 8px 25px rgba(31, 111, 192, 0.5); }
+                }
+                
+                .anim-left { 
+                    animation: fadeInLeft 1.0s cubic-bezier(0.25, 0.46, 0.45, 0.94) both; 
+                    animation-delay: 0.3s;
+                }
+                .anim-up { 
+                    animation: fadeInUp 1.0s cubic-bezier(0.25, 0.46, 0.45, 0.94) both; 
+                }
+                
+                /* Hero button animations */
+                .hero-btn:hover {
+                    background: var(--secondary, #5FAAE3) !important;
+                    transform: translateY(-2px);
+                    box-shadow: 0 8px 25px rgba(31, 111, 192, 0.4) !important;
+                }
+                .hero-btn:active {
+                    transform: translateY(0);
+                }
+                
+                /* Smooth scroll behavior */
+                html { scroll-behavior: smooth; }
+
+                /* Responsive adjustments */
+                @media (max-width: 768px){
+                    .single-slider.hero-shadow .hero-cap{ padding: 40px 0; }
+                    .single-slider.hero-shadow .hero-image{ box-shadow: 0 18px 48px rgba(0,0,0,0.5); }
+                    .anim-left, .anim-up { 
+                        animation-duration: 0.8s; 
+                    }
+                }
+            </style>
+
+            <div class="single-slider hero-shadow slider-height2 d-flex align-items-center">
+                <!-- background image element (gives us control for shadow & filters) -->
+                <div class="hero-image" style="background-image: url('/assets/img/hero/dg.png');"></div>
+
                 <div class="container">
                     <div class="row">
-                        <div class="col-xl-12">
-                            <div class="hero-cap text-center">
-                                <h2>Scholarship Details</h2>
+                        <div class="col-xl-7 col-lg-8">
+                            <div class="hero-cap left-align text-white">
+                                <h2 class="anim-left text-white" style="margin-top:12px;" data-animation="fadeInLeft" data-delay=".3s">Scholarship Details</h2>
+                                <p class="anim-up text-white" style="margin-top:12px; opacity:.92; font-size: 23px;" data-animation="fadeInUp" data-delay=".5s">Find detailed scholarship information and how to apply.</p>
+                                <div class="hero-btn anim-up" style="margin-top: 25px;" data-animation="fadeInUp" data-delay=".7s">
+                                    <a href="#scholarship-details" class="btn hero-btn" style="background: var(--primary, #1F6FC0); color: white; padding: 12px 30px; border-radius: 25px; text-decoration: none; display: inline-block; transition: all 0.3s ease; box-shadow: 0 5px 15px rgba(31, 111, 192, 0.3);">
+                                        <i class="fas fa-arrow-down" style="margin-right: 8px;"></i>View Details
+                                    </a>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -18,7 +96,7 @@
         <!-- Hero Area End -->
 
         <!-- Job Details Start -->
-        <div class="job-post-company pt-120 pb-120">
+        <div id="scholarship-details" class="job-post-company pt-120 pb-120">
             <div class="container">
                 <div class="row justify-content-between">
                     <!-- Left Content -->
@@ -27,7 +105,11 @@
                         <div class="single-job-items mb-50">
                             <div class="job-items">
                                 <div class="company-img company-img-details">
-                                    <a href="#"><img src="/assets/img/icon/job-list1.png" alt=""></a>
+                                    <% if (scholarship && scholarship.image && scholarship.image.trim() !== '') { %>
+                                        <a href="#"><img src="<%= scholarship.image %>" alt="<%= scholarship.programName %>" style="width: 85px; height: 85px; object-fit: cover; border-radius: 8px;"></a>
+                                    <% } else { %>
+                                        <a href="#"><img src="/assets/img/icon/job-list1.png" alt="Default scholarship icon" style="width: 85px; height: 85px; object-fit: cover; border-radius: 8px;"></a>
+                                    <% } %>
                                 </div>
                                 <div class="job-tittle">
                                     <a href="#">
@@ -109,11 +191,11 @@
                             </ul>
                             <div class="apply-btn2">
                                 <% if (scholarship && scholarship.status==='Closed' ) { %>
-                                    <a href="#" class="btn"
+                                    <a href="#" class="btn head-btn2"
                                         style="opacity: 0.6; cursor: not-allowed; pointer-events: none;">Apply Now
                                         (Closed)</a>
                                     <% } else { %>
-                                        <a href="#" class="btn" data-toggle="modal"
+                                        <a href="#" class="btn head-btn2" data-toggle="modal"
                                             data-target="#applicationModal">Apply Now</a>
                                         <% } %>
                             </div>
@@ -153,7 +235,7 @@
                 <div class="row">
                     <div class="col-lg-12">
                         <div class="section-tittle text-center">
-                            <span>Recent Scholarships</span>
+                           
                             <h2>Related Scholarships</h2>
                         </div>
                     </div>
@@ -186,7 +268,8 @@
                             id="applicationForm" novalidate="novalidate" enctype="multipart/form-data">
 
                             <!-- Hidden Scholarship ID -->
-                            <input type="hidden" name="scholarshipId" id="scholarshipId" value="<%= scholarship ? scholarship.id : '' %>">
+                            <input type="hidden" name="scholarshipId" id="scholarshipId"
+                                value="<%= scholarship ? scholarship.id : '' %>">
 
                             <div class="row">
 
@@ -243,7 +326,7 @@
                             </div>
 
                             <div class="form-group mt-3">
-                                <button type="submit" class="button button-contactForm boxed-btn">Submit
+                                <button type="submit" class="btn head-btn2">Submit
                                     Application</button>
                                 <button type="button" class="btn btn-secondary ml-2"
                                     data-dismiss="modal">Cancel</button>
@@ -284,7 +367,7 @@
                 // Form validation and submission
                 $('#applicationForm').on('submit', function (e) {
                     e.preventDefault();
-                    
+
                     const requiredFields = ['firstName', 'lastName', 'email', 'phone', 'address', 'passport'];
                     let isValid = true;
 
@@ -314,7 +397,7 @@
 
                     // Submit form via AJAX
                     const formData = new FormData(this);
-                    
+
                     $.ajax({
                         url: '/scholarship-application',
                         type: 'POST',

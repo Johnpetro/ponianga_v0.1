@@ -39,6 +39,7 @@ model Job {
   salary      String   @db.VarChar(100)
   skills      String   @db.Text
   description String   @db.Text
+  image       String?  @db.VarChar(500)
   status      String   @default("Active") @db.VarChar(50)
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
@@ -59,6 +60,7 @@ model Scholarship {
   deadline     DateTime
   description  String   @db.Text
   requirements String   @db.Text
+  image        String?  @db.VarChar(500)
   status       String   @default("Active") @db.VarChar(50)
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
@@ -148,4 +150,18 @@ model ScholarshipApplication {
 
   @@map("scholarship_applications")
   @@index([scholarshipId])
+}
+
+// Visitor Tracking Model
+model Visitor {
+  id          Int      @id @default(autoincrement())
+  ipAddress   String   @db.VarChar(45) // IPv6 addresses can be up to 45 characters
+  userAgent   String?  @db.VarChar(500)
+  page        String   @db.VarChar(255)
+  referrer    String?  @db.VarChar(500)
+  createdAt   DateTime @default(now())
+
+  @@map("visitors")
+  @@index([ipAddress])
+  @@index([createdAt])
 }

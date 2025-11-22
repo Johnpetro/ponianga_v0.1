@@ -1,0 +1,21 @@
+/* Services overlay: sit on top of the hero slider with responsive offsets */
+.services-overlay{
+  position: relative;
+  /* pull the section up to overlay the slider; tuned for common desktop sizes */
+  margin-top: -220px;
+  z-index: 20;
+}
+
+@media (max-width: 1200px){
+  .services-overlay{ margin-top: -180px; }
+}
+
+@media (max-width: 768px){
+  /* On tablets and smaller, remove the large negative overlap so cards don't intersect the slider */
+  .services-overlay{ margin-top: 0; padding-top: 24px; padding-bottom: 24px; }
+}
+
+@media (max-width: 480px){
+  /* On phones remove overlap entirely and add breathing room */
+  .services-overlay{ margin-top: 0; padding-top: 20px; padding-bottom: 20px; }
+}

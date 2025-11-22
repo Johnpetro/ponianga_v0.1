@@ -1,11 +1,79 @@
-    <!-- Hero Area Start-->
-    <div class="slider-area ">
-        <div class="single-slider section-overly slider-height2 d-flex align-items-center" data-background="assets/img/hero/dg.png">
+    <!-- Hero Area Start -->
+    <div class="slider-area">
+        <style>
+            /* Page-scoped hero tweaks: shadowed image, left text and stunning entrance animations */
+            .single-slider.hero-shadow { position: relative; overflow: hidden; }
+            .single-slider.hero-shadow .hero-image{
+                position: absolute;
+                inset: 0;
+                background-size: cover;
+                background-position: center center;
+                z-index: 0;
+                filter: brightness(0.55);
+                box-shadow: 0 30px 80px rgba(0,0,0,0.55);
+                transform-origin: center;
+                animation: heroZoom 1.5s ease-out both;
+            }
+            .single-slider.hero-shadow .hero-cap{ 
+                position: relative; 
+                z-index: 2; 
+                padding: 80px 0; 
+            }
+            .hero-cap.left-align{ text-align: left; }
+
+            /* Enhanced CSS keyframe animations */
+            @keyframes heroZoom { 
+                from{ transform: scale(1.1); opacity: 0; } 
+                to{ transform: scale(1); opacity: 1; } 
+            }
+            @keyframes fadeInLeft { 
+                from{ opacity: 0; transform: translateX(-50px) scale(0.95); } 
+                to{ opacity:1; transform: translateX(0) scale(1); } 
+            }
+            @keyframes fadeInUp { 
+                from{ opacity: 0; transform: translateY(30px) scale(0.98); } 
+                to{ opacity:1; transform: translateY(0) scale(1); } 
+            }
+            
+            .anim-left { 
+                animation: fadeInLeft 1.0s cubic-bezier(0.25, 0.46, 0.45, 0.94) both; 
+                animation-delay: 0.3s;
+            }
+            .anim-up { 
+                animation: fadeInUp 1.0s cubic-bezier(0.25, 0.46, 0.45, 0.94) both; 
+            }
+            
+            /* Hero button animations */
+            .hero-btn:hover {
+                background: var(--secondary, #5FAAE3) !important;
+                transform: translateY(-2px);
+                box-shadow: 0 8px 25px rgba(31, 111, 192, 0.4) !important;
+            }
+            .hero-btn:active {
+                transform: translateY(0);
+            }
+            
+            /* Smooth scroll behavior */
+            html { scroll-behavior: smooth; }
+
+            /* Responsive adjustments */
+            @media (max-width: 768px){
+                .single-slider.hero-shadow .hero-cap{ padding: 40px 0; }
+                .single-slider.hero-shadow .hero-image{ box-shadow: 0 18px 48px rgba(0,0,0,0.5); }
+                .anim-left, .anim-up { 
+                    animation-duration: 0.8s; 
+                }
+            }
+        </style>
+
+        <div class="single-slider hero-shadow slider-height2 d-flex align-items-center">
+            <div class="hero-image" style="background-image: url('/assets/img/hero/dg.png');"></div>
             <div class="container">
                 <div class="row">
-                    <div class="col-xl-12">
-                        <div class="hero-cap text-center">
-                            <h2>Contact Us</h2>
+                    <div class="col-xl-7 col-lg-8">
+                        <div class="hero-cap left-align text-white">
+                            <h1 class="anim-left text-white">Contact Us</h1>
+                            <p class="anim-up text-white" style="margin-top:12px; opacity:.92;font-size: 23px;">Reach out with any questions — we're ready to help.</p>
                         </div>
                     </div>
                 </div>
@@ -13,6 +81,32 @@
         </div>
     </div>
         <!-- Hero Area End -->
+        <style>
+            /* Ensure contact form submit button uses brand color with white text and no pink overlay */
+            .button-contactForm.boxed-btn,
+            .button.button-contactForm.boxed-btn {
+                background: #1f2b7b !important;
+                color: #ffffff !important;
+                border: none !important;
+                position: relative;
+                z-index: 1;
+                transition: background-color 0.25s ease, transform 0.15s ease;
+            }
+
+            .button-contactForm.boxed-btn:hover,
+            .button.button-contactForm.boxed-btn:hover {
+                background: #1f2b7b !important;
+                color: #ffffff !important;
+                transform: translateY(-2px);
+            }
+
+            /* Override global .btn::before pink overlay if present */
+            .button-contactForm.boxed-btn::before,
+            .button.button-contactForm.boxed-btn::before {
+                background: #1f2b7b !important;
+                z-index: -1 !important;
+            }
+        </style>
     <!-- ================ contact section start ================= -->
     <section class="contact-section">
             <div class="container">

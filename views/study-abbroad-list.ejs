@@ -1,13 +1,86 @@
   <main>
 
-        <!-- Hero Area Start-->
-        <div class="slider-area ">
-            <div class="single-slider section-overly slider-height2 d-flex align-items-center" data-background="assets/img/hero/dg.png">
+        <!-- Hero Area Start -->
+        <div class="slider-area">
+            <style>
+                /* Page-scoped hero tweaks: shadowed image, left text and stunning entrance animations */
+                .single-slider.hero-shadow { position: relative; overflow: hidden; }
+                .single-slider.hero-shadow .hero-image{
+                    position: absolute;
+                    inset: 0;
+                    background-size: cover;
+                    background-position: center center;
+                    z-index: 0;
+                    filter: brightness(0.55);
+                    box-shadow: 0 30px 80px rgba(0,0,0,0.55);
+                    transform-origin: center;
+                    animation: heroZoom 1.5s ease-out both;
+                }
+                .single-slider.hero-shadow .hero-cap{ 
+                    position: relative; 
+                    z-index: 2; 
+                    padding: 80px 0; 
+                }
+                .hero-cap.left-align{ text-align: left; }
+
+                /* Enhanced CSS keyframe animations */
+                @keyframes heroZoom { 
+                    from{ transform: scale(1.1); opacity: 0; } 
+                    to{ transform: scale(1); opacity: 1; } 
+                }
+                @keyframes fadeInLeft { 
+                    from{ opacity: 0; transform: translateX(-50px) scale(0.95); } 
+                    to{ opacity:1; transform: translateX(0) scale(1); } 
+                }
+                @keyframes fadeInUp { 
+                    from{ opacity: 0; transform: translateY(30px) scale(0.98); } 
+                    to{ opacity:1; transform: translateY(0) scale(1); } 
+                }
+                
+                .anim-left { 
+                    animation: fadeInLeft 1.0s cubic-bezier(0.25, 0.46, 0.45, 0.94) both; 
+                    animation-delay: 0.3s;
+                }
+                .anim-up { 
+                    animation: fadeInUp 1.0s cubic-bezier(0.25, 0.46, 0.45, 0.94) both; 
+                }
+                
+                /* Hero button animations */
+                .hero-btn:hover {
+                    background: var(--secondary, #5FAAE3) !important;
+                    transform: translateY(-2px);
+                    box-shadow: 0 8px 25px rgba(31, 111, 192, 0.4) !important;
+                }
+                .hero-btn:active {
+                    transform: translateY(0);
+                }
+                
+                /* Smooth scroll behavior */
+                html { scroll-behavior: smooth; }
+
+                /* Responsive adjustments */
+                @media (max-width: 768px){
+                    .single-slider.hero-shadow .hero-cap{ padding: 40px 0; }
+                    .single-slider.hero-shadow .hero-image{ box-shadow: 0 18px 48px rgba(0,0,0,0.5); }
+                    .anim-left, .anim-up { 
+                        animation-duration: 0.8s; 
+                    }
+                }
+            </style>
+
+            <div class="single-slider hero-shadow slider-height2 d-flex align-items-center">
+                <div class="hero-image" style="background-image: url('/assets/img/hero/dg.png');"></div>
                 <div class="container">
                     <div class="row">
-                        <div class="col-xl-12">
-                            <div class="hero-cap text-center">
-                                <h2>Find Scholarships & Educational Funding</h2>
+                        <div class="col-xl-7 col-lg-8">
+                            <div class="hero-cap left-align text-white">
+                                <h1 class="anim-left text-white">Find Scholarships & Educational Funding</h1>
+                                <p class="anim-up text-white" style="margin-top:12px; opacity:.92;font-size: 23px; animation-delay: 0.5s;">Search and filter scholarships from around the world.</p>
+                                <div class="hero-btn anim-up" style="margin-top: 25px; animation-delay: 0.7s;">
+                                    <a href="#scholarship-listings" class="btn hero-btn" style="background: var(--primary, #1F6FC0); color: white; padding: 12px 30px; border-radius: 25px; text-decoration: none; display: inline-block; transition: all 0.3s ease; box-shadow: 0 5px 15px rgba(31, 111, 192, 0.3);">
+                                        <i class="fas fa-graduation-cap" style="margin-right: 8px;"></i>Explore Scholarships
+                                    </a>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -16,7 +89,7 @@
         </div>
         <!-- Hero Area End -->
         <!-- Job List Area Start -->
-        <div class="job-listing-area pt-120 pb-120">
+        <div id="scholarship-listings" class="job-listing-area pt-120 pb-120">
             <div class="container">
                 <div class="row">
                     <!-- Left content -->
@@ -114,7 +187,11 @@
                                                 <div class="job-items" style="display: flex; align-items: center; gap: 20px; flex: 1;">
                                                     <div class="company-img" style="flex-shrink: 0;">
                                                         <button type="submit" style="background: none; border: none; padding: 0; cursor: pointer;">
-                                                            <img src="assets/img/icon/job-list4.png" alt="">
+                                                            <% if (scholarship.image && scholarship.image.trim() !== '') { %>
+                                                                <img src="<%= scholarship.image %>" alt="<%= scholarship.programName %>" style="width: 60px; height: 60px; object-fit: cover; border-radius: 8px;">
+                                                            <% } else { %>
+                                                                <img src="assets/img/icon/job-list4.png" alt="Default scholarship icon" style="width: 60px; height: 60px; object-fit: cover; border-radius: 8px;">
+                                                            <% } %>
                                                         </button>
                                                     </div>
                                                     <div class="job-tittle job-tittle2" style="flex: 1; min-width: 0;">

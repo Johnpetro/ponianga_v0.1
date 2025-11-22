@@ -1,30 +1,11 @@
-<body>
-    <style>
-        /* Smooth transition for buttons and specific hover for the 'postbtn' button */
-        .btn {
-            transition: background-color 0.25s ease, color 0.25s ease;
-        }
-
-        /* General button hover (keeps existing behavior) */
-        .btn:hover {
-            background: #14205a !important;
-        }
-
-        /* Ensure the Learn More About Us button (class .postbtn) also uses the same hover color
-           and is targeted specifically in case inline styles exist */
-        .btn.postbtn:hover {
-            background: #14205a !important;
-        }
-    </style>
-
-    <main>
 
         <!-- slider Area Start-->
         <div class="slider-area ">
             <!-- Mobile Menu -->
             <div class="slider-active">
                 <div class="single-slider slider-height d-flex align-items-center"
-                    data-background="assets/img/hero/h1.png">
+                    data-background="/assets/img/hero/h1.png"
+                    style="background-image: url('/assets/img/hero/h1.png');">
                     <div class="container">
                         <div class="row">
                             <div class="col-xl-6 col-lg-9 col-md-10">
@@ -34,16 +15,31 @@
                             </div>
                         </div>
                         <!-- Search Box -->
+                        
+                    </div>
+                </div>
+                <!-- Slide 2 -->
+                <div class="single-slider slider-height d-flex align-items-center"
+                    data-background="/assets/img/hero/h1_hero.jpg"
+                    style="background-image: url('/assets/img/hero/h1_hero.jpg');">
+                    <div class="container">
                         <div class="row">
-                            <div class="col-xl-8">
+                            <div class="col-xl-6 col-lg-9 col-md-10">
+                                <div class="hero__caption">
+                                    <h1 data-animation="fadeInUp" data-delay=".2s">Launch your career today</h1>
+                            </div>
+                        </div>
+                        <!-- Search Box -->
+                        <!-- <div class="row"> -->
+                            <!-- <div class="col-xl-8"> -->
                                 <!-- form -->
-                                <form action="#" class="search-box">
+                                <!-- <form action="#" class="search-box">
                                     <div class="input-form">
-                                        <input type="text" placeholder="Job Tittle or keyword">
+                                        <input type="text" placeholder="Job Title or keyword">
                                     </div>
                                     <div class="select-form">
                                         <div class="select-itms">
-                                            <select name="select" id="select1">
+                                            <select name="select" id="select2">
                                                 <option value="">Location BD</option>
                                                 <option value="">Location PK</option>
                                                 <option value="">Location US</option>
@@ -54,23 +50,76 @@
                                     <div class="search-form">
                                         <a href="#">Find job</a>
                                     </div>
-                                </form>
+                                </form> -->
+                            <!-- </div> -->
+                        <!-- </div> -->
+                    </div>
+                </div>
+
+             
+            </div>
+        </div>
+               
+        <!-- Our Services Start -->
+    <section class="services-featured pt-80 pb-80 services-overlay">
+            <div class="container">
+                <div class="row">
+                    <!-- Card 1: Recruitment -->
+                    <div class="col-lg-4 col-md-6 mb-30">
+                        <div class="offer-card shadow section-overly " style="background:#23283b; color:#e9edf6; border-radius:10px; padding:32px; position:relative; overflow:hidden; height:100%;">
+                            <div style="position:absolute; right:-20px; bottom:-20px; opacity:0.12; font-size:180px; line-height:1; color:#fff;">
+                                <span class="ti-clipboard"></span>
                             </div>
+                            <p style="opacity:0.8; margin-bottom:6px;">We offer</p>
+                            <h3 style="color:#fff; margin-bottom:14px;">Recruitment</h3>
+                            <p style="opacity:0.9; margin-bottom:22px;">If you are seeking for temporary or permanent jobs, Professional and Non Professional Jobs, this is the right place.</p>
+                            <a href="/job-listing" class="learn-more" style="color:#e9edf6; font-weight:600; letter-spacing:.3px;">
+                                LEARN MORE <span class="ti-arrow-right" style="margin-left:6px;"></span>
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Card 2: Study Abroad -->
+                    <div class="col-lg-4 col-md-6 mb-30">
+                        <div class="offer-card shadow section-overly " style="background:#23283b; color:#e9edf6; border-radius:10px; padding:32px; position:relative; overflow:hidden; height:100%;">
+                            <div style="position:absolute; right:-20px; bottom:-20px; opacity:0.12; font-size:180px; line-height:1; color:#fff;">
+                                <span class="ti-clipboard"></span>
+                            </div>
+                            <p style="opacity:0.8; margin-bottom:6px;">Opportunity for</p>
+                            <h3 style="color:#fff; margin-bottom:14px;">Study Abroad</h3>
+                            <p style="opacity:0.9; margin-bottom:22px;">Undergraduate, Postgraduate, Internships, etc</p>
+                            <a href="/study-abbroad-list" class="learn-more" style="color:#e9edf6; font-weight:600; letter-spacing:.3px;">
+                                LEARN MORE <span class="ti-arrow-right" style="margin-left:6px;"></span>
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Card 3: Travel Agency -->
+                    <div class="col-lg-4 col-md-6 mb-30">
+                        <div class="offer-card shadow section-overly " style="background:#23283b; color:#e9edf6; border-radius:10px; padding:32px; position:relative; overflow:hidden; height:100%;">
+                            <div style="position:absolute; right:-20px; bottom:-20px; opacity:0.12; font-size:180px; line-height:1; color:#fff;">
+                                <span class="ti-clipboard"></span>
+                            </div>
+                            <p style="opacity:0.8; margin-bottom:6px;">We are</p>
+                            <h3 style="color:#fff; margin-bottom:14px;">Travel Agency</h3>
+                            <p style="opacity:0.9; margin-bottom:22px;">Planning the travel itineraries for clients and arranging transportation, lodging, and activities throughout the trip.</p>
+                            <a href="/about" class="learn-more" style="color:#e9edf6; font-weight:600; letter-spacing:.3px;">
+                                LEARN MORE <span class="ti-arrow-right" style="margin-left:6px;"></span>
+                            </a>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-        <!-- Our Services Start -->
-        ->
+        </section>
+        
         <!-- Our Services End -->
         <!-- Online CV Area Start -->
-        <div class="online-cv cv-bg section-overly pt-90 pb-120" data-background="assets/img/gallery/cv_bg.jpg">
+        <div class="online-cv cv-bg section-overly  pt-90 pb-120" data-background="assets/img/gallery/cv_bg.jpg">
             <div class="container">
                 <div class="row justify-content-center">
                     <div class="col-xl-10">
                         <div class="cv-caption text-center">
-                            <p class="pera1">Career Development</p>
+                            <!-- <p class="pera1">Career Development</p> -->
                             <p class="pera2">Make a Difference with Your Professional Resume!</p>
                             <a href="/application-form" class="border-btn2 border-btn4">Upload your CV</a>
                         </div>
@@ -336,17 +385,17 @@
                                 <p>Innovation: We embrace new ideas and technologies to provide creative and effective
                                     recruitment and networking solutions.</p>
                                 <p>Respect: We value diversity and treat everyone with dignity and fairness.</p>
-                                <a href="/about" class="btn postbtn" style="background:#1f2b7b;">Learn More About Us</a>
+                                <a href="/about" class="btn head-btn2" style="background:#1f2b7b;">Learn More About Us</a>
                             </div>
                         </div>
                     </div>
                     <div class="col-xl-6 col-lg-6">
                         <div class="support-location-img">
-                            <img src="assets/img/service/images.jpeg" alt=""
+                            <img src="assets/img/service/images.png" alt=""
                                 style="box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15), 0 5px 15px rgba(0, 0, 0, 0.1); border-radius: 8px; opacity: 0.95;">
                             <div class="support-img-cap text-center">
                                 <p>Since</p>
-                                <span>2024</span>
+                                <span>2022</span>
                             </div>
                         </div>
                     </div>
@@ -459,3 +508,61 @@
         <!-- Mission & Vision Area End -->
 
     </main>
+
+
+     <script>
+                    // Fallback initializer: ensure slider starts even if theme init didn't run
+                    document.addEventListener('DOMContentLoaded', function () {
+                        if (window.jQuery && typeof jQuery.fn.slick === 'function') {
+                            var $slider = jQuery('.slider-active');
+                            if ($slider.length && !$slider.hasClass('slick-initialized')) {
+                                $slider.slick({
+                                    autoplay: true,
+                                    autoplaySpeed: 1000,
+                                    dots: false,
+                                    fade: true,
+                                    speed: 600,
+                                    cssEase: 'ease-in-out',
+                                    arrows: false,
+                                    pauseOnHover: true
+                                });
+                            }
+                        }
+                    });
+                </script>
+
+                <script>
+                    // Fallback initializer: ensure slider starts even if theme init didn't run
+                    document.addEventListener('DOMContentLoaded', function () {
+                        if (window.jQuery && typeof jQuery.fn.slick === 'function') {
+                            var $slider = jQuery('.slider-active');
+                            if ($slider.length && !$slider.hasClass('slick-initialized')) {
+                                $slider.slick({
+                                    autoplay: true,
+                                    autoplaySpeed: 2000,
+                                    dots: false,
+                                    fade: true,
+                                    speed: 600,
+                                    cssEase: 'ease-in-out',
+                                    arrows: false,
+                                    pauseOnHover: true
+                                });
+                            }
+                            // Enforce options post-init in case another script initialized with different timings
+                            setTimeout(function(){
+                                if ($slider.length && $slider.hasClass('slick-initialized')) {
+                                    try {
+                                        $slider.slick('slickSetOption', {
+                                            autoplay: true,
+                                            autoplaySpeed: 2000,
+                                            speed: 600,
+                                            pauseOnHover: true,
+                                            fade: true,
+                                            cssEase: 'ease-in-out'
+                                        }, true);
+                                    } catch (e) { /* noop */ }
+                                }
+                            }, 300);
+                        }
+                    });
+                </script>

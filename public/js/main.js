@@ -34,11 +34,14 @@
         doAnimations($animatingElements);
       });
       BasicSlider.slick({
-        autoplay: false,
-        autoplaySpeed: 10000,
+        autoplay: true,
+        autoplaySpeed: 2000,
         dots: false,
         fade: true,
+        speed: 600,
+        cssEase: 'ease-in-out',
         arrows: false,
+        pauseOnHover: true,
         prevArrow: '<button type="button" class="slick-prev"><i class="ti-shift-left"></i></button>',
         nextArrow: '<button type="button" class="slick-next"><i class="ti-shift-right"></i></button>',
         responsive: [{
