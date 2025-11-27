@@ -1062,6 +1062,10 @@ video {
   max-width: 42rem;
 }
 
+.max-w-4xl {
+  max-width: 56rem;
+}
+
 .max-w-\[350px\] {
   max-width: 350px;
 }
