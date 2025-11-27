@@ -58,6 +58,9 @@ router.get('/', trackVisitor, async (req, res) => {
     const totalJobs = await prisma.job.count();
     const totalPages = Math.ceil(totalJobs / jobsPerPage);
 
+    // fetch member
+    const totalMembers = await prisma.teamMember.count();
+
     // Fetch jobs for current page
     const jobs = await prisma.job.findMany({
       orderBy: { createdAt: 'desc' },
@@ -640,8 +643,6 @@ router.post('/scholarship-application', upload.single('passport'), async (req, r
       }
     });
 
-    console.log('✓ Scholarship application submitted successfully:', email);
-    console.log('✓ Passport uploaded:', passportUrl);
 
     // res.status(201).json({
     //   success: true,

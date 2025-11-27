@@ -1,54 +1,5 @@
 
 
-<header class="sticky top-0 z-40 bg-white dark:bg-slate-800 border-b border-slate-200 dark:border-slate-700 h-16 flex items-center justify-between px-6">
-  <!-- Sidebar Toggle Button -->
-  <button id="sidebarToggle" class="flex items-center gap-2 focus:outline-none hover:opacity-80 transition-opacity md:hidden">
-    <i class="fas fa-bars text-2xl text-slate-900 dark:text-white"></i>
-  </button>
-  
-  <h1 class="text-lg font-semibold text-slate-900 dark:text-white"><%= locals.title %></h1>
-  
-  <!-- Profile Dropdown -->
-  <div class="relative">
-    <button id="profileBtn" class="flex items-center gap-2 focus:outline-none hover:opacity-80 transition-opacity">
-      <img src="https://ui-avatars.com/api/?name=User&background=0D8ABC&color=fff&rounded=true" alt="User Avatar" class="w-10 h-10 rounded-full cursor-pointer border-2 border-blue-500" />
-    </button>
-    
-    <!-- Dropdown Menu -->
-    <div id="profileMenu" class="absolute right-0 mt-2 w-56 bg-white dark:bg-slate-700 rounded-lg shadow-xl opacity-0 invisible transition-all duration-300 z-50 transform origin-top-right scale-95">
-      <div class="p-4 border-b border-slate-200 dark:border-slate-600">
-        <p class="text-sm font-semibold text-slate-900 dark:text-white">Carson Darrin</p>
-        <p class="text-xs text-slate-500 dark:text-slate-400 flex items-center gap-1 mt-1">
-          <i class="fas fa-star text-yellow-400 text-[10px]"></i>
-          carson.darrin@company.io
-        </p>
-      </div>
-      
-      <ul class="py-2">
-        <li><a href="#" class="flex items-center gap-3 px-4 py-3 text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-600 transition-colors">
-          <i class="fas fa-cog w-4 h-4"></i>
-          <span>Settings</span>
-        </a></li>
-        <li><a href="#" class="flex items-center gap-3 px-4 py-3 text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-600 transition-colors">
-          <i class="fas fa-share-alt w-4 h-4"></i>
-          <span>Share</span>
-        </a></li>
-        <li><a href="#" class="flex items-center gap-3 px-4 py-3 text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-600 transition-colors">
-          <i class="fas fa-lock w-4 h-4"></i>
-          <span>Change Password</span>
-        </a></li>
-      </ul>
-      
-      <div class="border-t border-slate-200 dark:border-slate-600 p-2">
-        <a href="/logout" class="flex items-center justify-center gap-3 px-4 py-3 text-white bg-blue-500 hover:bg-blue-600 rounded transition-colors font-medium">
-          <i class="fas fa-sign-out-alt w-4 h-4"></i>
-          <span>Logout</span>
-        </a>
-      </div>
-    </div>
-  </div>
-</header>
-
 <div class="overflow-y-auto h-[calc(100vh-64px)]">
   <div class="p-6">
     <div class="card table-card gap-y-6">
@@ -72,10 +23,10 @@
             </thead>
             <tbody>
               <% if (contacts && contacts.length > 0) { %>
-                <% contacts.forEach((contact) => { %>
+                <% contacts.forEach((contact, i) => { %>
                   <tr class="border-b border-slate-200 dark:border-slate-600 hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors">
                     <td class="px-4 py-3 text-slate-700 dark:text-slate-300">
-                      <span class="font-semibold">#<%= String(contact.id).padStart(3, '0') %></span>
+                      <span class="font-semibold">#<%= (currentPage - 1) * contactsPerPage + i + 1 %></span>
                     </td>
                     <td class="px-4 py-3 text-slate-700 dark:text-slate-300">
                       <span class="badge bg-blue-100 text-blue-800 text-xs"><%= contact.inquiry_type %></span>
