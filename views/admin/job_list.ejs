@@ -1,17 +1,21 @@
 
-    <div class="overflow-y-auto h-[calc(100vh-64px)]">
-      <div class="p-6">
-        <div class="card table-card gap-y-6">
-          <div class="card-header flex items-center justify-between">
+    <div class="admin-page">
+      <div class="admin-page-inner">
+        <div class="admin-section-head">
+          <h2>Job Management</h2>
+          <p>Create, review, and manage job postings and applicants.</p>
+        </div>
+        <div class="card table-card admin-card gap-y-6">
+          <div class="card-header admin-toolbar">
             <h5>Job Postings</h5>
-            <button id="addJobBtn" class="  px-6 py-8 text-white bg-blue-500 hover:bg-blue-600 rounded transition flex items-center gap-2">
+            <button id="addJobBtn" class="admin-btn admin-btn-primary">
               <i class="fas fa-plus"></i>
               Add Job
             </button>
           </div>
           <div class="card-body">
-            <div class="table-responsive">
-              <table class="w-full text-sm">
+            <div class="admin-table-wrap">
+              <table class="admin-table text-sm">
                 <thead>
                   <tr class="border-b border-slate-200 dark:border-slate-600">
                     <th class="text-left px-4 py-3 font-semibold text-slate-900 dark:text-white">Job ID</th>
@@ -85,13 +89,13 @@
                         </td>
                         <td class="px-4 py-3 text-center">
                           <div class="flex items-center justify-center gap-2">
-                            <button class="view-job-btn text-green-500 hover:text-green-700 transition" title="View" data-job-id="<%= job.id %>" data-job-title="<%= job.jobTitle %>" data-job-desc="<%= job.description %>" data-job-employer="<%= job.employer %>" data-job-type="<%= job.jobType %>" data-job-location="<%= job.location %>" data-job-skills="<%= job.skills %>" data-job-salary="<%= job.salary %>" data-job-image="<%= job.image || '' %>">
+                            <button class="view-job-btn admin-action-btn text-green-500 hover:text-green-700 transition" title="View" data-job-id="<%= job.id %>" data-job-title="<%= job.jobTitle %>" data-job-desc="<%= job.description %>" data-job-employer="<%= job.employer %>" data-job-type="<%= job.jobType %>" data-job-location="<%= job.location %>" data-job-skills="<%= job.skills %>" data-job-salary="<%= job.salary %>" data-job-image="<%= job.image || '' %>">
                               <i class="fas fa-eye text-sm"></i>
                             </button>
-                            <button class="text-blue-500 hover:text-blue-700 transition edit-job-btn" title="Edit" data-job-id="<%= job.id %>" data-job-title="<%= job.jobTitle %>" data-job-desc="<%= job.description %>" data-job-employer="<%= job.employer %>" data-job-type="<%= job.jobType %>" data-job-location="<%= job.location %>" data-job-skills="<%= job.skills %>" data-job-salary="<%= job.salary %>" data-job-status="<%= job.status %>" data-job-applicants="<%= job.applicants %>" data-job-deadline="<%= job.deadline %>" data-job-image="<%= job.image || '' %>">
+                            <button class="admin-action-btn text-blue-500 hover:text-blue-700 transition edit-job-btn" title="Edit" data-job-id="<%= job.id %>" data-job-title="<%= job.jobTitle %>" data-job-desc="<%= job.description %>" data-job-employer="<%= job.employer %>" data-job-type="<%= job.jobType %>" data-job-location="<%= job.location %>" data-job-skills="<%= job.skills %>" data-job-salary="<%= job.salary %>" data-job-status="<%= job.status %>" data-job-applicants="<%= job.applicants %>" data-job-deadline="<%= job.deadline %>" data-job-image="<%= job.image || '' %>">
                               <i class="fas fa-edit text-sm"></i>
                             </button>
-                            <button class="text-red-500 hover:text-red-700 transition delete-job-btn" title="Delete" data-job-id="<%= job.id %>">
+                            <button class="admin-action-btn text-red-500 hover:text-red-700 transition delete-job-btn" title="Delete" data-job-id="<%= job.id %>">
                               <i class="fas fa-trash text-sm"></i>
                             </button>
                           </div>
@@ -111,14 +115,14 @@
             </div>
 
             <!-- Pagination Controls -->
-            <div class="flex items-center justify-between mt-6 px-4 py-4 border-t border-slate-200 dark:border-slate-600">
+            <div class="admin-pagination mt-6 px-4 py-4 border-t border-slate-200 dark:border-slate-600">
               <div class="text-sm text-slate-600 dark:text-slate-400">
                 Showing <span class="font-semibold"><%= jobs && jobs.length > 0 ? (currentPage - 1) * jobsPerPage + 1 : 0 %></span> 
                 to <span class="font-semibold"><%= Math.min(currentPage * jobsPerPage, totalJobs) %></span> 
                 of <span class="font-semibold"><%= totalJobs %></span> jobs
               </div>
 
-              <div class="flex items-center gap-2">
+              <div class="admin-toolbar-actions">
                 <% if (currentPage > 1) { %>
                   <a href="/jobs?page=<%= currentPage - 1 %>" class="px-3 py-2 bg-slate-100 dark:bg-slate-700 text-slate-700 dark:text-slate-300 rounded hover:bg-slate-200 dark:hover:bg-slate-600 transition flex items-center gap-2">
                     <i class="fas fa-chevron-left text-sm"></i>
@@ -525,9 +529,6 @@
     </div>
   </div>
 </div>
-
-<!-- Sidebar Toggle Script -->
-<script src="/js/sidebar-toggle.js"></script>
 
 <!-- Job Modal Script -->
 <script>
