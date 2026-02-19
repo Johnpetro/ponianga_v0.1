@@ -1,18 +1,18 @@
 
 
-<div class="overflow-y-auto h-[calc(100vh-64px)]">
-  <div class="p-6">
-    <div class="card table-card gap-y-6">
-      <div class="card-header flex items-center justify-between">
+<div class="admin-page">
+  <div class="admin-page-inner">
+    <div class="card table-card admin-card gap-y-6">
+      <div class="card-header admin-toolbar">
         <h5>Scholarships</h5>
-        <button id="addScholarshipBtn" class="px-6 py-8 text-white bg-blue-500 hover:bg-blue-600 rounded transition flex items-center gap-2">
+        <button id="addScholarshipBtn" class="admin-btn admin-btn-primary">
           <i class="fas fa-plus"></i>
           Add Scholarship
         </button>
       </div>
       <div class="card-body">
-        <div class="table-responsive">
-          <table class="w-full text-sm">
+        <div class="admin-table-wrap">
+          <table class="admin-table text-sm">
             <thead>
               <tr class="border-b border-slate-200 dark:border-slate-600">
                 <th class="text-left px-4 py-3 font-semibold text-slate-900 dark:text-white">Scholarship ID</th>
@@ -41,7 +41,7 @@
                         <% } else { %>
                           <i class="fas fa-graduation-cap text-slate-400 dark:text-slate-500 text-lg"></i>
                         <% } %>
-                      </div>
+                      </div> 
                     </td>
                     <td class="px-4 py-3 text-slate-700 dark:text-slate-300">
                       <h6 class="font-semibold mb-1"><%= scholarship.programName %></h6>
@@ -100,14 +100,14 @@
         </div>
 
         <!-- Pagination Controls -->
-        <div class="flex items-center justify-between mt-6 px-4 py-4 border-t border-slate-200 dark:border-slate-600">
+        <div class="admin-pagination mt-6 px-4 py-4 border-t border-slate-200 dark:border-slate-600">
           <div class="text-sm text-slate-600 dark:text-slate-400">
             Showing <span class="font-semibold"><%= scholarships && scholarships.length > 0 ? (currentPage - 1) * scholarshipsPerPage + 1 : 0 %></span> 
             to <span class="font-semibold"><%= Math.min(currentPage * scholarshipsPerPage, totalScholarships) %></span> 
             of <span class="font-semibold"><%= totalScholarships %></span> scholarships
           </div>
 
-          <div class="flex items-center gap-2">
+          <div class="admin-toolbar-actions">
             <% if (currentPage > 1) { %>
               <a href="/scholarships?page=<%= currentPage - 1 %>" class="px-3 py-2 bg-slate-100 dark:bg-slate-700 text-slate-700 dark:text-slate-300 rounded hover:bg-slate-200 dark:hover:bg-slate-600 transition flex items-center gap-2">
                 <i class="fas fa-chevron-left text-sm"></i>
@@ -184,7 +184,7 @@
         <p id="modalCollegeName" class="text-slate-900 dark:text-white font-medium"></p>
       </div>
 
-      <div class="grid grid-cols-3 gap-4">
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
         <div>
           <label class="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">Sponsorship</label>
           <p id="modalSponsorship" class="text-slate-900 dark:text-white font-medium"></p>
@@ -470,9 +470,6 @@
     </div>
   </div>
 </div>
-
-<!-- Sidebar Toggle Script -->
-<script src="/js/sidebar-toggle.js"></script>
 
 <!-- Scholarship Modal Script -->
 <script>

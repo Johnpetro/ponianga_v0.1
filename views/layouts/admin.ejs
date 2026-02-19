@@ -10,6 +10,7 @@
   <!-- Favicon -->
   <link rel="icon" href="/images/favicon.svg" type="image/x-icon" />
   
+  
   <!-- Google Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" />
   
@@ -29,6 +30,108 @@
   
   <!-- Tailwind CSS utilities -->
   <link rel="stylesheet" href="/css/tailwind.build.css" />
+  <style>
+    :root {
+      --admin-primary: #2563eb;
+      --admin-primary-dark: #1d4ed8;
+      --admin-surface: #ffffff;
+      --admin-border: #e2e8f0;
+    }
+
+    body {
+      color: #0f172a;
+    }
+
+    .admin-page {
+      min-height: 100%;
+      padding: 1.25rem;
+    }
+
+    .admin-page-inner {
+      width: 100%;
+      max-width: 100%;
+    }
+
+    .admin-card {
+      background: var(--admin-surface);
+      border: 1px solid var(--admin-border);
+      border-radius: 14px;
+      box-shadow: 0 8px 24px rgba(15, 23, 42, 0.06);
+      overflow: hidden;
+    }
+
+    .admin-toolbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+    }
+
+    .admin-toolbar-actions {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+    }
+
+    .admin-table-wrap {
+      width: 100%;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    .admin-table {
+      width: 100%;
+      min-width: 760px;
+    }
+
+    .admin-pagination {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+    }
+
+    .admin-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      padding: 0.55rem 0.9rem;
+      border-radius: 8px;
+      font-weight: 600;
+      transition: background-color 0.2s ease, color 0.2s ease;
+    }
+
+    .admin-btn-primary {
+      color: #fff;
+      background: var(--admin-primary);
+    }
+
+    .admin-btn-primary:hover {
+      background: var(--admin-primary-dark);
+      color: #fff;
+    }
+
+    @media (max-width: 768px) {
+      .admin-page {
+        padding: 0.75rem;
+      }
+
+      .admin-toolbar,
+      .admin-toolbar-actions,
+      .admin-pagination {
+        flex-direction: column;
+        align-items: stretch;
+      }
+
+      .admin-btn {
+        width: 100%;
+      }
+    }
+  </style>
 
 </head>
 <body class="min-h-screen bg-slate-50 dark:bg-gray-900">

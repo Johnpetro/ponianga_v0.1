@@ -76,6 +76,40 @@
             transform: translateY(-5px);
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
           }
+
+          .dashboard-screen-toast {
+            position: fixed;
+            left: 16px;
+            bottom: 16px;
+            z-index: 2600;
+            max-width: 360px;
+            width: calc(100% - 32px);
+            background: #0f3460;
+            color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25);
+            padding: 12px 14px;
+            opacity: 0;
+            transform: translateY(8px);
+            transition: opacity 0.25s ease, transform 0.25s ease;
+          }
+
+          .dashboard-screen-toast.show {
+            opacity: 1;
+            transform: translateY(0);
+          }
+
+          .dashboard-screen-toast .toast-title {
+            font-weight: 700;
+            font-size: 14px;
+            margin-bottom: 4px;
+          }
+
+          .dashboard-screen-toast .toast-message {
+            font-size: 13px;
+            line-height: 1.4;
+            opacity: 0.95;
+          }
         </style>
 
         <div class="overflow-y-auto h-[calc(100vh-64px)]">
@@ -166,7 +200,7 @@
                     style="width: 65%"></div>
                 </div>
               </div>
-            </div>
+            </div> 
           </div>
 
           <!-- Today's Visitors Card -->
@@ -247,6 +281,30 @@
     <!-- Visitor Analytics Chart -->
     <script>
       document.addEventListener('DOMContentLoaded', function() {
+        const isSmallScreen = window.matchMedia('(max-width: 991px)').matches;
+        if (isSmallScreen) {
+          const toast = document.createElement('div');
+          toast.className = 'dashboard-screen-toast';
+          toast.innerHTML = `
+            <div class="toast-title">Better on PC</div>
+            <div class="toast-message">For better visualization, we recommend opening this dashboard on a larger screen (PC).</div>
+          `;
+          document.body.appendChild(toast);
+
+          requestAnimationFrame(() => {
+            toast.classList.add('show');
+          });
+
+          setTimeout(() => {
+            toast.classList.remove('show');
+            setTimeout(() => {
+              if (toast.parentNode) {
+                toast.parentNode.removeChild(toast);
+              }
+            }, 260);
+          }, 20000);
+        }
+
         const ctx = document.getElementById('visitorChart').getContext('2d');
         
         // Visitor data for last 7 days - using sample data for now

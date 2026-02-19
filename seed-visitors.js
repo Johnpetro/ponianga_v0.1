@@ -3,7 +3,7 @@ const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient();
 
 async function seedVisitorData() {
-  console.log('🌱 Seeding visitor data...');
+  // console.log('🌱 Seeding visitor data...');
 
   // Create sample visitor data for the last 7 days
   const today = new Date();
@@ -41,8 +41,8 @@ async function seedVisitorData() {
     });
   }
 
-  console.log(`✅ Created ${visitors.length} visitor records`);
-  console.log('🎉 Visitor data seeding completed!');
+  // console.log(`✅ Created ${visitors.length} visitor records`);
+  // console.log('🎉 Visitor data seeding completed!');
 }
 
 seedVisitorData()

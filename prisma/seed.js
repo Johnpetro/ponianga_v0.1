@@ -249,11 +249,11 @@ async function main() {
         }
       });
 
-      console.log('✓ Admin user created successfully!');
-      console.log(`  Email: ${admin.email}`);
-      console.log(`  Full Name: ${admin.full_name}`);
+      // console.log('✓ Admin user created successfully!');
+      // console.log(`  Email: ${admin.email}`);
+      // console.log(`  Full Name: ${admin.full_name}`);
     } else {
-      console.log('✓ Admin user already exists (admin@example.com)');
+      // console.log('✓ Admin user already exists (admin@example.com)');
     }
 
     // Check if jobs already exist
@@ -267,10 +267,10 @@ async function main() {
         });
       }
 
-      console.log(`\n✓ ${jobsData.length} sample jobs created successfully!`);
-      console.log('  Jobs include various positions across different roles and locations.');
+      // console.log(`\n✓ ${jobsData.length} sample jobs created successfully!`);
+      // console.log('  Jobs include various positions across different roles and locations.');
     } else {
-      console.log(`\n✓ Jobs already exist in database (${existingJobsCount} jobs found)`);
+      // console.log(`\n✓ Jobs already exist in database (${existingJobsCount} jobs found)`);
     }
 
     // Check if scholarships already exist
@@ -284,10 +284,10 @@ async function main() {
         });
       }
 
-      console.log(`\n✓ ${scholarshipsData.length} sample scholarships created successfully!`);
-      console.log('  Scholarships include various prestigious programs from top universities worldwide.');
+      // console.log(`\n✓ ${scholarshipsData.length} sample scholarships created successfully!`);
+      // console.log('  Scholarships include various prestigious programs from top universities worldwide.');
     } else {
-      console.log(`\n✓ Scholarships already exist in database (${existingScholarshipsCount} scholarships found)`);
+      // console.log(`\n✓ Scholarships already exist in database (${existingScholarshipsCount} scholarships found)`);
     }
 
   } catch (error) {

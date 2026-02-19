@@ -38,11 +38,11 @@ const trackVisitor = async (req, res, next) => {
               referrer: req.get('Referrer') || null
             }
           });
-          console.log('✓ New visitor tracked:', clientIP, 'on', req.path);
+          // console.log('✓ New visitor tracked:', clientIP, 'on', req.path);
         }
       } catch (dbError) {
         // If visitor table doesn't exist, fail silently or create default data
-        console.log('Visitor tracking unavailable (table may not exist)');
+        // console.log('Visitor tracking unavailable (table may not exist)');
       }
     }
   } catch (error) {

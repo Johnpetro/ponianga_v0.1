@@ -146,7 +146,7 @@ router.get('/login', async (req, res) => {
 
     res.render('admin/login', { locals , layout: adminLayout });
   } catch (error) {
-    console.log(error);
+    // console.log(error);
     res.status(500).send('Error loading login page');
   }
 });
@@ -215,14 +215,14 @@ router.post('/login', async (req, res) => {
       maxAge: 7 * 24 * 60 * 60 * 1000 // 7 days in milliseconds
     });
 
-    console.log('✓ Admin logged in successfully:', email);
-    console.log('✓ JWT Token stored in cookie (expires in 7 days or on browser close)');
+    // console.log('✓ Admin logged in successfully:', email);
+    // console.log('✓ JWT Token stored in cookie (expires in 7 days or on browser close)');
 
     // Redirect to dashboard
     res.redirect('/dashboard');
 
   } catch (error) {
-    console.log(error);
+    // console.log(error);
     res.render('admin/login', {
       locals: {
         title: "Login",
@@ -278,7 +278,7 @@ router.get('/admin_contact', verifyAuth, async (req, res) => {
       contactsPerPage
     });
   } catch (error) {
-    console.log(error);
+    // console.log(error);
     res.status(500).send('Error loading contact page');
   }
 });
@@ -291,7 +291,7 @@ router.post('/contact', async (req, res) => {
   try {
     const { inquiry_type, full_name, email, phone, subject, message } = req.body;
 
-    console.log('Received contact form data:', { inquiry_type, full_name, email, phone, subject });
+    // console.log('Received contact form data:', { inquiry_type, full_name, email, phone, subject });
 
     // Validate required fields
     if (!inquiry_type || !full_name || !email || !phone || !subject || !message) {
@@ -313,7 +313,7 @@ router.post('/contact', async (req, res) => {
       }
     });
 
-    console.log('✓ Contact inquiry created successfully:', subject);
+    // console.log('✓ Contact inquiry created successfully:', subject);
 
     res.status(201).json({ 
       success: true, 
@@ -363,7 +363,7 @@ router.delete('/contact/:id', verifyAuth, async (req, res) => {
       where: { id: parseInt(id) }
     });
 
-    console.log('✓ Contact inquiry deleted successfully:', contact.subject);
+    // console.log('✓ Contact inquiry deleted successfully:', contact.subject);
 
     res.status(200).json({ 
       success: true, 
@@ -424,7 +424,7 @@ router.get('/our_team', verifyAuth, async (req, res) => {
       membersPerPage
     });
   } catch (error) {
-    console.log(error);
+    // console.log(error);
     res.status(500).send('Error loading our team page');
   }
 });
@@ -437,8 +437,8 @@ router.post('/team-members', verifyAuth, upload.single('profile'), async (req, r
   try {
     const { full_name, position, bio } = req.body;
 
-    console.log('Creating team member with data:', { full_name, position, bio });
-    console.log('File:', req.file);
+    // console.log('Creating team member with data:', { full_name, position, bio });
+    // console.log('File:', req.file);
 
     // Validate required fields
     if (!full_name || !position || !bio) {
@@ -460,7 +460,7 @@ router.post('/team-members', verifyAuth, upload.single('profile'), async (req, r
     let profileUrl = '';
     if (req.file) {
       profileUrl = `/uploads/team-members/${req.file.filename}`;
-      console.log('Profile URL:', profileUrl);
+      // console.log('Profile URL:', profileUrl);
     }
 
     // Create team member in database
@@ -473,7 +473,7 @@ router.post('/team-members', verifyAuth, upload.single('profile'), async (req, r
       }
     });
 
-    console.log('✓ Team member created successfully:', full_name);
+    // console.log('✓ Team member created successfully:', full_name);
 
     res.status(201).json({ 
       success: true, 
@@ -507,9 +507,9 @@ router.patch('/team-members/:id', verifyAuth, upload.single('profile'), async (r
     const { id } = req.params;
     const { full_name, position, bio } = req.body;
 
-    console.log('Updating team member ID:', id);
-    console.log('Form data:', { full_name, position, bio });
-    console.log('File:', req.file);
+    // console.log('Updating team member ID:', id);
+    // console.log('Form data:', { full_name, position, bio });
+    // console.log('File:', req.file);
 
     // Validate ID
     if (!id || isNaN(id)) {
@@ -572,14 +572,14 @@ router.patch('/team-members/:id', verifyAuth, upload.single('profile'), async (r
         if (fs.existsSync(oldFilePath)) {
           try {
             fs.unlinkSync(oldFilePath);
-            console.log('Deleted old file:', oldFilePath);
+            // console.log('Deleted old file:', oldFilePath);
           } catch (e) {
             console.error('Error deleting old file:', e);
           }
         }
       }
       profileUrl = `/uploads/team-members/${req.file.filename}`;
-      console.log('New profile URL:', profileUrl);
+      // console.log('New profile URL:', profileUrl);
     }
 
     // Update team member in database
@@ -593,7 +593,7 @@ router.patch('/team-members/:id', verifyAuth, upload.single('profile'), async (r
       }
     });
 
-    console.log('✓ Team member updated successfully:', full_name);
+    // console.log('✓ Team member updated successfully:', full_name);
 
     res.status(200).json({ 
       success: true, 
@@ -659,7 +659,7 @@ router.delete('/team-members/:id', verifyAuth, async (req, res) => {
       }
     }
 
-    console.log('✓ Team member deleted successfully:', member.full_name);
+    // console.log('✓ Team member deleted successfully:', member.full_name);
 
     res.status(200).json({ 
       success: true, 
@@ -689,7 +689,7 @@ router.get('/index', async (req, res) => {
 
     res.render('admin/index', { locals, layout: adminLayout });
   } catch (error) {
-    console.log(error);
+    // console.log(error);
   }
 });
 
@@ -776,7 +776,7 @@ router.get('/dashboard', verifyAuth, async (req, res) => {
     });
 
   } catch (error) {
-    console.log(error);
+    // console.log(error);
     res.status(500).send('Error loading dashboard');
   }
 });
@@ -827,7 +827,7 @@ router.get('/jobs', verifyAuth, async (req, res) => {
     });
 
   } catch (error) {
-    console.log(error);
+    // console.log(error);
     res.status(500).send('Error loading jobs page');
   }
 });
@@ -840,8 +840,8 @@ router.post('/jobs', verifyAuth, jobImageUpload.single('jobImage'), async (req, 
   try {
     const { jobTitle, employer, jobType, location, deadline, applicants, salary, skills, description } = req.body;
 
-    console.log('Creating job with data:', { jobTitle, employer, jobType, location });
-    console.log('File:', req.file);
+    // console.log('Creating job with data:', { jobTitle, employer, jobType, location });
+    // console.log('File:', req.file);
 
     // Validate required fields
     if (!jobTitle || !employer || !jobType || !location || !deadline || !salary || !skills || !description) {
@@ -850,7 +850,7 @@ router.post('/jobs', verifyAuth, jobImageUpload.single('jobImage'), async (req, 
         try {
           fs.unlinkSync(req.file.path);
         } catch (err) {
-          console.log('Error deleting file:', err);
+          // console.log('Error deleting file:', err);
         }
       }
       return res.status(400).json({ 
@@ -882,7 +882,7 @@ router.post('/jobs', verifyAuth, jobImageUpload.single('jobImage'), async (req, 
       }
     });
 
-    console.log('✓ Job created successfully:', jobTitle);
+    // console.log('✓ Job created successfully:', jobTitle);
 
     res.status(201).json({ 
       success: true, 
@@ -896,7 +896,7 @@ router.post('/jobs', verifyAuth, jobImageUpload.single('jobImage'), async (req, 
       try {
         fs.unlinkSync(req.file.path);
       } catch (err) {
-        console.log('Error deleting file:', err);
+        // console.log('Error deleting file:', err);
       }
     }
     console.error('Error creating job:', error);
@@ -914,9 +914,9 @@ router.patch('/jobs/:id', verifyAuth, jobImageUpload.single('jobImage'), async (
     const { id } = req.params;
     const { jobTitle, employer, jobType, location, deadline, applicants, salary, skills, description, status } = req.body;
 
-    console.log('Updating job ID:', id);
-    console.log('Form data:', { jobTitle, employer, jobType, location });
-    console.log('File:', req.file);
+    // console.log('Updating job ID:', id);
+    // console.log('Form data:', { jobTitle, employer, jobType, location });
+    // console.log('File:', req.file);
 
     // Validate ID
     if (!id || isNaN(id)) {
@@ -979,14 +979,14 @@ router.patch('/jobs/:id', verifyAuth, jobImageUpload.single('jobImage'), async (
         if (fs.existsSync(oldFilePath)) {
           try {
             fs.unlinkSync(oldFilePath);
-            console.log('Deleted old image file:', oldFilePath);
+            // console.log('Deleted old image file:', oldFilePath);
           } catch (e) {
             console.error('Error deleting old image file:', e);
           }
         }
       }
       imageUrl = `/uploads/job-images/${req.file.filename}`;
-      console.log('New image URL:', imageUrl);
+      // console.log('New image URL:', imageUrl);
     }
 
     // Update job in database
@@ -1007,7 +1007,7 @@ router.patch('/jobs/:id', verifyAuth, jobImageUpload.single('jobImage'), async (
       }
     });
 
-    console.log('✓ Job updated successfully:', jobTitle);
+    // console.log('✓ Job updated successfully:', jobTitle);
 
     res.status(200).json({ 
       success: true, 
@@ -1065,7 +1065,7 @@ router.delete('/jobs/:id', verifyAuth, async (req, res) => {
       where: { id: parseInt(id) }
     });
 
-    console.log('✓ Job deleted successfully:', job.jobTitle);
+    // console.log('✓ Job deleted successfully:', job.jobTitle);
 
     res.status(200).json({ 
       success: true, 
@@ -1108,7 +1108,7 @@ router.get('/applicants', verifyAuth, async (req, res) => {
     });
 
   } catch (error) {
-    console.log(error);
+    // console.log(error);
     res.status(500).send('Error loading applicants page');
   }
 });
@@ -1158,7 +1158,7 @@ router.get('/scholarships', verifyAuth, async (req, res) => {
     });
 
   } catch (error) {
-    console.log(error);
+    // console.log(error);
     res.status(500).send('Error loading scholarships page');
   }
 });
@@ -1171,8 +1171,8 @@ router.post('/scholarships', verifyAuth, scholarshipImageUpload.single('scholars
   try {
     const { programName, collegeName, sponsorship, vacancy, deadline, description, requirements } = req.body;
 
-    console.log('Creating scholarship with data:', { programName, collegeName, sponsorship, vacancy });
-    console.log('File:', req.file);
+    // console.log('Creating scholarship with data:', { programName, collegeName, sponsorship, vacancy });
+    // console.log('File:', req.file);
 
     // Validate required fields
     if (!programName || !collegeName || !sponsorship || !vacancy || !deadline || !description || !requirements) {
@@ -1181,7 +1181,7 @@ router.post('/scholarships', verifyAuth, scholarshipImageUpload.single('scholars
         try {
           fs.unlinkSync(req.file.path);
         } catch (err) {
-          console.log('Error deleting file:', err);
+          // console.log('Error deleting file:', err);
         }
       }
       return res.status(400).json({ 
@@ -1211,7 +1211,7 @@ router.post('/scholarships', verifyAuth, scholarshipImageUpload.single('scholars
       }
     });
 
-    console.log('✓ Scholarship created successfully:', programName);
+    // console.log('✓ Scholarship created successfully:', programName);
 
     res.status(201).json({ 
       success: true, 
@@ -1225,7 +1225,7 @@ router.post('/scholarships', verifyAuth, scholarshipImageUpload.single('scholars
       try {
         fs.unlinkSync(req.file.path);
       } catch (err) {
-        console.log('Error deleting file:', err);
+        // console.log('Error deleting file:', err);
       }
     }
     console.error('Error creating scholarship:', error);
@@ -1245,9 +1245,9 @@ router.patch('/scholarships/:id', verifyAuth, scholarshipImageUpload.single('sch
     const { id } = req.params;
     const { programName, collegeName, sponsorship, vacancy, deadline, description, requirements, status } = req.body;
 
-    console.log('Updating scholarship ID:', id);
-    console.log('Form data:', { programName, collegeName, sponsorship, vacancy });
-    console.log('File:', req.file);
+    // console.log('Updating scholarship ID:', id);
+    // console.log('Form data:', { programName, collegeName, sponsorship, vacancy });
+    // console.log('File:', req.file);
 
     // Validate ID
     if (!id || isNaN(id)) {
@@ -1310,14 +1310,14 @@ router.patch('/scholarships/:id', verifyAuth, scholarshipImageUpload.single('sch
         if (fs.existsSync(oldFilePath)) {
           try {
             fs.unlinkSync(oldFilePath);
-            console.log('Deleted old image file:', oldFilePath);
+            // console.log('Deleted old image file:', oldFilePath);
           } catch (e) {
             console.error('Error deleting old image file:', e);
           }
         }
       }
       imageUrl = `/uploads/scholarship-images/${req.file.filename}`;
-      console.log('New image URL:', imageUrl);
+      // console.log('New image URL:', imageUrl);
     }
 
     // Update scholarship in database
@@ -1336,7 +1336,7 @@ router.patch('/scholarships/:id', verifyAuth, scholarshipImageUpload.single('sch
       }
     });
 
-    console.log('✓ Scholarship updated successfully:', programName);
+    // console.log('✓ Scholarship updated successfully:', programName);
 
     res.status(200).json({ 
       success: true, 
@@ -1394,7 +1394,7 @@ router.delete('/scholarships/:id', verifyAuth, async (req, res) => {
       where: { id: parseInt(id) }
     });
 
-    console.log('✓ Scholarship deleted successfully:', scholarship.programName);
+    // console.log('✓ Scholarship deleted successfully:', scholarship.programName);
 
     res.status(200).json({ 
       success: true, 
@@ -1463,7 +1463,7 @@ router.get('/applications', verifyAuth, async (req, res) => {
       applicationsPerPage
     });
   } catch (error) {
-    console.log(error);
+    // console.log(error);
     res.status(500).send('Error loading applications page');
   }
 });
@@ -1526,7 +1526,7 @@ router.get('/applications/job/:jobId', verifyAuth, async (req, res) => {
       applicationsPerPage
     });
   } catch (error) {
-    console.log(error);
+    // console.log(error);
     res.status(500).send('Error loading applications');
   }
 });
@@ -1567,7 +1567,7 @@ router.get('/applications/:id/details', verifyAuth, async (req, res) => {
       application
     });
   } catch (error) {
-    console.log(error);
+    // console.log(error);
     res.status(500).send('Error loading application details');
   }
 });
@@ -1601,7 +1601,7 @@ router.patch('/applications/:id/status', verifyAuth, async (req, res) => {
       data: { status }
     });
 
-    console.log('✓ Application status updated:', status);
+    // console.log('✓ Application status updated:', status);
 
     res.status(200).json({
       success: true,
@@ -1651,7 +1651,7 @@ router.delete('/applications/:id', verifyAuth, async (req, res) => {
       }
     });
 
-    console.log('✓ Application deleted successfully');
+    // console.log('✓ Application deleted successfully');
 
     res.status(200).json({
       success: true,
@@ -1727,7 +1727,7 @@ router.get('/scholarship-applicants/:scholarshipId', verifyAuth, async (req, res
       applicantsPerPage
     });
   } catch (error) {
-    console.log(error);
+    // console.log(error);
     res.status(500).send('Error loading scholarship applicants page');
   }
 });
@@ -1779,7 +1779,7 @@ router.get('/scholarship-applicants', verifyAuth, async (req, res) => {
       applicantsPerPage
     });
   } catch (error) {
-    console.log(error);
+    // console.log(error);
     res.status(500).send('Error loading scholarship applicants page');
   }
 });
@@ -1813,7 +1813,7 @@ router.patch('/scholarship-applicants/:id/status', verifyAuth, async (req, res) 
       data: { status }
     });
 
-    console.log('✓ Scholarship application status updated:', applicant.id);
+    // console.log('✓ Scholarship application status updated:', applicant.id);
 
     res.status(200).json({
       success: true,
@@ -1863,7 +1863,7 @@ router.delete('/scholarship-applicants/:id', verifyAuth, async (req, res) => {
       const filePath = path.join(__dirname, '../../public', applicant.passport);
       if (fs.existsSync(filePath)) {
         fs.unlinkSync(filePath);
-        console.log('✓ Passport file deleted:', filePath);
+        // console.log('✓ Passport file deleted:', filePath);
       }
     }
 
@@ -1872,7 +1872,7 @@ router.delete('/scholarship-applicants/:id', verifyAuth, async (req, res) => {
       where: { id: parseInt(id) }
     });
 
-    console.log('✓ Scholarship application deleted successfully:', applicant.id);
+    // console.log('✓ Scholarship application deleted successfully:', applicant.id);
 
     res.status(200).json({
       success: true,
@@ -1919,7 +1919,7 @@ router.get('/profile', verifyAuth, async (req, res) => {
       admin
     });
   } catch (error) {
-    console.log(error);
+    // console.log(error);
     res.status(500).send('Error loading profile page');
   }
 });
@@ -2016,7 +2016,7 @@ router.patch('/profile', verifyAuth, profileUpload.single('profile'), async (req
       data: updateData
     });
 
-    console.log('✓ Admin profile updated successfully:', updatedAdmin.email);
+    // console.log('✓ Admin profile updated successfully:', updatedAdmin.email);
 
     res.status(200).json({
       success: true,
@@ -2046,7 +2046,7 @@ router.patch('/profile', verifyAuth, profileUpload.single('profile'), async (req
 router.get('/logout', (req, res) => {
   // Clear JWT cookie
   res.clearCookie('authToken');
-  console.log('✓ Admin logged out successfully');
+  // console.log('✓ Admin logged out successfully');
   res.redirect('/login');
 });
 

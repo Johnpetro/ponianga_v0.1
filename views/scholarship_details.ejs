@@ -66,6 +66,104 @@
                         animation-duration: 0.8s; 
                     }
                 }
+
+                /* Application modal polish */
+                #applicationModal .modal-dialog {
+                    max-width: 1040px;
+                    width: 92%;
+                    margin: 1.5rem auto;
+                }
+                #applicationModal .modal-content {
+                    border: 0;
+                    border-radius: 16px;
+                    overflow: hidden;
+                    box-shadow: 0 22px 64px rgba(15, 52, 96, 0.2);
+                }
+                #applicationModal .modal-header {
+                    border-bottom: 1px solid #e8eef5;
+                    background: linear-gradient(135deg, #0f3460 0%, #1f6fc0 100%);
+                    color: #fff;
+                    padding: 1rem 1.25rem;
+                }
+                #applicationModal .modal-title {
+                    font-size: 1.1rem;
+                    font-weight: 700;
+                    letter-spacing: 0.2px;
+                }
+                #applicationModal .close {
+                    color: #fff;
+                    opacity: 0.9;
+                    text-shadow: none;
+                }
+                #applicationModal .modal-body {
+                    max-height: 78vh;
+                    overflow-y: auto;
+                    padding: 22px 24px 14px;
+                    background: #f7fafe;
+                }
+                #applicationModal .app-intro {
+                    margin: 0 0 16px;
+                    color: #5c6f82;
+                    font-size: 0.95rem;
+                }
+                #applicationModal .row.app-form-grid > [class*="col-"] {
+                    margin-bottom: 12px;
+                }
+                #applicationModal .form-group {
+                    margin-bottom: 0;
+                }
+                #applicationModal input.form-control,
+                #applicationModal textarea.form-control {
+                    border-radius: 10px;
+                    border: 1px solid #d6e0ea;
+                    background: #fff;
+                    min-height: 46px;
+                    padding: 10px 12px;
+                    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+                }
+                #applicationModal input.form-control:focus,
+                #applicationModal textarea.form-control:focus {
+                    border-color: #1f6fc0;
+                    box-shadow: 0 0 0 3px rgba(31, 111, 192, 0.14);
+                }
+                #applicationModal label.form-label {
+                    color: #3a4b5d;
+                    font-size: 0.9rem;
+                    font-weight: 600;
+                    margin-bottom: 6px;
+                }
+                #applicationModal small.text-muted {
+                    display: block;
+                    margin-top: 6px;
+                    font-size: 0.8rem;
+                }
+                #applicationModal .app-actions {
+                    position: sticky;
+                    bottom: -1px;
+                    background: #fff;
+                    border-top: 1px solid #e8eef5;
+                    margin-top: 14px;
+                    padding: 14px 0 6px;
+                    z-index: 2;
+                }
+                #applicationModal .app-actions .btn {
+                    min-width: 160px;
+                    border-radius: 8px;
+                }
+                @media (max-width: 767px) {
+                    #applicationModal .modal-dialog {
+                        width: 96%;
+                        margin: 0.8rem auto;
+                    }
+                    #applicationModal .modal-body {
+                        max-height: 82vh;
+                        padding: 16px 14px 10px;
+                    }
+                    #applicationModal .app-actions .btn {
+                        width: 100%;
+                        margin: 0 0 10px 0 !important;
+                    }
+                }
             </style>
 
             <div class="single-slider hero-shadow slider-height2 d-flex align-items-center">
@@ -153,7 +251,7 @@
                                 </ul>
                             </div>
                         </div>
-
+ 
                     </div>
                     <!-- Right Content -->
                     <div class="col-xl-4 col-lg-4">
@@ -248,10 +346,14 @@
         </section>
         <!-- Related Scholarships End -->
 
+        
+        <!-- Toast Notification Container -->
+        <div id="toastContainer" style="position: fixed; top: 90px; right: 20px; z-index: 2000;"></div>
+
         <!-- Application Modal Start -->
         <div class="modal fade" id="applicationModal" tabindex="-1" role="dialog"
             aria-labelledby="applicationModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-xl" role="document" style="max-width: 90%; width: 90%;">
+            <div class="modal-dialog modal-xl" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title" id="applicationModalLabel">Apply for Scholarship.</h5>
@@ -259,7 +361,8 @@
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
-                    <div class="modal-body" style="max-height: 70vh; overflow-y: auto; padding: 30px;">
+                    <div class="modal-body">
+                        <p class="app-intro">Complete the form below to apply for this scholarship opportunity.</p>
                         <form class="form-contact contact_form" action="/scholarship-application" method="post"
                             id="applicationForm" novalidate="novalidate" enctype="multipart/form-data">
 
@@ -267,7 +370,7 @@
                             <input type="hidden" name="scholarshipId" id="scholarshipId"
                                 value="<%= scholarship ? scholarship.id : '' %>">
 
-                            <div class="row">
+                            <div class="row app-form-grid">
 
                                 <!-- First Name -->
                                 <div class="col-sm-6">
@@ -321,7 +424,7 @@
 
                             </div>
 
-                            <div class="form-group mt-3">
+                            <div class="form-group mt-3 app-actions">
                                 <button type="submit" class="btn head-btn2">Submit
                                     Application</button>
                                 <button type="button" class="btn btn-secondary ml-2"
@@ -331,16 +434,9 @@
                         </form>
 
 
-                        <!-- Success/Error Messages -->
-                        <div class="mt-4">
-                            <div id="successMessage" class="alert alert-success" style="display: none;">
-                                <strong>Success!</strong> Your application has been submitted successfully. We'll get
-                                back to you soon.
-                            </div>
-                            <div id="errorMessage" class="alert alert-danger" style="display: none;">
-                                <strong>Error!</strong> There was a problem submitting your application. Please try
-                                again.
-                            </div>
+                        <!-- Inline status kept minimal; main feedback is toast -->
+                        <div class="mt-2">
+                            <div id="formStatus" class="small text-muted" style="display:none;"></div>
                         </div>
                     </div>
                 </div>
@@ -350,79 +446,136 @@
 
         <!-- JavaScript for Modal and Form Handling -->
         <script>
-            $(document).ready(function () {
-                // Show success/error messages based on URL parameters
-                const urlParams = new URLSearchParams(window.location.search);
-                if (urlParams.get('success') === 'true') {
-                    $('#successMessage').show();
-                }
-                if (urlParams.get('error') === 'true') {
-                    $('#errorMessage').show();
+            document.addEventListener('DOMContentLoaded', function () {
+                const form = document.getElementById('applicationForm');
+                const formStatus = document.getElementById('formStatus');
+                const toastContainer = document.getElementById('toastContainer');
+                const modalEl = document.getElementById('applicationModal');
+
+                function showToast(type, message, durationMs) {
+                    const duration = durationMs || 3500;
+                    const toast = document.createElement('div');
+                    const bgColor = type === 'success' ? '#28a745' : '#dc3545';
+
+                    toast.style.background = bgColor;
+                    toast.style.color = '#fff';
+                    toast.style.padding = '12px 16px';
+                    toast.style.borderRadius = '8px';
+                    toast.style.marginBottom = '10px';
+                    toast.style.minWidth = '300px';
+                    toast.style.maxWidth = '420px';
+                    toast.style.boxShadow = '0 8px 24px rgba(0,0,0,0.15)';
+                    toast.style.opacity = '0';
+                    toast.style.transform = 'translateY(-10px)';
+                    toast.style.transition = 'opacity 0.25s ease, transform 0.25s ease';
+                    toast.innerHTML = '<strong>' + (type === 'success' ? 'Success!' : 'Error!') + '</strong> ' + message;
+
+                    toastContainer.appendChild(toast);
+                    requestAnimationFrame(function () {
+                        toast.style.opacity = '1';
+                        toast.style.transform = 'translateY(0)';
+                    });
+
+                    setTimeout(function () {
+                        toast.style.opacity = '0';
+                        toast.style.transform = 'translateY(-10px)';
+                        setTimeout(function () {
+                            if (toast.parentNode) {
+                                toast.parentNode.removeChild(toast);
+                            }
+                        }, 250);
+                    }, duration);
                 }
 
-                // Form validation and submission
-                $('#applicationForm').on('submit', function (e) {
+                // Show toast from URL params (non-AJAX fallback)
+                const urlParams = new URLSearchParams(window.location.search);
+                if (urlParams.get('success') === 'true') {
+                    showToast('success', urlParams.get('message') || 'Application submitted successfully.', 3500);
+                } else if (urlParams.get('error') === 'true') {
+                    showToast('error', urlParams.get('message') || 'There was a problem submitting your application.', 3500);
+                }
+
+                if (!form) return;
+
+                form.addEventListener('submit', async function (e) {
                     e.preventDefault();
 
                     const requiredFields = ['firstName', 'lastName', 'email', 'phone', 'address', 'passport'];
                     let isValid = true;
 
-                    requiredFields.forEach(field => {
-                        const input = $('#' + field);
-                        if (field === 'passport') {
-                            if (!input.val()) {
-                                input.css('border-color', 'red');
-                                isValid = false;
-                            } else {
-                                input.css('border-color', '');
-                            }
+                    requiredFields.forEach(function (field) {
+                        const input = document.getElementById(field);
+                        if (!input) return;
+
+                        const hasValue = field === 'passport' ? !!input.value : !!input.value.trim();
+                        if (!hasValue) {
+                            input.style.borderColor = 'red';
+                            isValid = false;
                         } else {
-                            if (!input.val().trim()) {
-                                input.css('border-color', 'red');
-                                isValid = false;
-                            } else {
-                                input.css('border-color', '');
-                            }
+                            input.style.borderColor = '';
                         }
                     });
 
                     if (!isValid) {
-                        alert('Please fill in all required fields');
+                        showToast('error', 'Please fill in all required fields.', 3500);
                         return;
                     }
 
-                    // Submit form via AJAX
-                    const formData = new FormData(this);
+                    const submitBtn = form.querySelector('button[type="submit"]');
+                    if (submitBtn) {
+                        submitBtn.disabled = true;
+                        submitBtn.textContent = 'Submitting...';
+                    }
+                    if (formStatus) {
+                        formStatus.style.display = 'block';
+                        formStatus.textContent = 'Submitting your application...';
+                    }
 
-                    $.ajax({
-                        url: '/scholarship-application',
-                        type: 'POST',
-                        data: formData,
-                        processData: false,
-                        contentType: false,
-                        success: function (response) {
-                            if (response.success) {
-                                $('#successMessage').show();
-                                $('#applicationForm')[0].reset();
-                                setTimeout(() => {
-                                    $('#applicationModal').modal('hide');
-                                    window.location.reload();
-                                }, 1500);
+                    try {
+                        const response = await fetch('/scholarship-application', {
+                            method: 'POST',
+                            body: new FormData(form),
+                            headers: {
+                                'X-Requested-With': 'XMLHttpRequest'
                             }
-                        },
-                        error: function (xhr) {
-                            const response = xhr.responseJSON;
-                            $('#errorMessage').text('Error: ' + (response.message || 'Error submitting application')).show();
-                        }
-                    });
-                });
+                        });
 
-                // Reset form when modal is closed
-                $('#applicationModal').on('hidden.bs.modal', function () {
-                    $('#applicationForm')[0].reset();
-                    // Reset any error styling
-                    $('#applicationForm input, #applicationForm textarea').css('border-color', '');
-                    $('#successMessage, #errorMessage').hide();
+                        const data = await response.json().catch(function () { return {}; });
+                        if (response.ok && data.success) {
+                            const successText = data.message || 'Your scholarship application has been submitted successfully.';
+                            form.reset();
+
+                            if (window.jQuery && window.jQuery.fn && window.jQuery.fn.modal) {
+                                window.jQuery('#applicationModal').modal('hide');
+                            } else if (modalEl) {
+                                modalEl.classList.remove('show');
+                                modalEl.style.display = 'none';
+                                document.body.classList.remove('modal-open');
+                            }
+
+                            if (formStatus) {
+                                formStatus.style.display = 'none';
+                            }
+                            showToast('success', successText, 3500);
+                            return;
+                        }
+
+                        const errorText = data.message || 'Error submitting application.';
+                        if (formStatus) {
+                            formStatus.style.display = 'none';
+                        }
+                        showToast('error', errorText, 3500);
+                    } catch (err) {
+                        if (formStatus) {
+                            formStatus.style.display = 'none';
+                        }
+                        showToast('error', 'Network error. Please try again.', 3500);
+                    } finally {
+                        if (submitBtn) {
+                            submitBtn.disabled = false;
+                            submitBtn.textContent = 'Submit Application';
+                        }
+                    }
                 });
             });
         </script>

@@ -25,6 +25,64 @@
             <link rel="stylesheet" href="/css/style.css">
             <link rel="stylesheet" href="/css/overrides.css">
             <!-- <link rel="stylesheet" href="/css/tailwind.build.css"> -->
+        <style>
+            .floating-whatsapp {
+                position: fixed;
+                left: 18px;
+                bottom: 22px;
+                z-index: 2200;
+                width: 58px;
+                height: 58px;
+                border-radius: 50%;
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+                text-decoration: none;
+                color: #fff;
+                background: linear-gradient(135deg, #25d366 0%, #128c7e 100%);
+                box-shadow: 0 10px 26px rgba(18, 140, 126, 0.38);
+                transition: transform 0.2s ease, box-shadow 0.2s ease;
+            }
+            .floating-whatsapp:hover {
+                color: #fff;
+                transform: translateY(-2px) scale(1.03);
+                box-shadow: 0 14px 30px rgba(18, 140, 126, 0.48);
+            }
+            .floating-whatsapp i {
+                font-size: 30px;
+                line-height: 1;
+            }
+            .floating-whatsapp-label {
+                position: fixed;
+                left: 86px;
+                bottom: 38px;
+                z-index: 2199;
+                background: #0f3460;
+                color: #fff;
+                font-size: 13px;
+                padding: 6px 10px;
+                border-radius: 6px;
+                opacity: 0;
+                transform: translateX(-8px);
+                pointer-events: none;
+                transition: opacity 0.2s ease, transform 0.2s ease;
+            }
+            .floating-whatsapp:hover + .floating-whatsapp-label {
+                opacity: 1;
+                transform: translateX(0);
+            }
+            @media (max-width: 767px) {
+                .floating-whatsapp {
+                    left: 14px;
+                    bottom: 16px;
+                    width: 54px;
+                    height: 54px;
+                }
+                .floating-whatsapp-label {
+                    display: none;
+                }
+            }
+        </style>
 </head>
 <body>
   
@@ -38,7 +96,19 @@
     <%- include('../partials/footer.ejs')  %>
   </div>  
 
+  <a
+    class="floating-whatsapp"
+    href="https://wa.me/255794903848?text=Hello%20there%20Poniaganetworking"
+    target="_blank"
+    rel="noopener noreferrer"
+    aria-label="Contact us on WhatsApp"
+    title="Message us on WhatsApp">
+    <i class="fab fa-whatsapp"></i>
+  </a>
+  <span class="floating-whatsapp-label">Chat on WhatsApp</span>
 
+
+  
   <!-- JS here -->
 		<!-- All JS Custom Plugins Link Here here -->
         <script src="/js/vendor/modernizr-3.5.0.min.js"></script>

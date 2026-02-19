@@ -1,11 +1,11 @@
 <!-- Admin Profile Page -->
 
 
-<div class="overflow-y-auto h-[calc(100vh-64px)]">
-  <div class="p-6">
+<div class="admin-page">
+  <div class="admin-page-inner">
     <div class="max-w-2xl mx-auto">
       <!-- Profile Header Card -->
-      <div class="card mb-6">
+      <div class="card admin-card mb-6">
         <div class="bg-gradient-to-r from-blue-500 to-blue-600 dark:from-blue-900 dark:to-blue-800 h-32 rounded-t-lg"></div>
         
         <div class="card-body">
@@ -35,7 +35,7 @@
       </div>
 
       <!-- Edit Profile Form -->
-      <div class="card">
+      <div class="card admin-card">
         <div class="card-header">
           <h5>Edit Profile</h5>
         </div>
@@ -100,7 +100,7 @@
             </div>
 
             <!-- Form Actions -->
-            <div class="flex gap-3">
+            <div class="flex flex-col sm:flex-row gap-3">
               <button type="submit" class="px-6 py-2 text-white bg-blue-500 hover:bg-blue-600 rounded transition font-medium">
                 <i class="fas fa-save mr-2"></i> Save Changes
               </button>
@@ -114,9 +114,6 @@
     </div>
   </div>
 </div>
-
-<!-- Sidebar Toggle Script -->
-<script src="/js/sidebar-toggle.js"></script>
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
@@ -165,9 +162,9 @@ document.addEventListener('DOMContentLoaded', function() {
     const formData = new FormData(profileForm);
     
     // Debug: Log form data
-    console.log('Form data being sent:');
+    // console.log('Form data being sent:');
     for (let [key, value] of formData.entries()) {
-      console.log(`  ${key}:`, value);
+      // console.log(`  ${key}:`, value);
     }
 
     try {
@@ -177,8 +174,8 @@ document.addEventListener('DOMContentLoaded', function() {
         credentials: 'include'  // Include cookies in the request
       });
 
-      console.log('Response status:', response.status);
-      console.log('Response ok:', response.ok);
+      // console.log('Response status:', response.status);
+      // console.log('Response ok:', response.ok);
 
       // Check if response is OK (status 200-299)
       if (!response.ok) {
@@ -189,7 +186,7 @@ document.addEventListener('DOMContentLoaded', function() {
       }
 
       const result = await response.json();
-      console.log('Response result:', result);
+      // console.log('Response result:', result);
 
       if (result.success) {
         showNotification('Profile updated successfully!', 'success');
@@ -208,7 +205,7 @@ document.addEventListener('DOMContentLoaded', function() {
       showNotification('Error updating profile: ' + error.message, 'error');
     }
   });
-
+ 
   // Notification system
   function showNotification(message, type = 'success') {
     const notification = document.createElement('div');
@@ -224,22 +221,5 @@ document.addEventListener('DOMContentLoaded', function() {
     }, 2500);
   }
 
-  // Profile menu toggle
-  const profileBtn = document.getElementById('profileBtn');
-  const profileMenu = document.getElementById('profileMenu');
-
-  if (profileBtn && profileMenu) {
-    profileBtn.addEventListener('click', (e) => {
-      e.stopPropagation();
-      profileMenu.classList.toggle('opacity-0');
-      profileMenu.classList.toggle('invisible');
-    });
-
-    document.addEventListener('click', (e) => {
-      if (!profileBtn.contains(e.target) && !profileMenu.contains(e.target)) {
-        profileMenu.classList.add('opacity-0', 'invisible');
-      }
-    });
-  }
 }); // Close DOMContentLoaded event
 </script>

@@ -73,7 +73,7 @@ router.get('/', trackVisitor, async (req, res) => {
     }
   res.render('index', { locals, jobs, currentPage: page, totalPages, jobsPerPage});
   } catch (error) {
-    console.log(error);
+    // console.log(error);
   }
 
 
@@ -114,7 +114,7 @@ router.get('/about', trackVisitor, async(req, res) => {
     }
     res.render('about', { locals, teamMembers, currentPage: page, totalPages, membersPerPage });
   } catch (error) {
-    console.log(error);
+    // console.log(error);
   }
 });
 
@@ -129,7 +129,7 @@ router.get('/contact', trackVisitor, (req, res) => {
     }
     res.render('contact', { locals });
   } catch (error) {
-    console.log(error);
+    // console.log(error);
   }
 });
 
@@ -142,7 +142,7 @@ router.get('/blog', trackVisitor, async (req, res) => {
  
     res.render('blog');
   } catch (error) {
-    console.log(error);
+    // console.log(error);
   }
 });
 
@@ -172,7 +172,7 @@ router.get('/job-listing', trackVisitor, async(req, res) => {
     }
     res.render('job', { locals, jobs, currentPage: page, totalPages, jobsPerPage});
   } catch (error) {
-    console.log(error);
+    // console.log(error);
   }
 });
 
@@ -203,11 +203,11 @@ router.get('/study-abbroad-list', trackVisitor, async (req, res) => {
       skip,
       take: scholarshipsPerPage
     });
-    console.log(scholarships);
+    // console.log(scholarships);
     
     res.render('study-abbroad-list', { locals , scholarships, currentPage: page, totalPages, scholarshipsPerPage });
   } catch (error) {
-    console.log(error);
+    // console.log(error);
   }
 });
 
@@ -247,7 +247,7 @@ router.post('/job-details', async (req, res) => {
     
     res.render('job_details', { locals, job, relatedJobs, jobId });
   } catch (error) {
-    console.log(error);
+    // console.log(error);
     res.status(500).send('Error loading job details');
   }
 });
@@ -278,7 +278,7 @@ router.post('/scholarship_details', async (req, res) => {
     }
     res.render('scholarship_details', { locals, scholarship, scholarshipId });
   } catch (error) {
-    console.log(error);
+    // console.log(error);
   }
 });
 
@@ -308,7 +308,7 @@ router.post('/contact', async (req, res) => {
       }
     });
 
-    console.log('✓ Contact inquiry created successfully:', subject);
+    // console.log('✓ Contact inquiry created successfully:', subject);
 
     res.status(201).json({ 
       success: true, 
@@ -337,7 +337,7 @@ router.get('/application-form', (req, res) => {
     }
     res.render('application-form', { locals });
   } catch (error) {
-    console.log(error);
+    // console.log(error);
   }
 });
 
@@ -354,7 +354,7 @@ router.get('/application-form/:jobId', (req, res) => {
     }
     res.render('application-form', { locals, jobId });
   } catch (error) {
-    console.log(error);
+    // console.log(error);
   }
 });
 
@@ -367,6 +367,49 @@ router.post('/application-form', upload.fields([
   { name: 'portfolio', maxCount: 5 }
 ]), async (req, res) => {
   try {
+    const isAjaxRequest = req.xhr || req.get('X-Requested-With') === 'XMLHttpRequest';
+    const renderJobDetailsWithToast = async (rawJobId, toastType, toastMessage, statusCode = 200) => {
+      const parsedJobId = parseInt(rawJobId);
+      if (Number.isNaN(parsedJobId)) {
+        return res.status(statusCode).render('404', {
+          locals: { title: 'Job Not Found' }
+        });
+      }
+
+      const job = await prisma.job.findUnique({
+        where: { id: parsedJobId }
+      });
+
+      if (!job) {
+        return res.status(statusCode).render('404', {
+          locals: { title: 'Job Not Found' }
+        });
+      }
+
+      const relatedJobs = await prisma.job.findMany({
+        where: {
+          id: { not: parsedJobId }
+        },
+        orderBy: { createdAt: 'desc' },
+        take: 2
+      });
+
+      const locals = {
+        title: "Job Details",
+        description: "View detailed information about this job position"
+      };
+
+      return res.status(statusCode).render('job_details', {
+        locals,
+        job,
+        relatedJobs,
+        jobId: parsedJobId,
+        toast: {
+          type: toastType,
+          message: toastMessage
+        }
+      });
+    };
     const {
       jobId,
       firstName,
@@ -401,18 +444,26 @@ router.post('/application-form', upload.fields([
           });
         });
       }
-      return res.status(400).json({
-        success: false,
-        message: 'Please fill in all required fields'
-      });
+      const validationMessage = 'Please fill in all required fields';
+      if (isAjaxRequest) {
+        return res.status(400).json({
+          success: false,
+          message: validationMessage
+        });
+      }
+      return renderJobDetailsWithToast(jobId, 'error', validationMessage, 400);
     }
 
     // Check if resume was uploaded
     if (!req.files || !req.files.resume || req.files.resume.length === 0) {
-      return res.status(400).json({
-        success: false,
-        message: 'Resume/CV is required'
-      });
+      const resumeMessage = 'Resume/CV is required';
+      if (isAjaxRequest) {
+        return res.status(400).json({
+          success: false,
+          message: resumeMessage
+        });
+      }
+      return renderJobDetailsWithToast(jobId, 'error', resumeMessage, 400);
     }
 
     // Verify job exists
@@ -433,10 +484,14 @@ router.post('/application-form', upload.fields([
           });
         });
       }
-      return res.status(404).json({
-        success: false,
-        message: 'Job not found'
-      });
+      const notFoundMessage = 'Job not found';
+      if (isAjaxRequest) {
+        return res.status(404).json({
+          success: false,
+          message: notFoundMessage
+        });
+      }
+      return renderJobDetailsWithToast(jobId, 'error', notFoundMessage, 404);
     }
 
     // Check if user already applied for this job
@@ -460,7 +515,14 @@ router.post('/application-form', upload.fields([
           });
         });
       }
-      return res.redirect('/job-listing?error=true&message=You have already applied for this job');
+      const duplicateMessage = 'You have already applied for this job';
+      if (isAjaxRequest) {
+        return res.status(400).json({
+          success: false,
+          message: duplicateMessage
+        });
+      }
+      return renderJobDetailsWithToast(jobId, 'error', duplicateMessage, 400);
     }
 
     // Generate file URLs
@@ -469,13 +531,13 @@ router.post('/application-form', upload.fields([
 
     if (req.files.resume && req.files.resume[0]) {
       resumeUrl = `/uploads/applications/${req.files.resume[0].filename}`;
-      console.log('Resume uploaded:', resumeUrl);
+      // console.log('Resume uploaded:', resumeUrl);
     }
 
     if (req.files.portfolio && req.files.portfolio.length > 0) {
       // Store portfolio as comma-separated URLs
       portfolioUrl = req.files.portfolio.map(file => `/uploads/applications/${file.filename}`).join(',');
-      console.log('Portfolio uploaded:', portfolioUrl);
+      // console.log('Portfolio uploaded:', portfolioUrl);
     }
 
     // Create application
@@ -514,11 +576,20 @@ router.post('/application-form', upload.fields([
       }
     });
 
-    console.log('✓ Application submitted successfully:', email);
-    console.log('✓ Files uploaded:', { resume: resumeUrl, portfolio: portfolioUrl });
+    // console.log('✓ Application submitted successfully:', email);
+    // console.log('✓ Files uploaded:', { resume: resumeUrl, portfolio: portfolioUrl });
 
-    // Redirect to job listing with success message
-    res.redirect('/job-listing');
+    const successMessage = 'Application submitted successfully! We will review it shortly.';
+    if (isAjaxRequest) {
+      return res.status(201).json({
+        success: true,
+        message: successMessage,
+        application: application
+      });
+    }
+
+    // Non-AJAX fallback
+    return renderJobDetailsWithToast(jobId, 'success', successMessage, 201);
   } catch (error) {
     // Delete uploaded files if error occurs
     if (req.files) {
@@ -533,10 +604,14 @@ router.post('/application-form', upload.fields([
       });
     }
     console.error('Error submitting application:', error);
-    res.status(500).json({
-      success: false,
-      message: 'Error submitting application. Please try again.'
-    });
+    const isAjaxRequest = req.xhr || req.get('X-Requested-With') === 'XMLHttpRequest';
+    if (isAjaxRequest) {
+      return res.status(500).json({
+        success: false,
+        message: 'Error submitting application. Please try again.'
+      });
+    }
+    return res.status(500).render('error');
   }
 });
 
@@ -626,7 +701,7 @@ router.post('/scholarship-application', upload.single('passport'), async (req, r
     let passportUrl = '';
     if (req.file) {
       passportUrl = `/uploads/applications/${req.file.filename}`;
-      console.log('Passport uploaded:', passportUrl);
+      // console.log('Passport uploaded:', passportUrl);
     }
 
     // Create scholarship application
@@ -643,13 +718,20 @@ router.post('/scholarship-application', upload.single('passport'), async (req, r
       }
     });
 
+    
 
-    // res.status(201).json({
-    //   success: true,
-    //   message: 'Scholarship application submitted successfully! We will review it shortly.',
-    //   application: application
-    // });
-    res.redirect('/study-abbroad-list');
+    const successMessage = 'Scholarship application submitted successfully! We will review it shortly.';
+    const isAjaxRequest = req.xhr || req.get('X-Requested-With') === 'XMLHttpRequest';
+
+    if (isAjaxRequest) {
+      return res.status(201).json({
+        success: true,
+        message: successMessage,
+        application: application
+      });
+    }
+
+    res.redirect(`/study-abbroad-list?success=true&message=${encodeURIComponent(successMessage)}`);
 
   } catch (error) {
     // Delete uploaded file if error occurs

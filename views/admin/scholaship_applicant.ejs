@@ -1,53 +1,5 @@
-<!-- Admin Job Applications List Page -->
-<header class="sticky top-0 z-40 bg-white dark:bg-slate-800 border-b border-slate-200 dark:border-slate-700 h-16 flex items-center justify-between px-6">
-  <button id="sidebarToggle" class="flex items-center gap-2 focus:outline-none hover:opacity-80 transition-opacity md:hidden">
-    <i class="fas fa-bars text-2xl text-slate-900 dark:text-white"></i>
-  </button>
-  
-  <div class="flex items-center gap-3">
-    <a href="/jobs" class="text-blue-500 hover:text-blue-700 dark:hover:text-blue-400 transition">
-      <i class="fas fa-arrow-left"></i>
-    </a>
-    <h1 class="text-lg font-semibold text-slate-900 dark:text-white">Applications for <%= job.jobTitle %></h1>
-  </div>
-  
-  <div class="relative">
-    <button id="profileBtn" class="flex items-center gap-2 focus:outline-none hover:opacity-80 transition-opacity" onclick="toggleProfileMenu(event)">
-      <img src="https://ui-avatars.com/api/?name=User&background=0D8ABC&color=fff&rounded=true" alt="User Avatar" class="w-10 h-10 rounded-full cursor-pointer border-2 border-blue-500" />
-    </button>
-    
-    <div id="profileMenu" class="absolute right-0 mt-2 w-56 bg-white dark:bg-slate-700 rounded-lg shadow-xl opacity-0 invisible transition-all duration-300 z-50 transform origin-top-right scale-95">
-      <div class="p-4 border-b border-slate-200 dark:border-slate-600">
-        <p class="text-sm font-semibold text-slate-900 dark:text-white">Admin User</p>
-        <p class="text-xs text-slate-500 dark:text-slate-400 flex items-center gap-1 mt-1">
-          <i class="fas fa-star text-yellow-400 text-[10px]"></i>
-          admin@example.com
-        </p>
-      </div>
-      
-      <ul class="py-2">
-        <li><a href="#" class="flex items-center gap-3 px-4 py-3 text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-600 transition-colors">
-          <i class="fas fa-cog w-4 h-4"></i>
-          <span>Settings</span>
-        </a></li>
-        <li><a href="#" class="flex items-center gap-3 px-4 py-3 text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-600 transition-colors">
-          <i class="fas fa-share-alt w-4 h-4"></i>
-          <span>Share</span>
-        </a></li>
-      </ul>
-      
-      <div class="border-t border-slate-200 dark:border-slate-600 p-2">
-        <a href="/logout" class="flex items-center justify-center gap-3 px-4 py-3 text-white bg-blue-500 hover:bg-blue-600 rounded transition-colors font-medium">
-          <i class="fas fa-sign-out-alt w-4 h-4"></i>
-          <span>Logout</span>
-        </a>
-      </div>
-    </div>
-  </div>
-</header>
-
-<div class="overflow-y-auto h-[calc(100vh-64px)]">
-  <div class="p-6">
+<div class="admin-page">
+  <div class="admin-page-inner">
     <!-- Job Info Banner -->
     <div class="mb-6 bg-gradient-to-r from-blue-500 to-blue-600 dark:from-blue-900 dark:to-blue-800 rounded-lg p-6 text-white shadow-lg">
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
@@ -70,14 +22,18 @@
       </div>
     </div>
 
-    <div class="card table-card gap-y-6">
-      <div class="card-header flex items-center justify-between">
+    <div class="card table-card admin-card gap-y-6">
+      <div class="card-header admin-toolbar">
         <h5>All Applications</h5>
+        <a href="/jobs" class="admin-btn admin-btn-primary md:w-auto">
+          <i class="fas fa-arrow-left"></i>
+          Back to Jobs
+        </a>
       </div>
       
       <div class="card-body">
-        <div class="table-responsive">
-          <table class="w-full text-sm">
+        <div class="admin-table-wrap">
+          <table class="admin-table text-sm">
             <thead>
               <tr class="border-b border-slate-200 dark:border-slate-600">
                 <th class="text-left px-4 py-3 font-semibold text-slate-900 dark:text-white">No</th>
@@ -160,14 +116,14 @@
 
         <!-- Pagination Controls -->
         <% if (totalPages > 1) { %>
-          <div class="flex items-center justify-between mt-6 px-4 py-4 border-t border-slate-200 dark:border-slate-600">
+          <div class="admin-pagination mt-6 px-4 py-4 border-t border-slate-200 dark:border-slate-600">
             <div class="text-sm text-slate-600 dark:text-slate-400">
               Showing <span class="font-semibold"><%= applications && applications.length > 0 ? (currentPage - 1) * applicationsPerPage + 1 : 0 %></span> 
               to <span class="font-semibold"><%= Math.min(currentPage * applicationsPerPage, totalApplications) %></span> 
               of <span class="font-semibold"><%= totalApplications %></span> applications
             </div>
 
-            <div class="flex items-center gap-2">
+            <div class="admin-toolbar-actions">
               <% if (currentPage > 1) { %>
                 <a href="?page=<%= currentPage - 1 %>" class="px-3 py-2 text-slate-700 dark:text-slate-300 bg-slate-100 dark:bg-slate-700 hover:bg-slate-200 dark:hover:bg-slate-600 rounded transition">
                   Previous
@@ -231,29 +187,9 @@
   </div>
 </div>
 
-<!-- Sidebar Toggle Script -->
-<script src="/js/sidebar-toggle.js"></script>
-
 <script>
   let currentAppId = null;
   const statusModal = document.getElementById('statusModal');
-
-  // Toggle profile menu
-  function toggleProfileMenu(event) {
-    event.stopPropagation();
-    const profileMenu = document.getElementById('profileMenu');
-    profileMenu.classList.toggle('opacity-0');
-    profileMenu.classList.toggle('invisible');
-  }
-
-  // Close profile menu when clicking outside
-  document.addEventListener('click', (e) => {
-    const profileMenu = document.getElementById('profileMenu');
-    const profileBtn = document.getElementById('profileBtn');
-    if (!profileBtn.contains(e.target) && !profileMenu.contains(e.target)) {
-      profileMenu.classList.add('opacity-0', 'invisible');
-    }
-  });
 
   // Setup modal listeners
   function setupModalListeners(modal) {
@@ -329,6 +265,6 @@
           alert('Error deleting application');
         }
       }
-    });
+    }); 
   });
 </script>

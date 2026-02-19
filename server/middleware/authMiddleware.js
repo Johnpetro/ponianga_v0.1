@@ -22,7 +22,7 @@ const verifyAuth = (req, res, next) => {
       next();
     } catch (error) {
       if (error.name === 'TokenExpiredError') {
-        console.log('Token expired');
+        // console.log('Token expired');
         return res.redirect('/admin/login');
       }
       console.error('Token verification error:', error.message);

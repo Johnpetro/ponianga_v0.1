@@ -63,6 +63,54 @@
                     animation-duration: 0.8s; 
                 }
             }
+
+            /* Shared button styles for job cards */
+            .job-card-submit {
+                background: none;
+                border: none;
+                padding: 0;
+                cursor: pointer;
+            }
+            .job-card-submit:focus {
+                outline: 2px solid #1F6FC0;
+                outline-offset: 2px;
+                border-radius: 4px;
+            }
+            .job-card-submit.title-btn {
+                text-align: left;
+                width: 100%;
+            }
+            .job-card-submit.type-btn {
+                color: #0F3460;
+                text-decoration: none;
+            }
+
+            .badge-open {
+                display: inline-block;
+                padding: 5px 12px;
+                border-radius: 4px;
+                font-size: 11px;
+                font-weight: 600;
+                background-color: #d1fae5;
+                color: #047857;
+            }
+            .badge-open i {
+                font-size: 7px;
+                margin-right: 5px;
+            }
+            .badge-closed {
+                display: inline-block;
+                padding: 5px 12px;
+                border-radius: 4px;
+                font-size: 11px;
+                font-weight: 600;
+                background-color: #fee2e2;
+                color: #991b1b;
+            }
+            .badge-closed i {
+                font-size: 7px;
+                margin-right: 5px;
+            }
         </style>
 
         <div class="single-slider hero-shadow slider-height2 d-flex align-items-center">
@@ -184,7 +232,7 @@
                                             <div class="job-items"
                                                 style="display: flex; align-items: center; gap: 20px; flex: 1;">
                                                 <div class="company-img" style="flex-shrink: 0;">
-                                                    <button type="submit" style="background: none; border: none; padding: 0; cursor: pointer;">
+                                                    <button type="submit" class="job-card-submit" aria-label="View <%= job.jobTitle %> details">
                                                         <% if (job.image && job.image.trim() !== '') { %>
                                                             <img src="<%= job.image %>" alt="<%= job.jobTitle %>" style="width: 60px; height: 60px; object-fit: cover; border-radius: 8px;">
                                                         <% } else { %>
@@ -193,7 +241,7 @@
                                                     </button>
                                                 </div>
                                                 <div class="job-tittle job-tittle2" style="flex: 1; min-width: 0;">
-                                                    <button type="submit" style="background: none; border: none; padding: 0; cursor: pointer; text-align: left; width: 100%;">
+                                                    <button type="submit" class="job-card-submit title-btn" aria-label="Open <%= job.jobTitle %>">
                                                         <h4
                                                             style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin: 0; color: #0F3460;">
                                                             <%= job.jobTitle %>
@@ -214,7 +262,7 @@
                                             </div>
                                             <div class="items-link items-link2 f-right"
                                                 style="flex-shrink: 0; margin-left: auto; text-align: right;">
-                                                <button type="submit" style="background: none; border: none; padding: 0; cursor: pointer; color: #0F3460; text-decoration: none;">
+                                                <button type="submit" class="job-card-submit type-btn" aria-label="View <%= job.jobType %> job details">
                                                     <%= job.jobType %>
                                                 </button>
                                             <div style="margin-top: 8px;">
@@ -235,35 +283,6 @@
                                                     month: 'short' , day: 'numeric' }) %></span>
                                         </div>
                                         </form>
-                                        
-                                        <style>
-                                          .badge-open {
-                                            display: inline-block;
-                                            padding: 5px 12px;
-                                            border-radius: 4px;
-                                            font-size: 11px;
-                                            font-weight: 600;
-                                            background-color: #d1fae5;
-                                            color: #047857;
-                                          }
-                                          .badge-open i {
-                                            font-size: 7px;
-                                            margin-right: 5px;
-                                          }
-                                          .badge-closed {
-                                            display: inline-block;
-                                            padding: 5px 12px;
-                                            border-radius: 4px;
-                                            font-size: 11px;
-                                            font-weight: 600;
-                                            background-color: #fee2e2;
-                                            color: #991b1b;
-                                          }
-                                          .badge-closed i {
-                                            font-size: 7px;
-                                            margin-right: 5px;
-                                          }
-                                        </style>
                                     </div>
                                     <% }); %>
                                         <% } else { %>
